@@ -139,7 +139,7 @@ DeepEigenValuePlot <- function(root, PC, qcut=c(0.25, 0.5, 0.75))
   GC[1]=Evev[PC,1]
   eg = read.table(paste0(root, ".", PC, ".egwas"), as.is = T, header = T)
 
-  GC[1, 2:(1+length(qcut))] = qchisq(sort(eg$P)[ceiling(qcut[i]*nrow(eg))], 1, lower.tail = T)/qchisq(qcut[i], 1, lower.tail = T)
+  GC[1, 2:(1+length(qcut))] = qchisq(sort(eg$P)[ceiling(qcut*nrow(eg))], 1, lower.tail = F)/qchisq(qcut, 1, lower.tail = F)
   colnames(GC)=c("EV", qcut)
   par(las=2)
   barplot(GC, ylim=c(0, max(GC)*1.3), beside = T, border = F, col=c("black", rep("grey", length(qcut))))

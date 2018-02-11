@@ -6,6 +6,6 @@ Author: Guo-Bo Chen
 Maintainer: Guo-Bo Chen <chenguobo@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: GNU General Public License v3.0
 Encoding: UTF-8
 LazyData: true
