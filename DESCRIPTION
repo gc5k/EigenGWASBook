@@ -4,8 +4,7 @@ Title: EigenGWAS Friends
 Version: 0.1.0
 Author: Guo-Bo Chen
 Maintainer: Guo-Bo Chen <chenguobo@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: R interface for illustrating EigenGWAS analysis
 License: GNU General Public License v3.0
 Encoding: UTF-8
 LazyData: true
