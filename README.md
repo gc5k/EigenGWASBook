@@ -1,6 +1,6 @@
 # EigenGWAS friends (R interface for EigenGWAS)
 
-[EigenGWAS](https://github.com/gc5k/GEAR/wiki/EigenGWAS) is developed for find loci under selection/domestication for structured population, as damonstrated below.
+[EigenGWAS](https://github.com/gc5k/GEAR/wiki/EigenGWAS) is developed for finding loci under selection/domestication for structured population. As damonstrated below, the Lactose intolarance locus is turned on and off between CEU (northwestern Europeans) against TSI (south Europeans).
 
 ![Fig](https://github.com/gc5k/Pub/raw/master/EigenGWAS/CEU_TSI.png)
 
