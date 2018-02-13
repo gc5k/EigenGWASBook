@@ -1,6 +1,5 @@
 RunEigenGWAS <- function(dataName, pc, inbred=T, gearPath)
 {
-  
   if(missing(gearPath))
   {
     gearPath="."
