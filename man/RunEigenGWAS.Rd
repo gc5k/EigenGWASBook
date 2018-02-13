@@ -2,18 +2,27 @@
 \alias{RunEigenGWAS}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+ mapping genes with EigenGWAS algorithm
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+ It mappes genes with EigenGWAS algorithm, which could provide the eigenvalues, eigenvectors，lambdaGC and genes related to selection.
 }
 \usage{
-RunEigenGWAS(x)
+ RunEigenGWAS(dataName, PC, inbred, gearPath)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
-%%     ~~Describe \code{x} here~~
+  \item{dataName}{
+  File name which should be inputted into EigenGWAS
+}
+  \item{PC}{
+  The number of PC to be used.
+}
+  \item{inbred}{
+  The type of population. By default inbred = T.
+}
+  \item{gearPath}{
+  The path where gear.jar locates. By default gearPath=".", which means that gear.jar locates in the path where data file is.
 }
 }
 \details{
@@ -22,15 +31,18 @@ RunEigenGWAS(x)
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
+  \item{*.No.egwas }{Gives P valus and other statistics for all markers related to PC NO.}
+  \item{*.eigenval }{Gives all eigenvalues}
+  \item{*.eigenvec }{Gives all eigenvectors}
+  \item{*.grm.gz }{Gives the genetic relatedness matrix}
+  \item{*.grm.id }{Gives ID of the genetic relatedness matrix}
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+Chen, G.B., et al, EigenGWAS: finding loci under selection through genome-wide association studies of eigenvectors in structured populations, Heredity, 2016, 117:51-61
 }
 \author{
-%%  ~~who you are~~
+Guo-Bo Chen, chenguobo@gmail.com
 }
 \note{
 %%  ~~further notes~~
@@ -42,16 +54,9 @@ RunEigenGWAS(x)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x) 
-{
-  }
+RunEigenGWAS("arab", 2, inbred = T, gearPath="your path")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ RunEigenGWAS }% use one of  RShowDoc("KEYWORDS")
+
