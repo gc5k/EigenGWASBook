@@ -1,3 +1,23 @@
+RunEigenGWAS <- function(dataName, pc, inbred=T, gearPath)
+{
+  if (inbred==T) 
+  {
+    breed="inbred"
+  }
+  else 
+  {
+    breed="outbred"
+  }
+  
+  if(missing(gearPath))
+  {
+    gearPath="."
+  }
+  gear=paste("java -jar", paste0(gearPath, "/gear.jar"))
+  
+  EigenGWAS=paste(gear, "eigengwas", paste0("--", breed), "--bfile", dataName, "--ev", pc,  "--out", dataName)
+  system(EigenGWAS) 
+}
 
 fCheck <- function(fn)
 {
