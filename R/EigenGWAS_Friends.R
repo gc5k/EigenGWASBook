@@ -1,5 +1,6 @@
-RunEigenGWAS <- function(dataName, pc, inbred=T, gearPath)
+RunEigenGWAS <- function(dataName, PC, inbred=T, gearPath)
 {
+  
   if(missing(gearPath))
   {
     gearPath="."
@@ -8,11 +9,11 @@ RunEigenGWAS <- function(dataName, pc, inbred=T, gearPath)
   
   if (inbred==T) 
   {
-    EigenGWAS=paste(gear, "eigengwas", "--inbred", "--bfile", dataName, "--ev", pc,  "--out", dataName)
+    EigenGWAS=paste(gear, "eigengwas", "--inbred", "--bfile", dataName, "--ev", PC,  "--out", dataName)
   }
   else 
   {
-    EigenGWAS=paste(gear, "eigengwas", "--bfile", dataName, "--ev", pc,  "--out", dataName)
+    EigenGWAS=paste(gear, "eigengwas", "--bfile", dataName, "--ev", PC,  "--out", dataName)
   }
   
   system(EigenGWAS) 
