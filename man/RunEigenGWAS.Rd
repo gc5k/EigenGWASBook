@@ -2,7 +2,7 @@
 \alias{RunEigenGWAS}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
- mapping genes with EigenGWAS algorithm
+ Mapping genes under selection/domestication with EigenGWAS algorithm
 }
 \description{
  It mappes genes with EigenGWAS algorithm, which could provide the eigenvalues, eigenvectors，lambdaGC and genes related to selection.
