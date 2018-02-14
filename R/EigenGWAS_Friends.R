@@ -1,19 +1,18 @@
-RunEigenGWAS <- function(dataName, PC, inbred=T, gearPath)
+RunEigenGWAS <- function(dataName, PC, inbred=F, gearPath)
 {
-  
   if(missing(gearPath))
   {
     gearPath="."
   }
   gear=paste("java -jar", paste0(gearPath, "/gear.jar"))
   
-  if (inbred==T) 
+  if (inbred==F) 
   {
-    EigenGWAS=paste(gear, "eigengwas", "--inbred", "--bfile", dataName, "--ev", PC,  "--out", dataName)
+    EigenGWAS=paste(gear, "eigengwas", "--bfile", dataName, "--ev", PC,  "--out", dataName)
   }
   else 
   {
-    EigenGWAS=paste(gear, "eigengwas", "--bfile", dataName, "--ev", PC,  "--out", dataName)
+    EigenGWAS=paste(gear, "eigengwas", "--inbred", "--bfile", dataName, "--ev", PC,  "--out", dataName)
   }
   
   system(EigenGWAS) 
