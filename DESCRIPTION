@@ -2,7 +2,7 @@ Package: EigenGWASFriends
 Type: Package
 Title: EigenGWAS Friends
 Version: 0.1.0
-Author: Guo-Bo Chen
+Authors: Guo-Bo Chen, Suhong Bu
 Maintainer: Guo-Bo Chen <chenguobo@gmail.com>
 Description: R interface for illustrating EigenGWAS analysis
 License: GNU General Public License v3.0
