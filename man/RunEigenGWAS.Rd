@@ -5,7 +5,7 @@
  Mapping genes under selection/domestication with EigenGWAS algorithm
 }
 \description{
- It mappes genes with EigenGWAS algorithm, which could provide the eigenvalues, eigenvectors，lambdaGC and genes related to selection.
+ It mappes genes with EigenGWAS algorithm, which could provide the eigenvalues, eigenvectors???lambdaGC and genes related to selection.
 }
 \usage{
  RunEigenGWAS(dataName, PC, inbred, gearPath)
