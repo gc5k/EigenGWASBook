@@ -1,3 +1,65 @@
+aim<-function(root, PC, pcutoff="bonferroni")
+{
+  if(!fCheck(paste0(root, ".", PC, ".egwas")))
+  {
+    return()
+  }
+  
+  d=read.table(paste0(root, ".", PC, ".egwas"), as.is = T, header = T)
+  if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
+  d$logp = -log10(d$P)
+  
+  if(pcutoff=="bonferroni" | missing(pcutoff)) 
+  {
+    h=-log10(0.05/nrow(d))
+  }
+  d$logp[which(d$logp < h)]=NA
+  
+  manhattan2(d,cex=0.5, pch=16)
+  
+}
+
+manhattan2 <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=1:23, suggestiveline=-log10(1e-5), genomewideline=NULL, title="",  ...) {
+  
+  d=dataframe
+  if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
+  if (any(limitchromosomes)) d=d[d$CHR %in% limitchromosomes, ]
+  
+  d$pos=NA
+  ticks=NULL
+  lastbase=0
+  colors <- rep(colors,max(d$CHR))[1:max(d$CHR)]
+  if (ymax=="max") ymax<-ceiling(max(d$logp[which(!is.na(d$logp))]))
+  if (ymax<8) ymax<-8
+  numchroms=length(unique(d$CHR))
+  if (numchroms==1) {
+    d$pos=d$BP
+    ticks=floor(length(d$pos))/2+1
+  } else {
+    for (i in unique(d$CHR)) {
+      if (i==1) {
+        d[d$CHR==i, ]$pos=d[d$CHR==i, ]$BP
+      } else {
+        lastbase=lastbase+tail(subset(d,CHR==i-1)$BP, 1)
+        d[d$CHR==i, ]$pos=d[d$CHR==i, ]$BP+lastbase
+      }
+      ticks=c(ticks, d[d$CHR==i, ]$pos[floor(length(d[d$CHR==i, ]$pos)/2)+1])
+    }
+  }
+  if (numchroms==1) {
+    with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab=paste("Chromosome",unique(d$CHR),"position"), frame.plot = F, ...))
+  }  else {
+    with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab="Chromosome", xaxt="n", type="n", frame.plot = F, ...))
+    axis(1, at=ticks, lab=unique(d$CHR), ...)
+    icol=1
+    for (i in unique(d$CHR)) {
+      with(d[d$CHR==i, ],points(pos, logp, col=colors[icol], ...))
+      icol=icol+1
+    }
+  }
+  
+}
+
 RunEigenGWAS <- function(dataName, PC, inbred=F, gearPath)
 {
   if(missing(gearPath))
