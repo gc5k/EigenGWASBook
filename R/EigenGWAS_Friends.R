@@ -5,17 +5,20 @@ aim<-function(root, PC, pcutoff="bonferroni")
     return()
   }
   
-  d=read.table(paste0(root, ".", PC, ".egwas"), as.is = T, header = T)
-  if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
-  d$logp = -log10(d$P)
-  
-  if(pcutoff=="bonferroni" | missing(pcutoff)) 
-  {
-    h=-log10(0.05/nrow(d))
+  for (i in 1:length(PC)) {
+    d=read.table(paste0(root, ".", PC[i], ".egwas"), as.is = T, header = T)
+    if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
+    d$logp = -log10(d$P)
+    
+    if(pcutoff=="bonferroni" | missing(pcutoff)) 
+    {
+      h=-log10(0.05/nrow(d))
+    }
+   
+    d$logp[which(d$logp < h)]=NA
+    
+    manhattan2(d,cex=0.5, pch=16, title=paste0("PC",PC[i]))
   }
-  d$logp[which(d$logp < h)]=NA
-  
-  manhattan2(d,cex=0.5, pch=16)
   
 }
 
