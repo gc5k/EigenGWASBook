@@ -1,33 +1,39 @@
-aim<-function(root, PC, pcutoff="bonferroni")
+aim<-function(root, PC, pcutoff="bonferroni", GCcorrection)
 {
   if(!fCheck(paste0(root, ".", PC, ".egwas")))
   {
     return()
   }
-  
+
   for (i in 1:length(PC)) {
     d=read.table(paste0(root, ".", PC[i], ".egwas"), as.is = T, header = T)
     if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
-    d$logp = -log10(d$P)
-    
-    if(pcutoff=="bonferroni" | missing(pcutoff)) 
+
+    gc = qchisq(median(d$P), 1, lower.tail = F)/qchisq(0.5, 1, lower.tail = F)
+    dp = pchisq(qchisq(d$P, 1, lower.tail = F)/gc, 1, lower.tail = F)
+    d$logp = -log10(dp)
+#    d$logp = -log10(d$P)
+
+    if(pcutoff=="bonferroni" | missing(pcutoff))
     {
       h=-log10(0.05/nrow(d))
     }
-   
+
     d$logp[which(d$logp < h)]=NA
-    
-    manhattan2(d,cex=0.5, pch=16, title=paste0("PC",PC[i]))
+
+    if(length(which(!is.na(d$logp) > 0)))
+    {
+      manhattan2(d, cex=0.5, pch=16, title=paste("PC",PC[i]))
+    }
   }
-  
 }
 
 manhattan2 <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=1:23, suggestiveline=-log10(1e-5), genomewideline=NULL, title="",  ...) {
-  
+
   d=dataframe
   if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
   if (any(limitchromosomes)) d=d[d$CHR %in% limitchromosomes, ]
-  
+
   d$pos=NA
   ticks=NULL
   lastbase=0
@@ -60,7 +66,7 @@ manhattan2 <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limi
       icol=icol+1
     }
   }
-  
+
 }
 
 RunEigenGWAS <- function(dataName, PC, inbred=F, gearPath)
@@ -70,17 +76,17 @@ RunEigenGWAS <- function(dataName, PC, inbred=F, gearPath)
     gearPath="."
   }
   gear=paste("java -jar", paste0(gearPath, "/gear.jar"))
-  
-  if (inbred==F) 
+
+  if (inbred==F)
   {
     EigenGWAS=paste(gear, "eigengwas", "--bfile", dataName, "--ev", PC,  "--out", dataName)
   }
-  else 
+  else
   {
     EigenGWAS=paste(gear, "eigengwas", "--inbred", "--bfile", dataName, "--ev", PC,  "--out", dataName)
   }
-  
-  system(EigenGWAS) 
+
+  system(EigenGWAS)
 }
 
 fCheck <- function(fn)
