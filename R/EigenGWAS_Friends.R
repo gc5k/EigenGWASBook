@@ -1,4 +1,4 @@
-aim<-function(root, PC, pcutoff="bonferroni", GCcorrection)
+aim<-function(root, PC, pcutoff="bonferroni", GCcorrection = T)
 {
   if(!fCheck(paste0(root, ".", PC, ".egwas")))
   {
@@ -11,8 +11,12 @@ aim<-function(root, PC, pcutoff="bonferroni", GCcorrection)
 
     gc = qchisq(median(d$P), 1, lower.tail = F)/qchisq(0.5, 1, lower.tail = F)
     dp = pchisq(qchisq(d$P, 1, lower.tail = F)/gc, 1, lower.tail = F)
-    d$logp = -log10(dp)
-#    d$logp = -log10(d$P)
+    if(GCcorrection)
+    {
+      d$logp = -log10(dp)
+    } else {
+      d$logp = -log10(d$P)
+    }
 
     if(pcutoff=="bonferroni" | missing(pcutoff))
     {
