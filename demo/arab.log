@@ -1,0 +1,112 @@
+****************************************************************
+ GEAR [GEnetic Analysis Repository]
+ (C) 2013 Guo-Bo Chen, Zhi-Xiang Zhu
+ Branch master
+ Commit fdb026eb5fed3c26776ad49060a8eaee9a18fa45
+ Built on Tue Mar 06 13:23:06 CST 2018
+*****************************************************************
+
+[INFO] Subcommand: eigengwas
+[INFO] Options in effect: 
+[INFO] 	--inbred
+[INFO] 	--bfile arab
+[INFO] 	--ev 5
+[INFO] 	--out arab
+[INFO] 
+[INFO] Analysis started: Thu Mar 08 16:57:58 CST 2018
+[INFO] 
+[INFO] Reading 'arab.bim'.
+[INFO] Marker Number: 156744
+[INFO] Reading data in PLINK SNP-major mode.
+[INFO] Reading 'arab.bed'.
+[INFO] Individual Number: 295
+[INFO] Writing GRM scores into 'arab.grm.gz'.
+[INFO] Writing individual information into 'arab.grm.id'.
+[INFO] Mean of genetic relatedness is : -0.0034
+[INFO] Sampling variance of genetic relatedness is: 0.0025
+[INFO] Effective sample size is : 295.2149
+[INFO] Effective number of genome segments is: 397.4066
+[INFO] 
+---------Generating eigenvectors---------
+[INFO] Read 295 samples from 'arab.grm.id'.
+[INFO] 295 samples were matched up in 1 files.
+[INFO] 
+[INFO] The 1th eigenvalue is 9.37568084969877.
+[INFO] The 2th eigenvalue is 7.719613792678174.
+[INFO] The 3th eigenvalue is 6.542999643769574.
+[INFO] The 4th eigenvalue is 4.680671444661663.
+[INFO] The 5th eigenvalue is 4.394953560044143.
+[INFO] Saving the top 5 eigenvectors in 'arab.eigenvec'.
+[INFO] 
+---------Running EigenGWAS (Additive model) for the 1th eigenvector.
+[INFO] Reading 'arab.bim'.
+[INFO] Marker Number: 156744
+[INFO] Reading data in PLINK SNP-major mode.
+[INFO] Reading 'arab.bed'.
+[INFO] Individual Number: 295
+[INFO] Read 295 samples from 'arab.fam'.
+[INFO] Read 295 samples from 'arab.eigenvec'.
+[INFO] 295 samples were matched up in 2 files.
+[INFO] 
+[INFO] Median of p values is 0.041579675266016025
+[INFO] Lambda GC is: 9.127791256481991
+[INFO] Saved EigenGWAS results in 'arab.1.egwas'.
+[INFO] 
+---------Running EigenGWAS (Additive model) for the 2th eigenvector.
+[INFO] Reading 'arab.bim'.
+[INFO] Marker Number: 156744
+[INFO] Reading data in PLINK SNP-major mode.
+[INFO] Reading 'arab.bed'.
+[INFO] Individual Number: 295
+[INFO] Read 295 samples from 'arab.fam'.
+[INFO] Read 295 samples from 'arab.eigenvec'.
+[INFO] 295 samples were matched up in 2 files.
+[INFO] 
+[INFO] Median of p values is 0.053702152979491435
+[INFO] Lambda GC is: 8.18187171551784
+[INFO] Saved EigenGWAS results in 'arab.2.egwas'.
+[INFO] 
+---------Running EigenGWAS (Additive model) for the 3th eigenvector.
+[INFO] Reading 'arab.bim'.
+[INFO] Marker Number: 156744
+[INFO] Reading data in PLINK SNP-major mode.
+[INFO] Reading 'arab.bed'.
+[INFO] Individual Number: 295
+[INFO] Read 295 samples from 'arab.fam'.
+[INFO] Read 295 samples from 'arab.eigenvec'.
+[INFO] 295 samples were matched up in 2 files.
+[INFO] 
+[INFO] Median of p values is 0.09162910604481622
+[INFO] Lambda GC is: 6.255258662784641
+[INFO] Saved EigenGWAS results in 'arab.3.egwas'.
+[INFO] 
+---------Running EigenGWAS (Additive model) for the 4th eigenvector.
+[INFO] Reading 'arab.bim'.
+[INFO] Marker Number: 156744
+[INFO] Reading data in PLINK SNP-major mode.
+[INFO] Reading 'arab.bed'.
+[INFO] Individual Number: 295
+[INFO] Read 295 samples from 'arab.fam'.
+[INFO] Read 295 samples from 'arab.eigenvec'.
+[INFO] 295 samples were matched up in 2 files.
+[INFO] 
+[INFO] Median of p values is 0.14878819967214563
+[INFO] Lambda GC is: 4.582613132445104
+[INFO] Saved EigenGWAS results in 'arab.4.egwas'.
+[INFO] 
+---------Running EigenGWAS (Additive model) for the 5th eigenvector.
+[INFO] Reading 'arab.bim'.
+[INFO] Marker Number: 156744
+[INFO] Reading data in PLINK SNP-major mode.
+[INFO] Reading 'arab.bed'.
+[INFO] Individual Number: 295
+[INFO] Read 295 samples from 'arab.fam'.
+[INFO] Read 295 samples from 'arab.eigenvec'.
+[INFO] 295 samples were matched up in 2 files.
+[INFO] 
+[INFO] Median of p values is 0.18254086752089727
+[INFO] Lambda GC is: 3.9059471730282973
+[INFO] Saved EigenGWAS results in 'arab.5.egwas'.
+[INFO] 
+[INFO] Analysis finished: Thu Mar 08 16:59:43 CST 2018
+[INFO] Peak memory consumption: 1.5 GB

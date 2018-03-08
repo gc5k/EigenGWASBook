@@ -1,4 +1,4 @@
-aim<-function(root, PC, pcutoff="bonferroni", GCcorrection = T)
+AIM<-function(root, PC, pcutoff = "bonferroni", GCcorrection = T)
 {
   if(!fCheck(paste0(root, ".", PC, ".egwas")))
   {
@@ -21,6 +21,8 @@ aim<-function(root, PC, pcutoff="bonferroni", GCcorrection = T)
     if(pcutoff=="bonferroni" | missing(pcutoff))
     {
       h=-log10(0.05/nrow(d))
+    } else {
+      h=-log10(pcutoff)
     }
 
     d$logp[which(d$logp < h)]=NA
