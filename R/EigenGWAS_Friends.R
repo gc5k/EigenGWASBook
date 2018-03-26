@@ -1,21 +1,98 @@
-RunEigenGWAS <- function(dataName, pc, inbred=T, gearPath)
+AIM<-function(root, PC, pcutoff = "bonferroni", GCcorrection = T)
+{
+  if(!fCheck(paste0(root, ".", PC, ".egwas")))
+  {
+    return()
+  }
+
+  for (i in 1:length(PC)) {
+    d=read.table(paste0(root, ".", PC[i], ".egwas"), as.is = T, header = T)
+    if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
+
+    gc = qchisq(median(d$P), 1, lower.tail = F)/qchisq(0.5, 1, lower.tail = F)
+    dp = pchisq(qchisq(d$P, 1, lower.tail = F)/gc, 1, lower.tail = F)
+    if(GCcorrection)
+    {
+      d$logp = -log10(dp)
+    } else {
+      d$logp = -log10(d$P)
+    }
+
+    if(pcutoff=="bonferroni" | missing(pcutoff))
+    {
+      h=-log10(0.05/nrow(d))
+    } else {
+      h=-log10(pcutoff)
+    }
+
+    d$logp[which(d$logp < h)]=NA
+
+    if(length(which(!is.na(d$logp) > 0)))
+    {
+      manhattan2(d, cex=0.5, pch=16, title=paste("PC",PC[i]))
+    }
+  }
+}
+
+manhattan2 <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=1:23, suggestiveline=-log10(1e-5), genomewideline=NULL, title="",  ...) {
+
+  d=dataframe
+  if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
+  if (any(limitchromosomes)) d=d[d$CHR %in% limitchromosomes, ]
+
+  d$pos=NA
+  ticks=NULL
+  lastbase=0
+  colors <- rep(colors,max(d$CHR))[1:max(d$CHR)]
+  if (ymax=="max") ymax<-ceiling(max(d$logp[which(!is.na(d$logp))]))
+  if (ymax<8) ymax<-8
+  numchroms=length(unique(d$CHR))
+  if (numchroms==1) {
+    d$pos=d$BP
+    ticks=floor(length(d$pos))/2+1
+  } else {
+    for (i in unique(d$CHR)) {
+      if (i==1) {
+        d[d$CHR==i, ]$pos=d[d$CHR==i, ]$BP
+      } else {
+        lastbase=lastbase+tail(subset(d,CHR==i-1)$BP, 1)
+        d[d$CHR==i, ]$pos=d[d$CHR==i, ]$BP+lastbase
+      }
+      ticks=c(ticks, d[d$CHR==i, ]$pos[floor(length(d[d$CHR==i, ]$pos)/2)+1])
+    }
+  }
+  if (numchroms==1) {
+    with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab=paste("Chromosome",unique(d$CHR),"position"), frame.plot = F, ...))
+  }  else {
+    with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab="Chromosome", xaxt="n", type="n", frame.plot = F, ...))
+    axis(1, at=ticks, lab=unique(d$CHR), ...)
+    icol=1
+    for (i in unique(d$CHR)) {
+      with(d[d$CHR==i, ],points(pos, logp, col=colors[icol], ...))
+      icol=icol+1
+    }
+  }
+
+}
+
+RunEigenGWAS <- function(dataName, PC, inbred=F, gearPath)
 {
   if(missing(gearPath))
   {
     gearPath="."
   }
   gear=paste("java -jar", paste0(gearPath, "/gear.jar"))
-  
-  if (inbred==T) 
+
+  if (inbred==F)
   {
-    EigenGWAS=paste(gear, "eigengwas", "--inbred", "--bfile", dataName, "--ev", pc,  "--out", dataName)
+    EigenGWAS=paste(gear, "eigengwas", "--bfile", dataName, "--ev", PC,  "--out", dataName)
   }
-  else 
+  else
   {
-    EigenGWAS=paste(gear, "eigengwas", "--bfile", dataName, "--ev", pc,  "--out", dataName)
+    EigenGWAS=paste(gear, "eigengwas", "--inbred", "--bfile", dataName, "--ev", PC,  "--out", dataName)
   }
-  
-  system(EigenGWAS) 
+
+  system(EigenGWAS)
 }
 
 fCheck <- function(fn)
@@ -290,17 +367,21 @@ SWPhenoEigenGWASPlot <- function(phe, root, pc, kb=5)
   legend("topright", legend = c(paste("Rsq=", format(rsq, digits = 4, nsmall = 3))), bty='n')
 }
 
-manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=1:23, suggestiveline=-log10(1e-5), genomewideline=NULL, title="", annotate=NULL, ...) {
+manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=NULL, suggestiveline=-log10(1e-5), genomewideline=NULL, title="", annotate=NULL, ...) {
 
   d=dataframe
   if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
-  if (any(limitchromosomes)) d=d[d$CHR %in% limitchromosomes, ]
+  if (!is.null(limitchromosomes)) {
+    d=d[d$CHR %in% limitchromosomes, ]
+  }
+
   d=subset(na.omit(d[order(d$CHR, d$BP), ]), (P>0 & P<=1)) # remove na's, sort, and keep only 0<P<=1
   d$logp = -log10(d$P)
   d$pos=NA
   ticks=NULL
-  lastbase=0
-  colors <- rep(colors,max(d$CHR))[1:max(d$CHR)]
+  lastbase=0 #  colors <- rep(colors,max(d$CHR))[1:max(d$CHR)]
+  colors <- rep(colors,max(d$CHR))[1:length(unique(d$CHR))]
+
   if (ymax=="max") ymax<-ceiling(max(d$logp))
   if (ymax<8) ymax<-8
   numchroms=length(unique(d$CHR))
@@ -308,24 +389,26 @@ manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limit
     d$pos=d$BP
     ticks=floor(length(d$pos))/2+1
   } else {
-    for (i in unique(d$CHR)) {
+    Uchr=unique(d$CHR)
+    for (i in 1:length(Uchr)) {
       if (i==1) {
-        d[d$CHR==i, ]$pos=d[d$CHR==i, ]$BP
+        d[d$CHR==Uchr[i], ]$pos=d[d$CHR==Uchr[i], ]$BP
       } else {
-        lastbase=lastbase+tail(subset(d,CHR==i-1)$BP, 1)
-        d[d$CHR==i, ]$pos=d[d$CHR==i, ]$BP+lastbase
+        lastbase=lastbase+tail(subset(d, CHR==Uchr[i-1])$BP, 1)
+        d[d$CHR==Uchr[i], ]$pos=d[d$CHR==Uchr[i], ]$BP+lastbase
       }
-      ticks=c(ticks, d[d$CHR==i, ]$pos[floor(length(d[d$CHR==i, ]$pos)/2)+1])
+      ticks=c(ticks, d[d$CHR==Uchr[i], ]$pos[floor(length(d[d$CHR==Uchr[i], ]$pos)/2)+1])
     }
   }
   if (numchroms==1) {
-    with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab=paste("Chromosome",unique(d$CHR),"position"), frame.plot = F, ...))
-  }  else {
-    with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab="Chromosome", xaxt="n", type="n", frame.plot = F, ...))
+    with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab=paste("Chromosome",unique(d$CHR),"position"), ...))
+  } else {
+    with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab="Chromosome", xaxt="n", type="n", ...))
     axis(1, at=ticks, lab=unique(d$CHR), ...)
     icol=1
-    for (i in unique(d$CHR)) {
-      with(d[d$CHR==i, ],points(pos, logp, col=colors[icol], ...))
+    Uchr=unique(d$CHR)
+    for (i in 1:length(Uchr)) {
+      with(d[d$CHR==Uchr[i], ], points(pos, logp, col=colors[icol], ...))
       icol=icol+1
     }
   }
@@ -341,11 +424,14 @@ manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limit
   }
 }
 
-FstPlot <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=1:23, suggestiveline=NULL, genomewideline=NULL, annotate=NULL, title="", ...) {
+FstPlot <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=NULL, suggestiveline=NULL, genomewideline=NULL, annotate=NULL, title="", ...) {
 
   d=dataframe
   if (!("CHR" %in% names(d) & "BP" %in% names(d) & "Fst" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
-  if (any(limitchromosomes)) d=d[d$CHR %in% limitchromosomes, ]
+  if (!is.null(limitchromosomes)) {
+    d=d[d$CHR %in% limitchromosomes, ]
+  }
+
   d=subset(na.omit(d[order(d$CHR, d$BP), ]), (Fst>0 & Fst<=1)) # remove na's, sort, and keep only 0<P<=1
   d$logp = d$Fst
   d$pos=NA
@@ -353,30 +439,31 @@ FstPlot <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitch
   lastbase=0
   colors <- rep(colors,max(d$CHR))[1:max(d$CHR)]
   if (ymax=="max") ymax<-max(d$logp)*1.1
-  #  if (ymax<8) ymax<-8
   numchroms=length(unique(d$CHR))
   if (numchroms==1) {
     d$pos=d$BP
     ticks=floor(length(d$pos))/2+1
   } else {
-    for (i in unique(d$CHR)) {
+    Uchr=unique(d$CHR)
+    for (i in 1:length(Uchr)) {
       if (i==1) {
-        d[d$CHR==i, ]$pos=d[d$CHR==i, ]$BP
+        d[d$CHR==Uchr[i], ]$pos=d[d$CHR==Uchr[i], ]$BP
       } else {
-        lastbase=lastbase+tail(subset(d,CHR==i-1)$BP, 1)
-        d[d$CHR==i, ]$pos=d[d$CHR==i, ]$BP+lastbase
+        lastbase=lastbase+tail(subset(d,CHR==Uchr[i-1])$BP, 1)
+        d[d$CHR==Uchr[i], ]$pos=d[d$CHR==Uchr[i], ]$BP+lastbase
       }
-      ticks=c(ticks, d[d$CHR==i, ]$pos[floor(length(d[d$CHR==i, ]$pos)/2)+1])
+      ticks=c(ticks, d[d$CHR==Uchr[i], ]$pos[floor(length(d[d$CHR==Uchr[i], ]$pos)/2)+1])
     }
   }
   if (numchroms==1) {
-    with(d, plot(pos, logp, ylim=c(0,ymax), ylab=expression(paste(italic("F")[italic("ST")])), xlab=paste("Chromosome",unique(d$CHR),"position"), main=title, frame.plot=F, ...))
+    with(d, plot(pos, logp, ylim=c(0,ymax), ylab=expression(paste(italic("F")[italic("ST")])), xlab=paste("Chromosome",unique(d$CHR),"position"), main=title,...))
   }  else {
-    with(d, plot(pos, logp, ylim=c(0,ymax), ylab=expression(paste(italic("F")[italic("ST")])), xlab="Chromosome", xaxt="n", type="n", main=title, frame.plot = F, ...))
+    with(d, plot(pos, logp, ylim=c(0,ymax), ylab=expression(paste(italic("F")[italic("ST")])), xlab="Chromosome", xaxt="n", type="n", main=title,...))
     axis(1, at=ticks, lab=unique(d$CHR), ...)
     icol=1
-    for (i in unique(d$CHR)) {
-      with(d[d$CHR==i, ],points(pos, logp, col=colors[icol], ...))
+    Uchr=unique(d$CHR)
+    for (i in 1:length(Uchr)) {
+      with(d[d$CHR==Uchr[i], ], points(pos, logp, col=colors[icol], ...))
       icol=icol+1
     }
   }
