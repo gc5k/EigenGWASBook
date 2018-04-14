@@ -1,3 +1,28 @@
+MakeBetaTable<-function(root, PC=c(1))
+{
+  for(i in 1:length(PC))
+  {
+    print(paste0(root, ".", PC[i], ".egwas"))
+    if (!fCheck(paste0(root, ".", PC[i], ".egwas")))
+    {
+      print(paste0("File '", root, ".", PC[i], ".egwas", "' does not exist."))
+      return()
+    }
+    ef=read.table(paste0(root, ".", PC[i], ".egwas"), as.is = T, header = T)
+    if (i == 1)
+    {
+      bTab=as.data.frame(matrix(0, nrow=nrow(ef), ncol=length(PC)+2))
+      colnames(bTab)= c("SNP", "RefAllele", paste0("Beta", PC))
+      bTab$SNP = ef$SNP
+      bTab$RefAllele = ef$RefAllele
+      bTab[,3] = ef$Beta
+    } else {
+      bTab[,2+i] = ef$Beta
+    }
+  }
+  return(bTab)
+}
+
 AIM<-function(root, PC, pcutoff = "bonferroni", GCcorrection = T)
 {
   if(!fCheck(paste0(root, ".", PC, ".egwas")))
@@ -79,9 +104,10 @@ RunEigenGWAS <- function(dataName, PC, inbred=F, gearPath)
 {
   if(missing(gearPath))
   {
-    gearPath="."
+    gear=paste("java -jar", paste0(" ./gear.jar"))
+  } else {
+    gear=paste("java -jar", gearPath)
   }
-  gear=paste("java -jar", paste0(gearPath, "/gear.jar"))
 
   if (inbred==F)
   {
@@ -112,7 +138,8 @@ EigenQQPlot <- function(root, pc)
   {
     return()
   }
-
+  layout(matrix(1,1,1))
+  
   eg = read.table(paste0(root, ".", pc, ".egwas"), as.is = T, header = T)
 
   gc = qchisq(median(eg$P), 1, lower.tail = F)/qchisq(0.5, 1)
@@ -139,6 +166,8 @@ grmReader <- function(root)
   {
     return()
   }
+  layout(matrix(1,1,1))
+  
   grmFile = gzfile(paste0(root, ".grm.gz"))
   grm = read.table(grmFile)
 
@@ -229,7 +258,8 @@ DeepEigenValuePlot <- function(root, PC, qcut=c(0.25, 0.5, 0.75))
   {
     return()
   }
-
+  layout(matrix(1,1,1))
+  
   Evev=read.table(paste0(root, ".eigenval"), as.is = T)
   GC=matrix(0, nrow=1, ncol=length(qcut)+1)
   GC[1]=Evev[PC,1]
@@ -255,8 +285,8 @@ EigenGWASPlot <- function(root, pc)
 
   eg=eg[,-which(colnames(eg)=="P")]
   colnames(eg)[which(colnames(eg)=="PGC")]="P"
-  manhattan(eg, pch=16, cex=0.5)
-  FstPlot(eg, pch=16, cex=0.5)
+  manhattan(eg, pch=16, cex=0.5, bty='l')
+  FstPlot(eg, pch=16, cex=0.5, bty='l')
   plot(eg$Chi, eg$Fst, xlab=expression(chi[1]^2), ylab=expression(paste(italic("F")[italic("ST")])), pch=16, cex=0.5, frame.plot = F)
   rsq=cor(eg$Chi, eg$Fst, use="pairwise.complete.obs")^2
   legend("topright", legend = c(paste("Rsq=", format(rsq, digits = 4, nsmall = 3))), bty='n')
@@ -425,7 +455,6 @@ manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limit
 }
 
 FstPlot <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=NULL, suggestiveline=NULL, genomewideline=NULL, annotate=NULL, title="", ...) {
-
   d=dataframe
   if (!("CHR" %in% names(d) & "BP" %in% names(d) & "Fst" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
   if (!is.null(limitchromosomes)) {
@@ -473,4 +502,120 @@ FstPlot <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitch
   }
   #  if (suggestiveline) abline(h=suggestiveline, col="blue")
   #  if (genomewideline) abline(h=genomewideline, col="red")
+}
+
+miamiPlot <- function(root, PC=1, upKey="PGC", downKey="Fst", Log1=TRUE, Log2=FALSE, AnoCol="red", AnoCol1="blue", AnoCol2="yellow", colors=c("gray10", "gray50"), limitchromosomes=NULL, suggestiveline=-log10(1e-5), genomewideline=NULL, title="", annotate=NULL, annotate1=NULL, annotate2=NULL, ...) {
+
+  layout(matrix(1,1,1))
+  if(!fCheck(paste0(root, ".", PC, ".egwas")))
+  {
+    return()
+  }
+
+  dataframe = read.table(paste0(root, ".", PC, ".egwas"), as.is = T, header=T)
+
+  pidx1=which(colnames(dataframe) == upKey)
+
+  pidx2 = which(colnames(dataframe) == downKey)
+
+  d = dataframe
+  if (!("CHR" %in% names(d) & "BP" %in% names(d) & upKey %in% names(d) & downKey %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
+  if (!is.null(limitchromosomes)) {
+    d=d[d$CHR %in% limitchromosomes, ]
+  }
+
+  d=subset(na.omit(d[order(d$CHR, d$BP), ]), (!is.na(d[,pidx1]) & (d[,pidx1]>0) & (d[,pidx1]<1) & !is.na(d[,pidx2]))) # remove na's, sort, and keep only 0<P<=1
+
+  if (Log1)
+  {
+    d$logp = -log10(d[,pidx1])
+  } else {
+    d$logp = d[,pidx1]
+  }
+
+  if (Log2)
+  {
+    d$logp2 = log10(d[,pidx2])
+  } else {
+    d$logp2 = -1*d[,pidx2]
+  }
+
+  ytick = c(ceiling(max(abs(d$logp2))), 0, ceiling(max(abs(d$logp))))
+
+  if ( max(d$logp) > abs(max(d$logp2)) )
+  {
+    d$logp2 = d$logp2 * max(d$logp)/max(abs(d$logp2))
+  } else {
+    d$logp = d$logp * max(abs(d$logp2))/max(d$logp)
+  }
+
+  d$pos=NA
+  ticks=NULL
+  lastbase=0
+  colors <- rep(colors,max(d$CHR))[1:max(d$CHR)]
+  ymax = ceiling(max(d$logp))
+  ymin = floor(min(d$logp2))
+
+  numchroms=length(unique(d$CHR))
+  if (numchroms==1) {
+    d$pos=d$BP
+    ticks=floor(length(d$pos))/2+1
+  } else {
+    Uchr=unique(d$CHR)
+    for (i in 1:length(Uchr)) {
+      if (i==1) {
+        d[d$CHR==Uchr[i], ]$pos=d[d$CHR==Uchr[i], ]$BP
+      } else {
+        lastbase=lastbase+tail(subset(d,CHR==Uchr[i-1])$BP, 1)
+        d[d$CHR==Uchr[i], ]$pos=d[d$CHR==Uchr[i], ]$BP+lastbase
+      }
+      ticks=c(ticks, d[d$CHR==Uchr[i], ]$pos[floor(length(d[d$CHR==Uchr[i], ]$pos)/2)+1])
+    }
+  }
+  if (numchroms==1) {
+    with(d, plot(main=title, pos, logp, ylim=c(ymin, ymax), xlab=paste("Chromosome", unique(d$CHR), "position"), ylab='n',  axes=F, ...))
+  } else {
+    with(d, plot(main=title, pos, logp, ylim=c(ymin, ymax), ylab='', xlab="Chromosome", axes=F, type="n", ...))
+    axis(1, at=ticks, lab=unique(d$CHR), ...)
+    axis(2, at=c(-1*ceiling(max(abs(d$logp2))), 0, ceiling(max(abs(d$logp)))), lab=ytick, ...)
+    axis(2, line=1.5, lwd=-1, at=c(-1*ceiling(max(abs(d$logp2)))/2, ceiling(max(abs(d$logp)))/2), lab=c(expression(paste(italic("F")[italic("ST")])), expression(-log[10](italic(p)))), ...)
+    
+    icol=1
+    Uchr=unique(d$CHR)
+    for (i in 1:length(Uchr)) {
+      with(d[d$CHR==Uchr[i], ],points(pos, logp, col=colors[icol], ...))
+      with(d[d$CHR==Uchr[i], ],points(pos, logp2, col=colors[icol], ...))
+      icol=icol+1
+    }
+  }
+  if (!is.null(annotate)) {
+    d.annotate=d[which(d$SNP %in% annotate), ]
+    with(d.annotate, points(pos, logp, col=AnoCol, pch=16, ...))
+    with(d.annotate, points(pos, logp2, col=AnoCol, pch=16, ...))
+  }
+
+  if (!is.null(annotate1)) {
+    d.annotate=d[which(d$SNP %in% annotate1), ]
+    with(d.annotate, points(pos, logp, col=AnoCol1, pch=16))
+  }
+
+  if (!is.null(annotate2)) {
+    d.annotate=d[which(d$SNP %in% annotate2), ]
+    with(d.annotate, points(pos, logp2, col=AnoCol2, pch=16))
+  }
+
+  if (!is.null(genomewideline)) {
+    abline(h = genomewideline, col = "gray")
+    if (Log2)
+    {
+      abline(h = -1*genomewideline, col = "gray")
+    }
+  } else {
+    abline(h = -log10(0.05/nrow(d)), col = "gray")
+    if (Log2)
+    {
+      abline(h = log10(0.05/nrow(d)), col = "gray")
+    }
+  }
+  abline(h=0, col="white", lwd=2, lty=2)
 }

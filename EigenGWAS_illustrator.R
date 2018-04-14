@@ -1,11 +1,16 @@
-install.packages("~/git/EigenGWASFriends_0.1.0.tar.gz", repos = NULL, type = "source")
-library(EigenGWASFriends)
 
+source("EigenGWAS_Friends.R")
 #demo
 FN="arab"
 PC=5
 
-RunEigenGWAS(FN, PC, T, "~/Documents/workspace/FromSVN/GEAR/")
+RunEigenGWAS(FN, PC, T, "./gear.jar")
+
+miamiPlot(FN, 1, Log1 = TRUE, Log2 = F, cex=0.5, pch=16, bty="l")
+#miamiPlot(FN, 2, Log1 = TRUE, Log2 = F, cex=0.5, pch=16, bty="l")
+#miamiPlot(FN, 3, Log1 = TRUE, Log2 = F, cex=0.5, pch=16, bty="l")
+#miamiPlot(FN, 4, Log1 = TRUE, Log2 = F, cex=0.5, pch=16, bty="l")
+#miamiPlot(FN, 5, Log1 = TRUE, Log2 = F, cex=0.5, pch=16, bty="l")
 
 AIM(FN, 5)
 
