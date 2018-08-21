@@ -139,7 +139,7 @@ EigenQQPlot <- function(root, pc)
     return()
   }
   layout(matrix(1,1,1))
-  
+
   eg = read.table(paste0(root, ".", pc, ".egwas"), as.is = T, header = T)
 
   gc = qchisq(median(eg$P), 1, lower.tail = F)/qchisq(0.5, 1)
@@ -167,7 +167,7 @@ grmReader <- function(root)
     return()
   }
   layout(matrix(1,1,1))
-  
+
   grmFile = gzfile(paste0(root, ".grm.gz"))
   grm = read.table(grmFile)
 
@@ -259,7 +259,7 @@ DeepEigenValuePlot <- function(root, PC, qcut=c(0.25, 0.5, 0.75))
     return()
   }
   layout(matrix(1,1,1))
-  
+
   Evev=read.table(paste0(root, ".eigenval"), as.is = T)
   GC=matrix(0, nrow=1, ncol=length(qcut)+1)
   GC[1]=Evev[PC,1]
@@ -272,7 +272,7 @@ DeepEigenValuePlot <- function(root, PC, qcut=c(0.25, 0.5, 0.75))
   legend("topright", legend = c("Eigenvalue", expression(paste(lambda[gc]))), pch=15, col=c("black", "grey"), bty='n')
 }
 
-EigenGWASPlot <- function(root, pc)
+EigenGWASPlot <- function(root, pc, gml)
 {
   if(!fCheck(paste0(root, ".", pc, ".egwas")))
   {
@@ -285,7 +285,12 @@ EigenGWASPlot <- function(root, pc)
 
   eg=eg[,-which(colnames(eg)=="P")]
   colnames(eg)[which(colnames(eg)=="PGC")]="P"
-  manhattan(eg, pch=16, cex=0.5, bty='l')
+  if(is.null(gml)) {
+    manhattan(eg, pch=16, cex=0.5, bty='l')
+  } else {
+    manhattan(eg, pch=16, cex=0.5, bty='l', genomewideline = -log10(gml))
+  }
+
   FstPlot(eg, pch=16, cex=0.5, bty='l')
   plot(eg$Chi, eg$Fst, xlab=expression(chi[1]^2), ylab=expression(paste(italic("F")[italic("ST")])), pch=16, cex=0.5, frame.plot = F)
   rsq=cor(eg$Chi, eg$Fst, use="pairwise.complete.obs")^2
@@ -518,12 +523,12 @@ miamiPlot <- function(root, PC=1, P1=NULL, P2=NULL, Log1=TRUE, Log2=TRUE, AnoCol
   }
 
   dataframe = read.table(paste0(root, ".", PC, ".egwas"), as.is = T, header=T)
-  
+
   if(is.null(P1)) {
     P1 = "PGC"
   }
   pidx1=which(colnames(dataframe) == P1)
-  
+
   if(is.null(P2)) {
     P2 = "Fst"
   }
@@ -544,23 +549,23 @@ miamiPlot <- function(root, PC=1, P1=NULL, P2=NULL, Log1=TRUE, Log2=TRUE, AnoCol
   } else {
     d$logp = d[,pidx1]
   }
-  
+
   if (Log2)
   {
     d$logp2 = log10(d[,pidx2])
   } else {
     d$logp2 = -1*d[,pidx2]
   }
-  
+
   ytick = c(format(max(abs(d$logp2)), digits = 3), 0, ceiling(max(abs(d$logp))))
-  
+
   if ( max(d$logp) > abs(max(d$logp2)) )
   {
     d$logp2 = d$logp2 * max(d$logp)/max(abs(d$logp2))
   } else {
     d$logp = d$logp * max(abs(d$logp2))/max(d$logp)
   }
-  
+
   d$pos=NA
   ticks=NULL
   lastbase=0
@@ -603,17 +608,17 @@ miamiPlot <- function(root, PC=1, P1=NULL, P2=NULL, Log1=TRUE, Log2=TRUE, AnoCol
     with(d.annotate, points(pos, logp, col=AnoCol, pch=16, ...))
     with(d.annotate, points(pos, logp2, col=AnoCol, pch=16, ...))
   }
-  
+
   if (!is.null(annotate1)) {
     d.annotate=d[which(d$SNP %in% annotate1), ]
     with(d.annotate, points(pos, logp, col=AnoCol1, pch=16))
   }
-  
+
   if (!is.null(annotate2)) {
     d.annotate=d[which(d$SNP %in% annotate2), ]
     with(d.annotate, points(pos, logp2, col=AnoCol2, pch=16))
   }
-  
+
   if (!is.null(genomewideline)) {
     abline(h=genomewideline, col="gray")
     #    abline(h=-1*genomewideline, col="gray")
