@@ -100,6 +100,50 @@ manhattan2 <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limi
 
 }
 
+RunEigenGWASPlink <- function(root, pc, inbred, plink2)
+{
+  grm=paste0(plink2, " --bfile ", root, " --make-grm-gz --out ", root)
+  system(grm)
+
+  #pca
+  pca=paste0(plink2, " --bfile ", root, " --pca ", pc, " --out ", root)
+  system(pca)
+
+  #assoc
+  ev=read.table(paste0(root, ".eigenvec"), as.is = T)
+  gc=matrix(0, pc, 2)
+  gc[,1]=read.table(paste0(root, ".eigenval"))[1:pc,1]
+  if(inbred) {
+    gc[,1]=gc[,1]/2
+  }
+  for(i in 1:pc) {
+    #EigenGWAS
+    assoc=paste0(plink2, " --linear --bfile ", root, " --pheno ", root, ".eigenvec --mpheno ", i, " --out ", root, ".", i)
+    system(assoc)
+
+    #fst
+    ev$g=ifelse(ev[,2+i]<0, 0, 1)
+    write.table(ev[,c(1,2, ncol(ev))], paste0(root, ".", i, ".group"), row.names = F, col.names = F, quote = F)
+
+    fst=paste0(plink2, " --fst --bfile ", root, " --within ", paste0(root, ".", i, ".group"), " --out ", root, ".", i)
+    system(fst)
+
+    #merge
+    assocF=read.table(paste0(root, ".", i, ".assoc.linear"), as.is = T, header = T)
+    fstF=read.table(paste0(root, ".", i, ".fst"), as.is = T, header = T)
+    gc[i,2]=qchisq(median(assocF$P), 1, lower.tail = F)/qchisq(0.5, 1, lower.tail = F)
+    assocF$Chi=qchisq(assocF$P, 1, lower.tail = F)
+    assocF$PGC=pchisq(assocF$Chi/gc[i,2], 1, lower.tail = F)
+    assocF$Fst=fstF$FST
+    write.table(assocF, paste0(root, ".", i, ".egwas"), row.names = F, col.names = T, quote = F)
+    file.remove(paste0(root, ".", i, ".assoc.linear"))
+    file.remove(paste0(root, ".", i, ".fst"))
+    file.remove(paste0(root, ".", i, ".log"))
+    file.remove(paste0(root, ".", i, ".group"))
+  }
+  write.table(gc, paste0(root,".gc"), row.names = F, col.names = F, quote = F)
+}
+
 RunEigenGWAS <- function(dataName, PC, inbred=F, gearPath)
 {
   if(missing(gearPath))
@@ -150,12 +194,16 @@ EigenQQPlot <- function(root, pc)
   legend("topleft", legend = c(paste0("LambdaGC=", format(gc, digits=3, nsmall=2))), bty='n')
 }
 
-grmStats <- function(root)
+grmStats <- function(root, inbred)
 {
   grm=grmReader(root)
   grmS=grm[col(grm) > row(grm)]
   ne=-1/mean(grmS)
   me=1/var(grmS)
+  if(inbred) {
+    ne=ne*2
+    me=me*4
+  }
   hist(grmS, xlab="GRM scores", main ="GRM distribution", breaks=25)
   legend("topright", legend = c(paste0("ne=", format(ne, digits=3, nsmall=2)), paste0("me=", format(me, digits=3, nsmall=2))), bty='n')
 }
@@ -249,6 +297,13 @@ EigenValuePlot <- function(root, PC = 1)
   egc=matrix(c(Evev[1:PC,1], GC), PC, 2, byrow = F)
   rownames(egc)=seq(1, PC)
   barplot(t(egc), beside = T, border = F)
+  legend("topright", legend = c("Eigenvalue", expression(paste(lambda[gc]))), pch=15, col=c("black", "grey"), bty='n')
+}
+
+EigenValuePlot2 <- function(root) {
+  gc=read.table(paste0(root, ".gc"))
+  row.names(gc)=1:nrow(gc)
+  barplot(t(as.matrix(gc)), beside = T, border = F, xlab="EigenGWAS")
   legend("topright", legend = c("Eigenvalue", expression(paste(lambda[gc]))), pch=15, col=c("black", "grey"), bty='n')
 }
 
