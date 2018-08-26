@@ -327,10 +327,9 @@ DeepEigenValuePlot <- function(root, PC, qcut=c(0.25, 0.5, 0.75))
   legend("topright", legend = c("Eigenvalue", expression(paste(lambda[gc]))), pch=15, col=c("black", "grey"), bty='n')
 }
 
-EigenGWASPlot <- function(root, pc, gml)
+EigenGWASPlot <- function(root, pc, gml, pcut = NULL)
 {
-  if(!fCheck(paste0(root, ".", pc, ".egwas")))
-  {
+  if(!fCheck(paste0(root, ".", pc, ".egwas"))) {
     return()
   }
 
@@ -341,9 +340,9 @@ EigenGWASPlot <- function(root, pc, gml)
   eg=eg[,-which(colnames(eg)=="P")]
   colnames(eg)[which(colnames(eg)=="PGC")]="P"
   if(is.null(gml)) {
-    manhattan(eg, pch=16, cex=0.5, bty='l')
+    manhattan(eg, pch=16, cex=0.5, bty='l', pcutLog=pcut)
   } else {
-    manhattan(eg, pch=16, cex=0.5, bty='l', genomewideline = -log10(gml))
+    manhattan(eg, pch=16, cex=0.5, bty='l', genomewideline = -log10(gml), pcutLog=pcut)
   }
 
   FstPlot(eg, pch=16, cex=0.5, bty='l')
@@ -459,7 +458,7 @@ SWPhenoEigenGWASPlot <- function(phe, root, pc, kb=5)
   legend("topright", legend = c(paste("Rsq=", format(rsq, digits = 4, nsmall = 3))), bty='n')
 }
 
-manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=NULL, suggestiveline=-log10(1e-5), genomewideline=NULL, title="", annotate=NULL, ...) {
+manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=NULL, suggestiveline=-log10(1e-5), genomewideline=NULL, title="", pcutLog=NULL, annotate=NULL, ...) {
 
   d=dataframe
   if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
@@ -492,6 +491,10 @@ manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limit
       }
       ticks=c(ticks, d[d$CHR==Uchr[i], ]$pos[floor(length(d[d$CHR==Uchr[i], ]$pos)/2)+1])
     }
+  }
+
+  if(!is.null(pcutLog)) {
+    d=d[which(d$logp > -log10(pcutLog)),]
   }
   if (numchroms==1) {
     with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab=paste("Chromosome",unique(d$CHR),"position"), ...))
@@ -569,7 +572,7 @@ FstPlot <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitch
   #  if (genomewideline) abline(h=genomewideline, col="red")
 }
 
-miamiPlot <- function(root, PC=1, P1=NULL, P2=NULL, Log1=TRUE, Log2=TRUE, AnoCol="red", AnoCol1="blue", AnoCol2="yellow", colors=c("gray10", "gray50"), limitchromosomes=NULL, suggestiveline=-log10(1e-5), genomewideline=NULL, title="", annotate=NULL, annotate1=NULL, annotate2=NULL, ...) {
+miamiPlot <- function(root, PC=1, P1=NULL, P2=NULL, Log1=TRUE, Log2=TRUE, AnoCol="red", AnoCol1="blue", AnoCol2="yellow", colors=c("gray10", "gray50"), limitchromosomes=NULL, suggestiveline=-log10(1e-5), genomewideline=NULL, title="", pcut=NULL, annotate=NULL, annotate1=NULL, annotate2=NULL, ...) {
 
   layout(matrix(1,1,1))
   if (!fCheck(paste0(root, ".", PC, ".egwas")))
@@ -584,7 +587,7 @@ miamiPlot <- function(root, PC=1, P1=NULL, P2=NULL, Log1=TRUE, Log2=TRUE, AnoCol
   }
   pidx1=which(colnames(dataframe) == P1)
 
-  if(is.null(P2)) {
+  if (is.null(P2)) {
     P2 = "Fst"
   }
   pidx2 = which(colnames(dataframe) == P2)
@@ -629,6 +632,11 @@ miamiPlot <- function(root, PC=1, P1=NULL, P2=NULL, Log1=TRUE, Log2=TRUE, AnoCol
   ymin = 1.2*(min(d$logp2))
 
   numchroms=length(unique(d$CHR))
+
+  if(!is.null(pcut)) {
+    d=d[which(d$logp > -log10(pcut)),]
+  }
+
   if (numchroms==1) {
     d$pos=d$BP
     ticks=floor(length(d$pos))/2+1

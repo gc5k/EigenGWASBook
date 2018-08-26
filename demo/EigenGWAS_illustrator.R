@@ -6,7 +6,7 @@ FN="arab"
 PC=5
 inbred=T
 
-RunEigenGWAS(FN, PC, T, "~/Documents/workspace/FromSVN/GEAR/")
+#RunEigenGWAS(FN, PC, T, "~/Documents/workspace/FromSVN/GEAR/")
 
 RunEigenGWASPlink(FN, PC, T, "~/bin/plink_mac/plink")
 
@@ -27,8 +27,8 @@ DeepEigenValuePlot(FN, 1, c(0.5,0.1, 0.05, 0.001, 0.0005, 0.0001, 0.00001))
 ###EigenGWAS plot
 #EigenGWASPlot(FN, 1)
 
-EigenGWASPlot(FN, 1, 0.00001)
-miamiPlot(FN, 1, Log2 = F, pch=16, cex=0.5)
+EigenGWASPlot(FN, 1, 0.00001, pcut=0.01)
+miamiPlot(FN, 1, Log2 = F, pch=16, cex=0.5, pcut=0.01)
 SWEigenGWASPlot(FN, 1, 10)
 
 ####pheno eigen
