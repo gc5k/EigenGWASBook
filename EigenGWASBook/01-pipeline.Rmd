@@ -1,0 +1,46 @@
+# Protocols
+
+## Rscript pipeline
+```{r, arab-demo, collapse=TRUE}
+plink2='/Users/gc5k/bin/plink_mac/plink'
+dat="./data/arab/arab"
+
+#make-grm
+grmCmd=paste(plink2, "--bfile ", dat, "--make-grm-gz --out ", dat)
+system(grmCmd)
+
+gz=gzfile(paste0(dat, ".grm.gz"))
+grm=read.table(gz, as.is = T)
+Ne=-1/mean(grm[grm[,1]!=grm[,2], 4]/2)
+Me=1/var(grm[grm[,1]!=grm[,2], 4]/2)
+print(paste("Ne=", format(Ne, digits = 2), "Me=", format(Me, digits = 2)))
+
+#pca
+pcaCmd=paste(plink2, "--bfile ", dat, "--pca 5 --out ", dat)
+system(pcaCmd)
+barplot(read.table(paste0(dat, ".eigenval"), as.is = T)[,1]/2, border = F)
+
+pc=read.table(paste0(dat, ".eigenvec"), as.is = T)
+plot(pc[,3], pc[,4], xlab="Eigenvector 1", ylab="Eigenvector 2", bty="n", main="Eigenspace", bty="n", col=ifelse(pc[,3]>0, "red", "blue"), pch=16, cex=0.5)
+#make-grm
+source("~/R/MyLib/manhattan.R")
+liCmd=paste0(plink2, " --linear --bfile ", dat, " --pheno ", dat, ".eigenvec --out ", dat)
+system(liCmd)
+
+#plot
+EigenRes=read.table(paste0(dat, ".assoc.linear"), as.is = T, header = T)
+EigenRes$Praw=EigenRes$P
+gc=qchisq(median(EigenRes$P), 1, lower.tail = F)/qchisq(0.5, 1, lower.tail = F)
+print(paste("GC = ", format(gc, digits = 4)))
+EigenRes$P=pchisq(qchisq(EigenRes$Praw, 1, lower.tail = F)/gc, 1, lower.tail = F)
+manhattan(EigenRes, title="EigenGWAS 1", pch=16, cex=0.3, bty='n')
+
+#QQplot
+chiseq=rchisq(nrow(EigenRes), 1)
+qqplot(chiseq, qchisq(EigenRes$Praw, 1, lower.tail = F), xlab=expression(paste("Theoretical ", chi[1]^2)), ylab=expression(paste("Observed ", chi[1]^2)), bty="n", col="grey", pch=16, cex=0.5)
+points(sort(chiseq), sort(qchisq(EigenRes$P, 1, lower.tail = F)), col="black", pch=16, cex=0.5)
+legend("topleft", legend = c("Raw", "GC correction"), pch=16, cex=0.5, col=c("grey", "black"), bty='n')
+abline(a=0, b=1, col="red", lty=2)
+
+```
+

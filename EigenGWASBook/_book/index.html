@@ -33,7 +33,7 @@
   
   
 
-<link rel="next" href="simulation.html">
+<link rel="next" href="protocols.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -141,10 +141,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#connection-to-svd"><i class="fa fa-check"></i><b>1.3</b> Connection to SVD</a></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#intepretation"><i class="fa fa-check"></i><b>1.4</b> Intepretation</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>2</b> Simulation</a><ul>
-<li class="chapter" data-level="2.1" data-path="simulation.html"><a href="simulation.html#wishart-distribution"><i class="fa fa-check"></i><b>2.1</b> Wishart distribution</a></li>
-<li class="chapter" data-level="2.2" data-path="simulation.html"><a href="simulation.html#tracy-widom-distribution"><i class="fa fa-check"></i><b>2.2</b> Tracy-Widom distribution</a></li>
-<li class="chapter" data-level="2.3" data-path="simulation.html"><a href="simulation.html#eigenspace-projection-and-f_st"><i class="fa fa-check"></i><b>2.3</b> Eigenspace projection and <span class="math inline">\(F_{st}\)</span></a></li>
+<li class="chapter" data-level="2" data-path="protocols.html"><a href="protocols.html"><i class="fa fa-check"></i><b>2</b> Protocols</a><ul>
+<li class="chapter" data-level="2.1" data-path="protocols.html"><a href="protocols.html#rscript-pipeline"><i class="fa fa-check"></i><b>2.1</b> Rscript pipeline</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="resequencing-studies.html"><a href="resequencing-studies.html"><i class="fa fa-check"></i><b>3</b> Resequencing studies</a><ul>
 <li class="chapter" data-level="3.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#technical-review"><i class="fa fa-check"></i><b>3.1</b> Technical review</a><ul>
@@ -154,29 +152,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#drop-hwe-test"><i class="fa fa-check"></i><b>3.2</b> Drop HWE test</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>4</b> Applications</a><ul>
-<li class="chapter" data-level="4.1" data-path="applications.html"><a href="applications.html#analysis-pipeline"><i class="fa fa-check"></i><b>4.1</b> Analysis pipeline</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="applications.html"><a href="applications.html#commandline-protocol"><i class="fa fa-check"></i><b>4.1.1</b> Commandline protocol</a></li>
-<li class="chapter" data-level="4.1.2" data-path="applications.html"><a href="applications.html#web-interactive-tools"><i class="fa fa-check"></i><b>4.1.2</b> Web interactive tools</a></li>
+<li class="chapter" data-level="4" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>4</b> Simulation</a><ul>
+<li class="chapter" data-level="4.1" data-path="simulation.html"><a href="simulation.html#wishart-distribution"><i class="fa fa-check"></i><b>4.1</b> Wishart distribution</a></li>
+<li class="chapter" data-level="4.2" data-path="simulation.html"><a href="simulation.html#tracy-widom-distribution"><i class="fa fa-check"></i><b>4.2</b> Tracy-Widom distribution</a></li>
+<li class="chapter" data-level="4.3" data-path="simulation.html"><a href="simulation.html#eigenspace-projection-and-f_st"><i class="fa fa-check"></i><b>4.3</b> Eigenspace projection and <span class="math inline">\(F_{st}\)</span></a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="applications.html"><a href="applications.html#examples"><i class="fa fa-check"></i><b>4.2</b> Examples</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="applications.html"><a href="applications.html#arabdiopsis"><i class="fa fa-check"></i><b>4.2.1</b> Arabdiopsis</a></li>
-<li class="chapter" data-level="4.2.2" data-path="applications.html"><a href="applications.html#als"><i class="fa fa-check"></i><b>4.2.2</b> ALS</a></li>
-<li class="chapter" data-level="4.2.3" data-path="applications.html"><a href="applications.html#gf"><i class="fa fa-check"></i><b>4.2.3</b> GF</a></li>
-<li class="chapter" data-level="4.2.4" data-path="applications.html"><a href="applications.html#uk-birds"><i class="fa fa-check"></i><b>4.2.4</b> UK birds</a></li>
-<li class="chapter" data-level="4.2.5" data-path="applications.html"><a href="applications.html#darwins-finches"><i class="fa fa-check"></i><b>4.2.5</b> Darwin’s finches</a></li>
-<li class="chapter" data-level="4.2.6" data-path="applications.html"><a href="applications.html#maize-li-hh"><i class="fa fa-check"></i><b>4.2.6</b> Maize (Li HH)</a></li>
-<li class="chapter" data-level="4.2.7" data-path="applications.html"><a href="applications.html#k-rice"><i class="fa fa-check"></i><b>4.2.7</b> 3K rice</a></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#analysis-pipeline"><i class="fa fa-check"></i><b>5.1</b> Analysis pipeline</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="applications.html"><a href="applications.html#commandline-protocol"><i class="fa fa-check"></i><b>5.1.1</b> Commandline protocol</a></li>
+<li class="chapter" data-level="5.1.2" data-path="applications.html"><a href="applications.html#web-interactive-tools"><i class="fa fa-check"></i><b>5.1.2</b> Web interactive tools</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="applications.html"><a href="applications.html#sea-volumn-data-neo"><i class="fa fa-check"></i><b>4.3</b> Sea volumn data (NEO)</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#examples"><i class="fa fa-check"></i><b>5.2</b> Examples</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="applications.html"><a href="applications.html#arabdiopsis"><i class="fa fa-check"></i><b>5.2.1</b> Arabdiopsis</a></li>
+<li class="chapter" data-level="5.2.2" data-path="applications.html"><a href="applications.html#als"><i class="fa fa-check"></i><b>5.2.2</b> ALS</a></li>
+<li class="chapter" data-level="5.2.3" data-path="applications.html"><a href="applications.html#gf"><i class="fa fa-check"></i><b>5.2.3</b> GF</a></li>
+<li class="chapter" data-level="5.2.4" data-path="applications.html"><a href="applications.html#uk-birds"><i class="fa fa-check"></i><b>5.2.4</b> UK birds</a></li>
+<li class="chapter" data-level="5.2.5" data-path="applications.html"><a href="applications.html#darwins-finches"><i class="fa fa-check"></i><b>5.2.5</b> Darwin’s finches</a></li>
+<li class="chapter" data-level="5.2.6" data-path="applications.html"><a href="applications.html#maize-li-hh"><i class="fa fa-check"></i><b>5.2.6</b> Maize (Li HH)</a></li>
+<li class="chapter" data-level="5.2.7" data-path="applications.html"><a href="applications.html#k-rice"><i class="fa fa-check"></i><b>5.2.7</b> 3K rice</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="meta-research.html"><a href="meta-research.html"><i class="fa fa-check"></i><b>5</b> Meta-research</a><ul>
-<li class="chapter" data-level="5.1" data-path="meta-research.html"><a href="meta-research.html#n_e"><i class="fa fa-check"></i><b>5.1</b> <span class="math inline">\(n_e\)</span></a></li>
-<li class="chapter" data-level="5.2" data-path="meta-research.html"><a href="meta-research.html#m_e"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(m_e\)</span></a></li>
+<li class="chapter" data-level="5.3" data-path="applications.html"><a href="applications.html#sea-volumn-data-neo"><i class="fa fa-check"></i><b>5.3</b> Sea volumn data (NEO)</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a><ul>
-<li class="chapter" data-level="6.1" data-path="conclusion.html"><a href="conclusion.html#statistical-power"><i class="fa fa-check"></i><b>6.1</b> Statistical power</a></li>
-<li class="chapter" data-level="6.2" data-path="conclusion.html"><a href="conclusion.html#selection-pattern"><i class="fa fa-check"></i><b>6.2</b> Selection pattern</a></li>
+<li class="chapter" data-level="6" data-path="meta-research.html"><a href="meta-research.html"><i class="fa fa-check"></i><b>6</b> Meta-research</a><ul>
+<li class="chapter" data-level="6.1" data-path="meta-research.html"><a href="meta-research.html#n_e"><i class="fa fa-check"></i><b>6.1</b> <span class="math inline">\(n_e\)</span></a></li>
+<li class="chapter" data-level="6.2" data-path="meta-research.html"><a href="meta-research.html#m_e"><i class="fa fa-check"></i><b>6.2</b> <span class="math inline">\(m_e\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a><ul>
+<li class="chapter" data-level="7.1" data-path="conclusion.html"><a href="conclusion.html#statistical-power"><i class="fa fa-check"></i><b>7.1</b> Statistical power</a></li>
+<li class="chapter" data-level="7.2" data-path="conclusion.html"><a href="conclusion.html#selection-pattern"><i class="fa fa-check"></i><b>7.2</b> Selection pattern</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -306,7 +309,7 @@ Bonferroni correction, such as <span class="math inline">\(\alpha/m\)</span>, ca
         </div>
       </div>
 
-<a href="simulation.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="protocols.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
