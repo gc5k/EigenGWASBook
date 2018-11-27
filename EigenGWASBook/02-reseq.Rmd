@@ -1,0 +1,13 @@
+# Resequencing studies
+
+This is a technical review for resequencing studies.
+
+## Technical review
+
+### NGS
+
+### Chip data
+
+### GBS
+
+## Drop HWE test

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>EigenGWAS theory and application</title>
+  <meta name="description" content="EigenGWAS Prerequisites.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="EigenGWAS theory and application" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="EigenGWAS Prerequisites." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="EigenGWAS theory and application" />
+  
+  <meta name="twitter:description" content="EigenGWAS Prerequisites." />
+  
+
+<meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
+
+
+<meta name="date" content="2018-11-27">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+
+<link rel="next" href="simulation.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">EigenGWAS core</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> EigenGWAS basis</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#genetic-relatedness-matrix-mathbfg"><i class="fa fa-check"></i><b>1.1</b> Genetic relatedness matrix <span class="math inline">\(\mathbf{G}\)</span></a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#statistical-properties-of-mathbfg"><i class="fa fa-check"></i><b>1.1.1</b> Statistical properties of <span class="math inline">\(\mathbf{G}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#eigengwas-analysis"><i class="fa fa-check"></i><b>1.2</b> EigenGWAS analysis</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#population-structure-lambda_gc"><i class="fa fa-check"></i><b>1.2.1</b> Population structure <span class="math inline">\(\lambda_{GC}\)</span></a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#threshold-for-eigengwas"><i class="fa fa-check"></i><b>1.2.2</b> Threshold for EigenGWAS</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#connection-to-svd"><i class="fa fa-check"></i><b>1.3</b> Connection to SVD</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#intepretation"><i class="fa fa-check"></i><b>1.4</b> Intepretation</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>2</b> Simulation</a><ul>
+<li class="chapter" data-level="2.1" data-path="simulation.html"><a href="simulation.html#wishart-distribution"><i class="fa fa-check"></i><b>2.1</b> Wishart distribution</a></li>
+<li class="chapter" data-level="2.2" data-path="simulation.html"><a href="simulation.html#tracy-widom-distribution"><i class="fa fa-check"></i><b>2.2</b> Tracy-Widom distribution</a></li>
+<li class="chapter" data-level="2.3" data-path="simulation.html"><a href="simulation.html#eigenspace-projection-and-f_st"><i class="fa fa-check"></i><b>2.3</b> Eigenspace projection and <span class="math inline">\(F_{st}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="resequencing-studies.html"><a href="resequencing-studies.html"><i class="fa fa-check"></i><b>3</b> Resequencing studies</a><ul>
+<li class="chapter" data-level="3.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#technical-review"><i class="fa fa-check"></i><b>3.1</b> Technical review</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#ngs"><i class="fa fa-check"></i><b>3.1.1</b> NGS</a></li>
+<li class="chapter" data-level="3.1.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#chip-data"><i class="fa fa-check"></i><b>3.1.2</b> Chip data</a></li>
+<li class="chapter" data-level="3.1.3" data-path="resequencing-studies.html"><a href="resequencing-studies.html#gbs"><i class="fa fa-check"></i><b>3.1.3</b> GBS</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#drop-hwe-test"><i class="fa fa-check"></i><b>3.2</b> Drop HWE test</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>4</b> Applications</a><ul>
+<li class="chapter" data-level="4.1" data-path="applications.html"><a href="applications.html#analysis-pipeline"><i class="fa fa-check"></i><b>4.1</b> Analysis pipeline</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="applications.html"><a href="applications.html#commandline-protocol"><i class="fa fa-check"></i><b>4.1.1</b> Commandline protocol</a></li>
+<li class="chapter" data-level="4.1.2" data-path="applications.html"><a href="applications.html#web-interactive-tools"><i class="fa fa-check"></i><b>4.1.2</b> Web interactive tools</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="applications.html"><a href="applications.html#examples"><i class="fa fa-check"></i><b>4.2</b> Examples</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="applications.html"><a href="applications.html#arabdiopsis"><i class="fa fa-check"></i><b>4.2.1</b> Arabdiopsis</a></li>
+<li class="chapter" data-level="4.2.2" data-path="applications.html"><a href="applications.html#als"><i class="fa fa-check"></i><b>4.2.2</b> ALS</a></li>
+<li class="chapter" data-level="4.2.3" data-path="applications.html"><a href="applications.html#gf"><i class="fa fa-check"></i><b>4.2.3</b> GF</a></li>
+<li class="chapter" data-level="4.2.4" data-path="applications.html"><a href="applications.html#uk-birds"><i class="fa fa-check"></i><b>4.2.4</b> UK birds</a></li>
+<li class="chapter" data-level="4.2.5" data-path="applications.html"><a href="applications.html#darwins-finches"><i class="fa fa-check"></i><b>4.2.5</b> Darwin’s finches</a></li>
+<li class="chapter" data-level="4.2.6" data-path="applications.html"><a href="applications.html#maize-li-hh"><i class="fa fa-check"></i><b>4.2.6</b> Maize (Li HH)</a></li>
+<li class="chapter" data-level="4.2.7" data-path="applications.html"><a href="applications.html#k-rice"><i class="fa fa-check"></i><b>4.2.7</b> 3K rice</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="applications.html"><a href="applications.html#sea-volumn-data-neo"><i class="fa fa-check"></i><b>4.3</b> Sea volumn data (NEO)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="meta-research.html"><a href="meta-research.html"><i class="fa fa-check"></i><b>5</b> Meta-research</a><ul>
+<li class="chapter" data-level="5.1" data-path="meta-research.html"><a href="meta-research.html#n_e"><i class="fa fa-check"></i><b>5.1</b> <span class="math inline">\(n_e\)</span></a></li>
+<li class="chapter" data-level="5.2" data-path="meta-research.html"><a href="meta-research.html#m_e"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(m_e\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a><ul>
+<li class="chapter" data-level="6.1" data-path="conclusion.html"><a href="conclusion.html#statistical-power"><i class="fa fa-check"></i><b>6.1</b> Statistical power</a></li>
+<li class="chapter" data-level="6.2" data-path="conclusion.html"><a href="conclusion.html#selection-pattern"><i class="fa fa-check"></i><b>6.2</b> Selection pattern</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://gc5k.github.io" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">EigenGWAS theory and application</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">EigenGWAS theory and application</h1>
+<p class="author"><em>Guo-Bo Chen [<a href="mailto:chen.guobo@foxmail.com" class="email">chen.guobo@foxmail.com</a>]</em></p>
+<p class="date"><em>2018-11-27</em></p>
+</div>
+<div id="eigengwas-basis" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> EigenGWAS basis</h1>
+<p>This project is dedicated to EigenGWAS, a linear model analysis approach for eigenvectors on genomic data, which can be represented as <span class="math inline">\(\mathbf{X}\)</span> the <span class="math inline">\(n \times m\)</span> genotype matrix. Without loss of generality, <span class="math inline">\(x_j\)</span> for the <span class="math inline">\(i^{th}\)</span> locus is a biallic locus. The data matrix <span class="math inline">\(\mathbf{X}\)</span> can be generated from genotyping chips, NGS, or GBS.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2018</span>)
+freq=<span class="kw">runif</span>(<span class="dv">1000</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>)
+X=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="kw">length</span>(freq))
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(freq)) {
+  X[,i]=<span class="kw">rbinom</span>(<span class="kw">nrow</span>(X), <span class="dv">2</span>, freq[i])
+
+}
+<span class="kw">print</span>(<span class="kw">dim</span>(X))
+<span class="co">## [1]  100 1000</span>
+<span class="kw">plot</span>(freq, <span class="kw">colMeans</span>(X)<span class="op">/</span><span class="dv">2</span>, <span class="dt">xlab=</span><span class="st">&quot;Simulated frequency&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Estimated frequency&quot;</span>, <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>)
+<span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>, <span class="dt">b=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/x-1.png" width="672" /></p>
+<div id="genetic-relatedness-matrix-mathbfg" class="section level2">
+<h2><span class="header-section-number">1.1</span> Genetic relatedness matrix <span class="math inline">\(\mathbf{G}\)</span></h2>
+<p>We can construct the <span class="math inline">\(n\times\)</span> genetic relatedness matrix as
+<span class="math inline">\(\mathbf{X}\)</span> the <span class="math inline">\(n\times m\)</span> genotype matrix. We can construct the <span class="math inline">\(n\times\)</span> genetic relatedness matrix as</p>
+<p><span class="math display">\[\mathbf{G}=\tilde{\mathbf{X}}\tilde{\mathbf{X}}^T\]</span>
+in which <span class="math inline">\(\tilde{\mathbf{X}}\)</span> is the scaled form of <span class="math inline">\(\mathbf{X}\)</span>
+However, upon the mating type of the species, <span class="math inline">\(\mathbf{G}\)</span> should be constructly differently. For a random mating population, <span class="math inline">\(x_l\)</span> is scaled as <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}\)</span>, whereas for inbred population, <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}\)</span>. <span class="math inline">\(q_l\)</span> equals <span class="math inline">\(1-p_l\)</span>.</p>
+<p>So for a pair of individuals <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>,
+<span class="math display">\[G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_iq_i}\]</span>
+in which <span class="math inline">\(\tilde{m}\)</span> is the number of genotyped loci at both individal <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, and <span class="math inline">\(F\)</span> the inbreeding coefficient takes value of 0 for random mating population and 1 for inbred population.</p>
+<div id="statistical-properties-of-mathbfg" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Statistical properties of <span class="math inline">\(\mathbf{G}\)</span></h3>
+<p>Given <span class="math inline">\(\mathbf{G}\)</span>, we can define two population parameters, <span class="math inline">\(n_e\)</span>, the effective population size, and <span class="math inline">\(m_e\)</span>, the effective number of markers.</p>
+<p>Let <span class="math inline">\(\mathbf{G}_o\)</span> denote the off diagonal elements of <span class="math inline">\(\mathbf{G}\)</span>, then we have
+<span class="math display">\[n_e=\frac{-1}{mean(\mathbf{G}_o)}\]</span>
+<span class="math inline">\(n_e\)</span> reflects true relatedness between any pair of samples;</p>
+<p><span class="math display">\[m_e=\frac{1}{Var(\mathbf{G}_o)}\]</span>
+The ratio between <span class="math inline">\(\frac{m_e}{m}\)</span> reflects general linkage disequilibrium between the markers. Alternatively, <span class="math inline">\(m_e\)</span> can be written as <span class="math display">\[m_e=\frac{\sum_{i=1}^m\sum_{j=1}^m\rho_{ij}}{m^2}\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">Xs=<span class="kw">apply</span>(X, <span class="dv">2</span>, scale)
+G=Xs <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(Xs)<span class="op">/</span><span class="kw">ncol</span>(X)
+Ne=<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="kw">mean</span>(G[<span class="kw">col</span>(G)<span class="op">&lt;</span><span class="kw">row</span>(G)])
+Me=<span class="dv">1</span><span class="op">/</span><span class="kw">var</span>(G[<span class="kw">col</span>(G)<span class="op">&lt;</span><span class="kw">row</span>(G)])
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Ne=&quot;</span>, Ne, <span class="st">&quot;Me=&quot;</span>, Me, <span class="st">&quot;given N=&quot;</span>, <span class="kw">nrow</span>(Xs), <span class="st">&quot;and M=&quot;</span>, <span class="kw">ncol</span>(Xs)))
+<span class="co">## [1] &quot;Ne= 100 Me= 1080.91076380488 given N= 100 and M= 1000&quot;</span>
+<span class="kw">hist</span>(G[<span class="kw">col</span>(G)<span class="op">&lt;</span><span class="kw">row</span>(G)], <span class="dt">main=</span><span class="st">&quot;GRM&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Relatedness&quot;</span>, <span class="dt">breaks =</span> <span class="dv">25</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;Ne=&quot;</span>, <span class="kw">format</span>(Ne, <span class="dt">digits =</span> <span class="dv">2</span>)), <span class="kw">paste0</span>(<span class="st">&quot;Me=&quot;</span>, <span class="kw">format</span>(Me, <span class="dt">digits =</span> <span class="dv">2</span>)) ), <span class="dt">bty =</span> <span class="st">&#39;n&#39;</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/G-1.png" width="672" /></p>
+</div>
+</div>
+<div id="eigengwas-analysis" class="section level2">
+<h2><span class="header-section-number">1.2</span> EigenGWAS analysis</h2>
+<p>Given eigenanalysis of <span class="math inline">\(\mathbf{X}\)</span>, we have <span class="math inline">\(\mathbf{E\Lambda E}\)</span>, in which <span class="math inline">\(\mathbf{\Lambda}\)</span> is the diagonal matrix for eigenvalues and <span class="math inline">\(\mathbf{E}_k\)</span> is the eigenvector associated with the <span class="math inline">\(k^{th}\)</span> largest eigenvalue, and regress <span class="math inline">\(\mathbf{E}_k\)</span>, the <span class="math inline">\(k^{th}\)</span> column, on each marker, we have the model below</p>
+<p><span class="math display">\[\mathbf{E}_k=a+\beta_j\mathbf{x}_i+e\]</span></p>
+<p>It consequently generates <span class="math inline">\(m\)</span> estimates of <span class="math inline">\(\beta\)</span>, <span class="math inline">\(\sigma_j\)</span>, and their corresponding <span class="math inline">\(p\)</span> values. Given the <span class="math inline">\(m\)</span> <span class="math inline">\(p\)</span> values, the conventional
+Manhattan plot can be made.</p>
+<p>In particular, the one-degree-of-freedom <span class="math inline">\(\chi^2_1\)</span> has approximation as <span class="math inline">\(4\frac{\color{red} {n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{\bar{p_l}\bar{q_l}}\)</span>. <span class="math inline">\(\color{red}{n_1}\)</span> and <span class="math inline">\(\color{blue}{n_2}\)</span> are the numbers of samples at the left and right side of “0” on the eigenvector, see the figure below. <span class="math inline">\(\color{red}{p_{1,l}}\)</span> and <span class="math inline">\(\color{blue}{p_{2,l}}\)</span> are frequencies of the reference allele in two subgroups, respectively. <span class="math inline">\(\bar{p_l}\)</span> is the allele frequency of the reference allele.</p>
+<pre class="sourceCode r"><code class="sourceCode r">eigenG=<span class="kw">eigen</span>(G)
+<span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">barplot</span>(eigenG<span class="op">$</span>values, <span class="dt">main=</span><span class="st">&quot;Eigenvalues&quot;</span>)
+<span class="kw">plot</span>(eigenG<span class="op">$</span>vectors[,<span class="dv">1</span>], eigenG<span class="op">$</span>vectors[,<span class="dv">2</span>], <span class="dt">xlab=</span><span class="st">&quot;Eigen 1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Eigen 2&quot;</span>, <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>, <span class="dt">main=</span><span class="st">&quot;Eigenspace&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>, <span class="dt">col=</span><span class="kw">ifelse</span>(eigenG<span class="op">$</span>vectors[,<span class="dv">1</span>]<span class="op">&gt;</span><span class="dv">0</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))
+<span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/eigen-1.png" width="672" /></p>
+<div id="population-structure-lambda_gc" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Population structure <span class="math inline">\(\lambda_{GC}\)</span></h3>
+<p>We can define <span class="math inline">\(\lambda_{GC}=\chi^2_{1,median(p)}/\chi^2_{1,0.5}\)</span>, in which <span class="math inline">\(\chi^2_{1,0.5}=0.455\)</span>. We further use subscript <span class="math inline">\(k\)</span> to denote <span class="math inline">\(\lambda_{GC_k}\)</span> the one that is estimated from <span class="math inline">\(\mathbf{E}_k\)</span>.</p>
+<p>When the population structure is completely driven by genetic drift, <span class="math inline">\(\lambda_{GC_k} \approx \Lambda_k\)</span>.</p>
+<p>After technical correction, correspondingly <span class="math inline">\(\tilde\chi^2_1=\chi^2_1/\lambda_{GC}\)</span>, a reduce of the test statistic compared to its original form.</p>
+<pre class="sourceCode r"><code class="sourceCode r">Chi=<span class="kw">rchisq</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="dt">ncp=</span><span class="fl">0.2</span>)
+<span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">qqplot</span>(<span class="dt">main=</span><span class="st">&quot;Raw&quot;</span>, <span class="kw">rchisq</span>(<span class="dv">1000</span>,<span class="dv">1</span>), Chi, <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>, <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Theoretical &quot;</span>,chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">ylab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Observed &quot;</span>,chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>)
+<span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>, <span class="dt">b=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)
+gc=<span class="kw">median</span>(Chi)<span class="op">/</span><span class="kw">qchisq</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)
+ChiGC=Chi<span class="op">/</span>gc
+<span class="kw">qqplot</span>(<span class="dt">main=</span><span class="st">&quot;After correction&quot;</span>, <span class="kw">rchisq</span>(<span class="dv">1000</span>,<span class="dv">1</span>), ChiGC, <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>, <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Theoretical &quot;</span>,chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">ylab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Observed &quot;</span>,chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>)
+<span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>, <span class="dt">b=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/gc-1.png" width="672" /></p>
+</div>
+<div id="threshold-for-eigengwas" class="section level3">
+<h3><span class="header-section-number">1.2.2</span> Threshold for EigenGWAS</h3>
+<p>As shown above, EigenGWAS
+Bonferroni correction, such as <span class="math inline">\(\alpha/m\)</span>, can be used to set the threshold at the significance level <span class="math inline">\(\alpha\)</span>, such as <span class="math inline">\(\alpha=0.05\)</span>.</p>
+</div>
+</div>
+<div id="connection-to-svd" class="section level2">
+<h2><span class="header-section-number">1.3</span> Connection to SVD</h2>
+<p>SVD of <span class="math inline">\(\mathbf{X}=\mathbf{U\Lambda V}\)</span>, the EigenGWAS model can be written as <span class="math inline">\(\mathbf{V}_k=\frac{\mathbf{XU}_k}{\Lambda_k}\)</span>. However, in this transformation, eigenvalue is involved, as would be show. It will reduce the statistical power for EigenGWAS.</p>
+</div>
+<div id="intepretation" class="section level2">
+<h2><span class="header-section-number">1.4</span> Intepretation</h2>
+<p>The EigenGWAS model resembles the Newtown’s first and the second law for classical mechanics. The first law states that</p>
+<blockquote>
+<p>In an inertial frame of reference, an object either remains at rest or continues to move at a constant velocity, unless acted upon by a force.</p>
+</blockquote>
+<p>Analogously, in population genetics, it can be seemed as genetic drift that is constantly driving the a pair of population apart from each other, and its velocity can be quantified by a binomial distribution as <span class="math inline">\(\frac{pq}{\tilde{n}_e}\)</span>.</p>
+<blockquote>
+<p>In an inertial frame of reference, the vector sum of the forces <span class="math inline">\(F\)</span> on an object is equal to the mass m of that object multiplied by the acceleration a of the object: <span class="math inline">\(F = ma\)</span>.</p>
+</blockquote>
+<p>Analogously, the selection can drive a genomic region run against its reference population at a velocity greater than <span class="math inline">\(\frac{pq}{\tilde{n}_e}\)</span>.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="simulation.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["EigenGWAS.pdf", "EigenGWAS.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
