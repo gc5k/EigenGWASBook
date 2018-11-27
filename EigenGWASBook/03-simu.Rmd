@@ -1,7 +1,20 @@
-# Simulation
+# Simulating population structure
 
-## Wishart distribution
+[Details](http://rpubs.com/gc5k/EigenGWAScore)
+
+## Genetic drift
+As each locus follows binomial distribution, the **genetic drift** can be modelled $\frac{\sqrt{pq}}{2n_e}$, in which $n_e$ is the effective population size.
+
+## Three pop
+
+## Six pop
+
+## Wishart distribution simulation
+
+## Distribution of the Wishart diagonal elements
+
+## Homo cohort
+
+## Heterogeneous cohort
 
 ## Tracy-Widom distribution
-
-## Eigenspace projection and $F_{st}$

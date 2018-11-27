@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="data-analysis.html">
-<link rel="next" href="conclusion.html">
+<link rel="prev" href="index.html">
+<link rel="next" href="resequencing-studies.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -224,14 +224,118 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="meta-research" class="section level1">
-<h1><span class="header-section-number">Chapter 7</span> Meta-research</h1>
-<p>Meta-research</p>
-<div id="n_e" class="section level2">
-<h2><span class="header-section-number">7.1</span> <span class="math inline">\(n_e\)</span></h2>
+<div id="protocol" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Protocol</h1>
+<div id="protocols-for-selection" class="section level2">
+<h2><span class="header-section-number">2.1</span> Protocols for selection</h2>
+<ol style="list-style-type: decimal">
+<li><p>Constructing genetic relationship matrix <span class="math inline">\(\mathbf{G}\)</span>. The difference between a random mating population and inbred population is the way <span class="math inline">\(\mathbf{G}\)</span> is constructed. So for a pair of individuals <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>,
+<span class="math display">\[G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_iq_i}\]</span>
+and <span class="math inline">\(F=1\)</span> for inbred lines.</p></li>
+<li><p>Conducting eigenanalysis for <span class="math inline">\(\mathbf{G}\)</span>.</p></li>
+<li><p>Linear regression analysis for each SNP.</p></li>
+</ol>
+<div id="rscript-pipeline-for-random-mating-population" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Rscript pipeline for random mating population</h3>
+<pre class="sourceCode r"><code class="sourceCode r">plink2=<span class="st">&#39;/Users/gc5k/bin/plink_mac/plink&#39;</span>
+dat=<span class="st">&quot;./data/euro/euro&quot;</span>
+
+<span class="co">#make-grm</span>
+grmCmd=<span class="kw">paste</span>(plink2, <span class="st">&quot;--bfile &quot;</span>, dat, <span class="st">&quot;--make-grm-gz --out &quot;</span>, dat)
+<span class="kw">system</span>(grmCmd)
+
+gz=<span class="kw">gzfile</span>(<span class="kw">paste0</span>(dat, <span class="st">&quot;.grm.gz&quot;</span>))
+grm=<span class="kw">read.table</span>(gz, <span class="dt">as.is =</span> T)
+Ne=<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="kw">mean</span>(grm[grm[,<span class="dv">1</span>]<span class="op">!=</span>grm[,<span class="dv">2</span>], <span class="dv">4</span>])
+Me=<span class="dv">1</span><span class="op">/</span><span class="kw">var</span>(grm[grm[,<span class="dv">1</span>]<span class="op">!=</span>grm[,<span class="dv">2</span>], <span class="dv">4</span>])
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Ne=&quot;</span>, <span class="kw">format</span>(Ne, <span class="dt">digits =</span> <span class="dv">2</span>), <span class="st">&quot;Me=&quot;</span>, <span class="kw">format</span>(Me, <span class="dt">digits =</span> <span class="dv">2</span>)))
+<span class="co">## [1] &quot;Ne= 199 Me= 21870&quot;</span>
+
+<span class="co">#pca</span>
+pcaCmd=<span class="kw">paste</span>(plink2, <span class="st">&quot;--bfile &quot;</span>, dat, <span class="st">&quot;--pca 5 --out &quot;</span>, dat)
+<span class="kw">system</span>(pcaCmd)
+<span class="kw">barplot</span>(<span class="kw">read.table</span>(<span class="kw">paste0</span>(dat, <span class="st">&quot;.eigenval&quot;</span>), <span class="dt">as.is =</span> T)[,<span class="dv">1</span>]<span class="op">/</span><span class="dv">2</span>, <span class="dt">border =</span> F)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/euro-demo-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">
+pc=<span class="kw">read.table</span>(<span class="kw">paste0</span>(dat, <span class="st">&quot;.eigenvec&quot;</span>), <span class="dt">as.is =</span> T)
+<span class="kw">plot</span>(pc[,<span class="dv">3</span>], pc[,<span class="dv">4</span>], <span class="dt">xlab=</span><span class="st">&quot;Eigenvector 1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Eigenvector 2&quot;</span>, <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Eigenspace&quot;</span>, <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>, <span class="dt">col=</span><span class="kw">ifelse</span>(pc[,<span class="dv">3</span>]<span class="op">&gt;</span><span class="dv">0</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/euro-demo-2.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#make-grm</span>
+<span class="kw">source</span>(<span class="st">&quot;~/R/MyLib/manhattan.R&quot;</span>)
+liCmd=<span class="kw">paste0</span>(plink2, <span class="st">&quot; --linear --bfile &quot;</span>, dat, <span class="st">&quot; --pheno &quot;</span>, dat, <span class="st">&quot;.eigenvec --out &quot;</span>, dat)
+<span class="kw">system</span>(liCmd)
+
+<span class="co">#plot</span>
+EigenRes=<span class="kw">read.table</span>(<span class="kw">paste0</span>(dat, <span class="st">&quot;.assoc.linear&quot;</span>), <span class="dt">as.is =</span> T, <span class="dt">header =</span> T)
+EigenRes<span class="op">$</span>Praw=EigenRes<span class="op">$</span>P
+gc=<span class="kw">qchisq</span>(<span class="kw">median</span>(EigenRes<span class="op">$</span>P), <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)<span class="op">/</span><span class="kw">qchisq</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;GC = &quot;</span>, <span class="kw">format</span>(gc, <span class="dt">digits =</span> <span class="dv">4</span>)))
+<span class="co">## [1] &quot;GC =  1.692&quot;</span>
+EigenRes<span class="op">$</span>P=<span class="kw">pchisq</span>(<span class="kw">qchisq</span>(EigenRes<span class="op">$</span>Praw, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)<span class="op">/</span>gc, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)
+<span class="kw">manhattan</span>(EigenRes, <span class="dt">title=</span><span class="st">&quot;EigenGWAS 1&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.3</span>, <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/euro-demo-3.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">
+<span class="co">#QQplot</span>
+chiseq=<span class="kw">rchisq</span>(<span class="kw">nrow</span>(EigenRes), <span class="dv">1</span>)
+<span class="kw">qqplot</span>(chiseq, <span class="kw">qchisq</span>(EigenRes<span class="op">$</span>Praw, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F), <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Theoretical &quot;</span>, chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">ylab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Observed &quot;</span>, chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>)
+<span class="kw">points</span>(<span class="kw">sort</span>(chiseq), <span class="kw">sort</span>(<span class="kw">qchisq</span>(EigenRes<span class="op">$</span>P, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)), <span class="dt">col=</span><span class="st">&quot;black&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Raw&quot;</span>, <span class="st">&quot;GC correction&quot;</span>), <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;grey&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>)
+<span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>, <span class="dt">b=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/euro-demo-4.png" width="672" /></p>
 </div>
-<div id="m_e" class="section level2">
-<h2><span class="header-section-number">7.2</span> <span class="math inline">\(m_e\)</span></h2>
+<div id="rscript-pipeline-for-inbred-population" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> Rscript pipeline for inbred population</h3>
+<pre class="sourceCode r"><code class="sourceCode r">plink2=<span class="st">&#39;/Users/gc5k/bin/plink_mac/plink&#39;</span>
+dat=<span class="st">&quot;./data/arab/arab&quot;</span>
+
+<span class="co">#make-grm</span>
+grmCmd=<span class="kw">paste</span>(plink2, <span class="st">&quot;--bfile &quot;</span>, dat, <span class="st">&quot;--make-grm-gz --out &quot;</span>, dat)
+<span class="kw">system</span>(grmCmd)
+
+gz=<span class="kw">gzfile</span>(<span class="kw">paste0</span>(dat, <span class="st">&quot;.grm.gz&quot;</span>))
+grm=<span class="kw">read.table</span>(gz, <span class="dt">as.is =</span> T)
+Ne=<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="kw">mean</span>(grm[grm[,<span class="dv">1</span>]<span class="op">!=</span>grm[,<span class="dv">2</span>], <span class="dv">4</span>]<span class="op">/</span><span class="dv">2</span>)
+Me=<span class="dv">1</span><span class="op">/</span><span class="kw">var</span>(grm[grm[,<span class="dv">1</span>]<span class="op">!=</span>grm[,<span class="dv">2</span>], <span class="dv">4</span>]<span class="op">/</span><span class="dv">2</span>)
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Ne=&quot;</span>, <span class="kw">format</span>(Ne, <span class="dt">digits =</span> <span class="dv">2</span>), <span class="st">&quot;Me=&quot;</span>, <span class="kw">format</span>(Me, <span class="dt">digits =</span> <span class="dv">2</span>)))
+<span class="co">## [1] &quot;Ne= 293 Me= 395&quot;</span>
+
+<span class="co">#pca</span>
+pcaCmd=<span class="kw">paste</span>(plink2, <span class="st">&quot;--bfile &quot;</span>, dat, <span class="st">&quot;--pca 5 --out &quot;</span>, dat)
+<span class="kw">system</span>(pcaCmd)
+<span class="kw">barplot</span>(<span class="kw">read.table</span>(<span class="kw">paste0</span>(dat, <span class="st">&quot;.eigenval&quot;</span>), <span class="dt">as.is =</span> T)[,<span class="dv">1</span>]<span class="op">/</span><span class="dv">2</span>, <span class="dt">border =</span> F)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/arab-demo-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">
+pc=<span class="kw">read.table</span>(<span class="kw">paste0</span>(dat, <span class="st">&quot;.eigenvec&quot;</span>), <span class="dt">as.is =</span> T)
+<span class="kw">plot</span>(pc[,<span class="dv">3</span>], pc[,<span class="dv">4</span>], <span class="dt">xlab=</span><span class="st">&quot;Eigenvector 1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Eigenvector 2&quot;</span>, <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Eigenspace&quot;</span>, <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>, <span class="dt">col=</span><span class="kw">ifelse</span>(pc[,<span class="dv">3</span>]<span class="op">&gt;</span><span class="dv">0</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/arab-demo-2.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#make-grm</span>
+<span class="kw">source</span>(<span class="st">&quot;~/R/MyLib/manhattan.R&quot;</span>)
+liCmd=<span class="kw">paste0</span>(plink2, <span class="st">&quot; --linear --bfile &quot;</span>, dat, <span class="st">&quot; --pheno &quot;</span>, dat, <span class="st">&quot;.eigenvec --out &quot;</span>, dat)
+<span class="kw">system</span>(liCmd)
+
+<span class="co">#plot</span>
+EigenRes=<span class="kw">read.table</span>(<span class="kw">paste0</span>(dat, <span class="st">&quot;.assoc.linear&quot;</span>), <span class="dt">as.is =</span> T, <span class="dt">header =</span> T)
+EigenRes<span class="op">$</span>Praw=EigenRes<span class="op">$</span>P
+gc=<span class="kw">qchisq</span>(<span class="kw">median</span>(EigenRes<span class="op">$</span>P), <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)<span class="op">/</span><span class="kw">qchisq</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;GC = &quot;</span>, <span class="kw">format</span>(gc, <span class="dt">digits =</span> <span class="dv">4</span>)))
+<span class="co">## [1] &quot;GC =  9.047&quot;</span>
+EigenRes<span class="op">$</span>P=<span class="kw">pchisq</span>(<span class="kw">qchisq</span>(EigenRes<span class="op">$</span>Praw, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)<span class="op">/</span>gc, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)
+<span class="kw">manhattan</span>(EigenRes, <span class="dt">title=</span><span class="st">&quot;EigenGWAS 1&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.3</span>, <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/arab-demo-3.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">
+<span class="co">#QQplot</span>
+chiseq=<span class="kw">rchisq</span>(<span class="kw">nrow</span>(EigenRes), <span class="dv">1</span>)
+<span class="kw">qqplot</span>(chiseq, <span class="kw">qchisq</span>(EigenRes<span class="op">$</span>Praw, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F), <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Theoretical &quot;</span>, chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">ylab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Observed &quot;</span>, chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>)
+<span class="kw">points</span>(<span class="kw">sort</span>(chiseq), <span class="kw">sort</span>(<span class="kw">qchisq</span>(EigenRes<span class="op">$</span>P, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)), <span class="dt">col=</span><span class="st">&quot;black&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Raw&quot;</span>, <span class="st">&quot;GC correction&quot;</span>), <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;grey&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>)
+<span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>, <span class="dt">b=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/arab-demo-4.png" width="672" /></p>
+</div>
+</div>
+<div id="protocol-for-predicted-eigenvectors" class="section level2">
+<h2><span class="header-section-number">2.2</span> Protocol for predicted eigenvectors</h2>
+<p>The prediction accuracy can be written as
+<span class="math display">\[R^2 \approx \frac{1}{1+\frac{n_e}{m}}\]</span></p>
 
 </div>
 </div>
@@ -240,8 +344,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="data-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="conclusion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="resequencing-studies.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

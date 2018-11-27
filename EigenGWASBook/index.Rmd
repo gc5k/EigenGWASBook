@@ -7,7 +7,7 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "EigenGWAS Prerequisites."
+description: "EigenGWAS Project."
 ---
 
 # EigenGWAS basis
@@ -70,7 +70,7 @@ $$\mathbf{E}_k=a+\beta_j\mathbf{x}_i+e$$
 It consequently generates $m$ estimates of $\beta$, $\sigma_j$, and their corresponding $p$ values. Given the $m$ $p$ values, the conventional 
 Manhattan plot can be made.
 
-In particular, the one-degree-of-freedom $\chi^2_1$ has approximation as $4\frac{\color{red} {n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{\bar{p_l}\bar{q_l}}$. $\color{red}{n_1}$ and $\color{blue}{n_2}$ are the numbers of samples at the left and right side of "0" on the eigenvector, see the figure below. $\color{red}{p_{1,l}}$ and $\color{blue}{p_{2,l}}$ are frequencies of the reference allele in two subgroups, respectively. $\bar{p_l}$ is the allele frequency of the reference allele.
+In particular, the one-degree-of-freedom $\chi^2_1$ has approximation as $$4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{\bar{p}_l\bar{q}_l}$$. $\color{red}{n_1}$ and $\color{blue}{n_2}$ are the numbers of samples at the left and right side of "0" on the eigenvector, see the figure below. $\color{red}{p_{1,l}}$ and $\color{blue}{p_{2,l}}$ are frequencies of the reference allele in two subgroups, respectively. $\bar{p_l}$ is the allele frequency of the reference allele.
 
 ```{r, eigen, collapse=TRUE}
 eigenG=eigen(G)

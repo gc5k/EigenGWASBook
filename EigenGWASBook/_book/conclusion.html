@@ -6,20 +6,20 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>EigenGWAS theory and application</title>
-  <meta name="description" content="EigenGWAS Prerequisites.">
+  <meta name="description" content="EigenGWAS Project.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
   <meta property="og:title" content="EigenGWAS theory and application" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="EigenGWAS Prerequisites." />
+  <meta property="og:description" content="EigenGWAS Project." />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="EigenGWAS theory and application" />
   
-  <meta name="twitter:description" content="EigenGWAS Prerequisites." />
+  <meta name="twitter:description" content="EigenGWAS Project." />
   
 
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
@@ -141,8 +141,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#connection-to-svd"><i class="fa fa-check"></i><b>1.3</b> Connection to SVD</a></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#intepretation"><i class="fa fa-check"></i><b>1.4</b> Intepretation</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="protocols.html"><a href="protocols.html"><i class="fa fa-check"></i><b>2</b> Protocols</a><ul>
-<li class="chapter" data-level="2.1" data-path="protocols.html"><a href="protocols.html#rscript-pipeline"><i class="fa fa-check"></i><b>2.1</b> Rscript pipeline</a></li>
+<li class="chapter" data-level="2" data-path="protocol.html"><a href="protocol.html"><i class="fa fa-check"></i><b>2</b> Protocol</a><ul>
+<li class="chapter" data-level="2.1" data-path="protocol.html"><a href="protocol.html#protocols-for-selection"><i class="fa fa-check"></i><b>2.1</b> Protocols for selection</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="protocol.html"><a href="protocol.html#rscript-pipeline-for-random-mating-population"><i class="fa fa-check"></i><b>2.1.1</b> Rscript pipeline for random mating population</a></li>
+<li class="chapter" data-level="2.1.2" data-path="protocol.html"><a href="protocol.html#rscript-pipeline-for-inbred-population"><i class="fa fa-check"></i><b>2.1.2</b> Rscript pipeline for inbred population</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="protocol.html"><a href="protocol.html#protocol-for-predicted-eigenvectors"><i class="fa fa-check"></i><b>2.2</b> Protocol for predicted eigenvectors</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="resequencing-studies.html"><a href="resequencing-studies.html"><i class="fa fa-check"></i><b>3</b> Resequencing studies</a><ul>
 <li class="chapter" data-level="3.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#technical-review"><i class="fa fa-check"></i><b>3.1</b> Technical review</a><ul>
@@ -152,10 +156,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#drop-hwe-test"><i class="fa fa-check"></i><b>3.2</b> Drop HWE test</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="simulation.html"><a href="simulation.html"><i class="fa fa-check"></i><b>4</b> Simulation</a><ul>
-<li class="chapter" data-level="4.1" data-path="simulation.html"><a href="simulation.html#wishart-distribution"><i class="fa fa-check"></i><b>4.1</b> Wishart distribution</a></li>
-<li class="chapter" data-level="4.2" data-path="simulation.html"><a href="simulation.html#tracy-widom-distribution"><i class="fa fa-check"></i><b>4.2</b> Tracy-Widom distribution</a></li>
-<li class="chapter" data-level="4.3" data-path="simulation.html"><a href="simulation.html#eigenspace-projection-and-f_st"><i class="fa fa-check"></i><b>4.3</b> Eigenspace projection and <span class="math inline">\(F_{st}\)</span></a></li>
+<li class="chapter" data-level="4" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html"><i class="fa fa-check"></i><b>4</b> Simulating population structure</a><ul>
+<li class="chapter" data-level="4.1" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#genetic-drift"><i class="fa fa-check"></i><b>4.1</b> Genetic drift</a></li>
+<li class="chapter" data-level="4.2" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#three-pop"><i class="fa fa-check"></i><b>4.2</b> Three pop</a></li>
+<li class="chapter" data-level="4.3" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#six-pop"><i class="fa fa-check"></i><b>4.3</b> Six pop</a></li>
+<li class="chapter" data-level="4.4" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#wishart-distribution-simulation"><i class="fa fa-check"></i><b>4.4</b> Wishart distribution simulation</a></li>
+<li class="chapter" data-level="4.5" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#distribution-of-the-wishart-diagonal-elements"><i class="fa fa-check"></i><b>4.5</b> Distribution of the Wishart diagonal elements</a></li>
+<li class="chapter" data-level="4.6" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#homo-cohort"><i class="fa fa-check"></i><b>4.6</b> Homo cohort</a></li>
+<li class="chapter" data-level="4.7" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#heterogeneous-cohort"><i class="fa fa-check"></i><b>4.7</b> Heterogeneous cohort</a></li>
+<li class="chapter" data-level="4.8" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#tracy-widom-distribution"><i class="fa fa-check"></i><b>4.8</b> Tracy-Widom distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
 <li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#analysis-pipeline"><i class="fa fa-check"></i><b>5.1</b> Analysis pipeline</a><ul>
@@ -173,13 +182,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="applications.html"><a href="applications.html#sea-volumn-data-neo"><i class="fa fa-check"></i><b>5.3</b> Sea volumn data (NEO)</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="meta-research.html"><a href="meta-research.html"><i class="fa fa-check"></i><b>6</b> Meta-research</a><ul>
-<li class="chapter" data-level="6.1" data-path="meta-research.html"><a href="meta-research.html#n_e"><i class="fa fa-check"></i><b>6.1</b> <span class="math inline">\(n_e\)</span></a></li>
-<li class="chapter" data-level="6.2" data-path="meta-research.html"><a href="meta-research.html#m_e"><i class="fa fa-check"></i><b>6.2</b> <span class="math inline">\(m_e\)</span></a></li>
+<li class="chapter" data-level="6" data-path="data-analysis.html"><a href="data-analysis.html"><i class="fa fa-check"></i><b>6</b> Data analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="data-analysis.html"><a href="data-analysis.html#on-site-examples"><i class="fa fa-check"></i><b>6.1</b> On site examples</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="data-analysis.html"><a href="data-analysis.html#arabdiopsis-1"><i class="fa fa-check"></i><b>6.1.1</b> Arabdiopsis</a></li>
+<li class="chapter" data-level="6.1.2" data-path="data-analysis.html"><a href="data-analysis.html#k-rice-1"><i class="fa fa-check"></i><b>6.1.2</b> 3K rice</a></li>
+<li class="chapter" data-level="6.1.3" data-path="data-analysis.html"><a href="data-analysis.html#als-1"><i class="fa fa-check"></i><b>6.1.3</b> ALS</a></li>
+<li class="chapter" data-level="6.1.4" data-path="data-analysis.html"><a href="data-analysis.html#gf-1"><i class="fa fa-check"></i><b>6.1.4</b> GF</a></li>
+<li class="chapter" data-level="6.1.5" data-path="data-analysis.html"><a href="data-analysis.html#uk-birds-1"><i class="fa fa-check"></i><b>6.1.5</b> UK birds</a></li>
+<li class="chapter" data-level="6.1.6" data-path="data-analysis.html"><a href="data-analysis.html#darwins-finches-1"><i class="fa fa-check"></i><b>6.1.6</b> Darwin’s finches</a></li>
+<li class="chapter" data-level="6.1.7" data-path="data-analysis.html"><a href="data-analysis.html#gbs-maize"><i class="fa fa-check"></i><b>6.1.7</b> GBS Maize</a></li>
+<li class="chapter" data-level="6.1.8" data-path="data-analysis.html"><a href="data-analysis.html#uk-biobank"><i class="fa fa-check"></i><b>6.1.8</b> UK Biobank</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a><ul>
-<li class="chapter" data-level="7.1" data-path="conclusion.html"><a href="conclusion.html#statistical-power"><i class="fa fa-check"></i><b>7.1</b> Statistical power</a></li>
-<li class="chapter" data-level="7.2" data-path="conclusion.html"><a href="conclusion.html#selection-pattern"><i class="fa fa-check"></i><b>7.2</b> Selection pattern</a></li>
+<li class="chapter" data-level="6.2" data-path="data-analysis.html"><a href="data-analysis.html#public-datahub-neo"><i class="fa fa-check"></i><b>6.2</b> Public datahub (NEO)</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="meta-research.html"><a href="meta-research.html"><i class="fa fa-check"></i><b>7</b> Meta-research</a><ul>
+<li class="chapter" data-level="7.1" data-path="meta-research.html"><a href="meta-research.html#n_e"><i class="fa fa-check"></i><b>7.1</b> <span class="math inline">\(n_e\)</span></a></li>
+<li class="chapter" data-level="7.2" data-path="meta-research.html"><a href="meta-research.html#m_e"><i class="fa fa-check"></i><b>7.2</b> <span class="math inline">\(m_e\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a><ul>
+<li class="chapter" data-level="8.1" data-path="conclusion.html"><a href="conclusion.html#statistical-power"><i class="fa fa-check"></i><b>8.1</b> Statistical power</a></li>
+<li class="chapter" data-level="8.2" data-path="conclusion.html"><a href="conclusion.html#selection-pattern"><i class="fa fa-check"></i><b>8.2</b> Selection pattern</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -203,12 +225,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="conclusion" class="section level1">
-<h1><span class="header-section-number">Chapter 7</span> Conclusion</h1>
+<h1><span class="header-section-number">Chapter 8</span> Conclusion</h1>
 <div id="statistical-power" class="section level2">
-<h2><span class="header-section-number">7.1</span> Statistical power</h2>
+<h2><span class="header-section-number">8.1</span> Statistical power</h2>
 </div>
 <div id="selection-pattern" class="section level2">
-<h2><span class="header-section-number">7.2</span> Selection pattern</h2>
+<h2><span class="header-section-number">8.2</span> Selection pattern</h2>
 
 </div>
 </div>
