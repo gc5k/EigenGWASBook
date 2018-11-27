@@ -1,7 +1,9 @@
-.Rproj.user
+.DS_store
+.Rprojuser
 .Rhistory
 .RData
 .Ruserdata
-.bed
-.bim
-.fam
+*.bed
+*.bim
+*.fam
+.Rproj.user
