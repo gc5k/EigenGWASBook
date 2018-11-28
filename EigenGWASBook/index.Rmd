@@ -10,7 +10,7 @@ link-citations: yes
 description: "EigenGWAS Project."
 ---
 
-# EigenGWAS basis
+# EigenGWAS basis {#basis}
 
 This project is dedicated to EigenGWAS, a linear model analysis approach for eigenvectors on genomic data, which can be represented as $\mathbf{X}$ the $n \times m$ genotype matrix. Without loss of generality, $x_j$ for the $i^{th}$ locus is a biallic locus. The data matrix $\mathbf{X}$ can be generated from genotyping chips, NGS, or GBS.
 

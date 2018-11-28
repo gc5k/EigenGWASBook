@@ -1,7 +1,7 @@
 ---
 title: "EigenGWAScore"
 author: "gc5k"
-date: "10/23/2018"
+date: "`r Sys.Date()`"
 output:
  html_document:
     theme: united

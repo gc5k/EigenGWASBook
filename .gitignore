@@ -3,9 +3,12 @@
 .Rhistory
 .RData
 .Ruserdata
-*.bed
-*.bim
-*.fam
+euro_10K.*
+!euro_10K.bed
+!euro_10K.bim
+!euro_10K.fam
 arab.*
-euro.*
+!arab.bed
+!arab.bim
+!arab.fam
 .Rproj.user

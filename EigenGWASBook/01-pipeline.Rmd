@@ -3,7 +3,7 @@
 ## Protocols for selection
 1. Constructing genetic relationship matrix $\mathbf{G}$. The difference between a random mating population and inbred population is the way $\mathbf{G}$ is constructed. So for a pair of individuals $i$ and $j$, 
 $$G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_iq_i}$$
-and $F=1$ for inbred lines.
+and $F=1$ for inbred lines. Please refer to Chapter \@basis.
 
 2. Conducting eigenanalysis for $\mathbf{G}$.
 
