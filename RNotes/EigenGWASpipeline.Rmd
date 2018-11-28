@@ -76,7 +76,7 @@ manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limit
 ```
 
 ## Random mating population
-Replace the plink with your own path. Using HapMap CEU (northwest European) vs TSI (south Europeans) as example.
+Replace the plink with your own path. Using HapMap CEU (northwest European) vs TSI (south Europeans) as example. The data can be found [here](https://github.com/gc5k/EigenGWASRDoc/tree/master/data/euro).
 ```{r, euro-demo, collapse=TRUE}
 plink2='/Users/gc5k/bin/plink_mac/plink' #replace it with your own path
 dat="../data/euro/euro_10K"
@@ -124,7 +124,7 @@ abline(a=0, b=1, col="red", lty=2)
 ```
 
 ## Inbred population
-Replace the plink with your own path.
+Replace the plink with your own path. The Arabidopsis data can be found [here](https://github.com/gc5k/EigenGWASRDoc/tree/master/data/arab).
 ```{r, arab-demo, collapse=TRUE}
 plink2='/Users/gc5k/bin/plink_mac/plink' #replace it with your own path
 dat="../data/arab/arab"
