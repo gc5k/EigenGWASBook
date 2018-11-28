@@ -1,0 +1,339 @@
+---
+title: "EigenGWAScore"
+author: "gc5k"
+date: "10/23/2018"
+output:
+ html_document:
+    theme: united
+    highlight: tango
+    code_folding: hide
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Table of contents {.tabset .tabset-fade .tabset-pills}
+
+##Sample distribution
+As each locus follows binomial distribution, the **genetic drift** can be modelled $\frac{\sqrt{pq}}{2n_e}$, in which $n_e$ is the effective population size.
+```{r, bino}
+f=0.5
+pop=c(50, 200, 500, 1000)
+gn=100
+cohort=100
+G=matrix(0, cohort, gn)
+layout(matrix(1:4, 2, 2))
+for(p in 1:length(pop)) {
+  plot(main=paste("Population size", pop[p]), x=NULL, y=NULL, xlim=c(1, gn), ylim=c(0, 1), xlab="Generation", ylab="Frequency", bty='n')
+  for(i in 1:cohort) {
+    G[i,1] = 0.5
+    for(j in 2:gn) {
+      G[i,j]=mean(rbinom(pop[p], 2, G[i,j-1]))/2
+    }
+    lines(G[i,], col=sample(1:10, 1))
+  }
+}
+```
+
+## Subgroups
+```{r, 3pop}
+M=c(100000, 10000)
+fst1=0.05
+fst2=0.01
+for(m in 1:length(M)) {
+  P=runif(M[m], 0.2, 0.8)
+  Sz=c(100, 100, 100)
+  Fq=matrix(0, 3, M[m])
+  Fq[1,]=rbeta(M[m], P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+  Fq[2,]=rbeta(M[m], P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+  Fq[3,]=rbeta(M[m], Fq[2,]*(1-fst2)/fst2, (1-Fq[2,])*(1-fst2)/fst2)
+
+  G=matrix(0, sum(Sz), M[m])
+  for(i in 1:Sz[1]) {
+    G[i,] = rbinom(M[m], 2, Fq[1,])
+  }
+
+  for(i in (Sz[1]+1):(Sz[1]+Sz[2])) {
+    G[i,] = rbinom(M[m], 2, Fq[2,])
+  }
+
+  for(i in (Sz[1]+Sz[2]+1):sum(Sz)) {
+    G[i,] = rbinom(M[m], 2, Fq[3,])
+  }
+
+  Gs=apply(G, 2, scale)
+  GG=Gs %*% t(Gs)
+  EigenG=eigen(GG)
+  layout(matrix(1:2, 1, 2))
+  barplot(EigenG$values[1:20])
+  plot(main=paste(M[m], "markers"), EigenG$vectors[,1], EigenG$vectors[,2], bty='n', xlab="PC 1", ylab="PC 2", pch=16, col=c(rep("red", Sz[1]), rep("blue", Sz[2]), rep("gold", Sz[3])))
+}
+```
+
+## Three pop
+```{r, 6pop}
+M=c(10000)
+fst1=0.05
+fst2=0.01
+for(m in 1:length(M)) {
+  P=runif(M[m], 0.2, 0.8)
+  Sz=c(100, 100, 100, 100, 100, 100)
+  Fq=matrix(0, length(Sz), M[m])
+  Fq[1,]=rbeta(M[m], P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+
+  P3=rbeta(M[m], P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+
+  P2=(0.5*Fq[1,]+0.5*P3)
+
+  Fq[3,]=rbeta(M[m], P2*(1-fst2)/fst2, (1-P2)*(1-fst2)/fst2)
+  Fq[4,]=rbeta(M[m], P2*(1-fst2)/fst2, (1-P2)*(1-fst2)/fst2)
+  
+  Fq[2,]=rbeta(M[m], P3*(1-fst2)/fst2, (1-P3)*(1-fst2)/fst2)
+  Fq[5,]=rbeta(M[m], P3*(1-fst2)/fst2, (1-P3)*(1-fst2)/fst2)
+  Fq[6,]=rbeta(M[m], P3*(1-fst2)/fst2, (1-P3)*(1-fst2)/fst2)
+
+  G=matrix(0, sum(Sz), M[m])
+  for(i in 1:Sz[1]) {
+    G[i,] = rbinom(M[m], 2, Fq[1,])
+  }
+  
+  for(i in (Sz[1]+1):(Sz[1]+Sz[2])) {
+    G[i,] = rbinom(M[m], 2, Fq[2,])
+  }
+  
+  for(i in (Sz[1]+Sz[2]+1):sum(Sz)) {
+    G[i,] = rbinom(M[m], 2, Fq[3,])
+  }
+
+  for(i in (Sz[1]+Sz[2]+Sz[3]+1):sum(Sz)) {
+    G[i,] = rbinom(M[m], 2, Fq[4,])
+  }
+
+  for(i in (Sz[1]+Sz[2]+Sz[3]+Sz[4]+1):sum(Sz)) {
+    G[i,] = rbinom(M[m], 2, Fq[5,])
+  }
+
+  for(i in (Sz[1]+Sz[2]+Sz[3]+Sz[4]+Sz[5]+1):sum(Sz)) {
+    G[i,] = rbinom(M[m], 2, Fq[6,])
+  }
+
+  Gs=apply(G, 2, scale)
+  GG=Gs %*% t(Gs)
+  EigenG=eigen(GG)
+  layout(matrix(1:2, 1, 2))
+  barplot(EigenG$values[1:20])
+  plot(EigenG$vectors[,1], EigenG$vectors[,2])
+  layout(matrix(1:6, 2, 3, byrow=T))
+  plot(xlim=range(EigenG$vectors[,1]), ylim=range(EigenG$vectors[,2]), main=paste(M[m], "markers"), EigenG$vectors[1:100,1], EigenG$vectors[1:100,2], bty='n', xlab="PC 1", ylab="PC 2", pch=16)
+  plot(xlim=range(EigenG$vectors[,1]), ylim=range(EigenG$vectors[,2]), main=paste(M[m], "markers"), EigenG$vectors[101:200,1], EigenG$vectors[101:200,2], bty='n', xlab="PC 1", ylab="PC 2", pch=16)
+  plot(xlim=range(EigenG$vectors[,1]), ylim=range(EigenG$vectors[,2]), main=paste(M[m], "markers"), EigenG$vectors[201:300,1], EigenG$vectors[201:300,2], bty='n', xlab="PC 1", ylab="PC 2", pch=16)
+  plot(xlim=range(EigenG$vectors[,1]), ylim=range(EigenG$vectors[,2]), main=paste(M[m], "markers"), EigenG$vectors[301:400,1], EigenG$vectors[301:400,2], bty='n', xlab="PC 1", ylab="PC 2", pch=16)
+  plot(xlim=range(EigenG$vectors[,1]), ylim=range(EigenG$vectors[,2]), main=paste(M[m], "markers"), EigenG$vectors[401:500,1], EigenG$vectors[401:500,2], bty='n', xlab="PC 1", ylab="PC 2", pch=16)
+  plot(xlim=range(EigenG$vectors[,1]), ylim=range(EigenG$vectors[,2]), main=paste(M[m], "markers"), EigenG$vectors[501:600,1], EigenG$vectors[501:600,2], bty='n', xlab="PC 1", ylab="PC 2", pch=16)
+}
+```
+
+
+## Wishart distribution simulation
+Generate Wishart distribution
+```{r, wishart}
+## Artificial
+S <- toeplitz((10:1)/10)
+set.seed(11)
+R <- rWishart(1000, 20, S)
+dim(R)  #  10 10  1000
+cor(R[,,1])
+mR <- apply(R, 1:2, mean)  # ~= E[ Wish(S, 20) ] = 20 * S
+stopifnot(all.equal(mR, 20*S, tolerance = .009))
+
+
+## See Details, the variance is
+Va <- 20*(S^2 + tcrossprod(diag(S)))
+vR <- apply(R, 1:2, var)
+stopifnot(all.equal(vR, Va, tolerance = 1/16))
+```
+
+##Distribution of the Wishart diagonal elements
+$G=\frac{1}{m}\tilde{X}^T\tilde{X}$, and the diagonal of $G$ follow $\frac{\chi^2_n}{n}$
+```{r, diagW}
+N=1000
+M=c(500,1000,1500,2000)
+layout(matrix(1:4, 2, 2))
+for(m in 1:length(M)) {
+  p=runif(M[m], 0.2, 0.8)
+  X=matrix(0, N, M[m])
+  for(i in 1:M[m]) {
+    X[,i] = rbinom(N, 2, p[i])
+  }
+  Xs=apply(X, 2, scale)
+  G=Xs %*% t(Xs) / M[m]
+  rc=rchisq(nrow(G), nrow(G))/nrow(G)
+  qqplot(main=paste0("M=", M[m]), rc, diag(G), xlab=expression(paste(chi[N]^2, "/N")), ylab="Diag (G)", bty='n', pch=16)
+  abline(a=0, b=1, col="red")
+}
+
+```
+
+##Homo cohort
+
+```{r, homo-cohort}
+rep=1
+EV=matrix(0, rep, 10)
+typeI=matrix(0, rep, 4)
+fst=0.02
+N1=c(100, 500, 1000)
+N2=1000
+M=10000
+ME=matrix(0, length(N1), 3)
+for(s in 1:length(N1)) {
+  for(r in 1:rep) {
+    P=runif(M, 0.2, 0.8)
+    P1=rbeta(M, P*(1-fst)/fst, (1-P)*(1-fst)/fst)
+    P2=rbeta(M, P*(1-fst)/fst, (1-P)*(1-fst)/fst)
+
+    Gn=matrix(0, nrow=N1[s]+N2, ncol=M)
+    for(i in 1:N1[s]) {
+      Gn[i,] = rbinom(M, 2, P1)
+    }
+
+    for(i in (N1[s]+1):(N2+N1[s])) {
+      Gn[i,] = rbinom(M, 2, P2)
+    }
+    Frq1=apply(Gn[1:N1[s],], 2, mean)/2
+    Frq2=apply(Gn[(N1[s]+1):(N1[s]+N2),], 2, mean)/2
+    FrqM=apply(Gn, 2, mean)/2
+    Fst=2*(N1[s]/(N1[s]+N2)*(Frq1-FrqM)^2 + N2/(N1[s]+N2) * (Frq2-FrqM)^2)/(FrqM*(1-FrqM))
+    FstN=(Frq1-Frq2)^2/(2*FrqM*(1-FrqM))
+    plot(Fst, FstN)
+  }
+
+  GnS=apply(Gn, 2, scale)
+  G=GnS %*% t(GnS)/M
+  EigenGN=eigen(G)
+  
+  RegB=matrix(0, M, 4)
+  for(i in 1:M) {
+    mod=lm(EigenGN$vectors[,1]~Gn[,i])
+    RegB[i,1]=summary(mod)$coefficients[2,1]
+    RegB[i,2]=summary(mod)$coefficients[2,2]
+  }
+  RegB[,3]=RegB[,1]^2/RegB[,2]^2
+  qqplot(rchisq(M, 1), RegB[,3], bty='n', pch=16)
+  abline(a=0, b=1, col="red")
+  gc=median(RegB[,3])/0.455
+  abline(a=0, b=gc, col="blue")
+  
+  ME[s,1]=mean(Fst)*(N1[s]+N2)
+  ME[s,2]=gc
+  ME[s,3]=EigenGN$values[1]
+}
+rownames(ME)=N1
+barplot(t(ME), beside = T, border = F)
+legend("topleft", legend = c("Fst", "GC", "Eigenvalue"), pch=15, col=c("black", "grey50", "grey"), bty='n')
+
+```
+
+##Heterogeneous cohort
+```{r, het-cohort}
+rep=1
+EV=matrix(0, rep, 10)
+typeI=matrix(0, rep, 4)
+fst=c(0.002, 0.01)
+N1=c(100, 500, 1000)
+N2=1000
+Ml=c(8000, 2000)
+M=sum(Ml)
+ME=matrix(0, length(N1), 3)
+for(s in 1:length(N1)) {
+  for(r in 1:rep) {
+    P=runif(M, 0.2, 0.8)
+    p1=runif(Ml[1], 0.2, 0.8)
+    p2=runif(Ml[2], 0.2, 0.8)
+    P=c(p1, p2)
+    P1=c(rbeta(Ml[1], p1*(1-fst[1])/fst[1], (1-p1)*(1-fst[1])/fst[1]),
+         rbeta(Ml[2], p2*(1-fst[2])/fst[2], (1-p2)*(1-fst[2])/fst[2]))
+    P2=c(rbeta(Ml[1], p1*(1-fst[1])/fst[1], (1-p1)*(1-fst[1])/fst[1]),
+         rbeta(Ml[2], p2*(1-fst[2])/fst[2], (1-p2)*(1-fst[2])/fst[2]))
+
+    Gn=matrix(0, nrow=N1[s]+N2, ncol=M)
+    for(i in 1:N1[s]) {
+      Gn[i,] = rbinom(M, 2, P1)
+    }
+
+    for(i in (N1[s]+1):(N2+N1[s])) {
+      Gn[i,] = rbinom(M, 2, P2)
+    }
+    Frq1=apply(Gn[1:N1[s],], 2, mean)/2
+    Frq2=apply(Gn[(N1[s]+1):(N1[s]+N2),], 2, mean)/2
+    FrqM=apply(Gn, 2, mean)/2
+    Fst=2*(N1[s]/(N1[s]+N2)*(Frq1-FrqM)^2 + N2/(N1[s]+N2) * (Frq2-FrqM)^2)/(FrqM*(1-FrqM))
+    FstN=(Frq1-Frq2)^2/(2*FrqM*(1-FrqM))
+    plot(Fst, FstN)
+  }
+
+  GnS=apply(Gn, 2, scale)
+  G=GnS %*% t(GnS)/M
+  EigenGN=eigen(G)
+  
+  RegB=matrix(0, M, 4)
+  for(i in 1:M) {
+    mod=lm(EigenGN$vectors[,1]~Gn[,i])
+    RegB[i,1]=summary(mod)$coefficients[2,1]
+    RegB[i,2]=summary(mod)$coefficients[2,2]
+  }
+  RegB[,3]=RegB[,1]^2/RegB[,2]^2
+  qqplot(rchisq(M, 1), RegB[,3], bty='n', pch=16)
+  abline(a=0, b=1, col="red")
+  gc=median(RegB[,3])/0.455
+  abline(a=0, b=gc, col="blue")
+  
+  ME[s,1]=mean(Fst)*(N1[s]+N2)
+  ME[s,2]=gc
+  ME[s,3]=EigenGN$values[1]
+}
+rownames(ME)=N1
+barplot(t(ME), beside = T, border = F)
+legend("topleft", legend = c("Fst", "GC", "Eigenvalue"), pch=15, col=c("black", "grey50", "grey"), bty='n')
+
+```
+
+
+##Tracy-Widom distribution
+```{r, tw}
+library(RMTstat)
+plot(density(rtw(10000)))
+```
+
+##TW
+
+```{r, TW}
+EG=matrix(0, 50, 1)
+for(rp in 1:50) {
+  N=500
+  M=5000
+  p=runif(M, 0.2, 0.8)
+  X=matrix(0, N, M)
+  for(i in 1:M) {
+    X[,i] = rbinom(N, 2, p[i])
+  }
+  mu=apply(X, 2, mean)
+  sig=apply(X, 2, var)
+  Xs=apply(X, 2, scale)
+  G=Xs %*% t(Xs) / M
+  rc=rchisq(nrow(G), nrow(G)-1)/nrow(G)
+  qqplot(rc, diag(G), xlab=expression(paste(chi[N]^2, "/N")), ylab="Diag (G)", bty='n', pch=16)
+  abline(a=0, b=1, col="red")
+  mod=lm(sort(diag(G))~sort(rc))
+  Eg=eigen(G)
+  EG[rp,1]=Eg$values[1]
+}
+Emu=(sqrt(M-1)+sqrt(N))^2/M
+Esd=sqrt(Emu/M)*(1/sqrt(M-1/2)+1/sqrt(N-1/2))^(1/3)
+
+hist((EG/(sum(diag(G))/N)-Emu)/Esd)
+x=matrix(rnorm(N*M), N, M)
+
+```
+
