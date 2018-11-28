@@ -49,7 +49,7 @@ m_e=\frac{1}{Var(\mathbf{G}_o)}  (\#eq:Me1)
 The ratio between $\frac{m_e}{m}$ reflects the average linkage disequilibrium between the any pair of markers, and alternatively $m_e$ can be expressed as
 
 \begin{equation}
-m_e=\frac{\sum_{i=1}^m\sum_{j=1}^m\rho_{ij}^2}{m^2}=\bar{\rho}^2 (\#eq:Me2)
+m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 (\#eq:Me2)
 \end{equation}
 
 It is an important parameter to describe the evolutionary process of a population of study.
@@ -67,10 +67,10 @@ Manhattan plot can be made.
 In particular, the one-degree-of-freedom $\chi^2_1$ has approximation as
 
 \begin{equation}
-4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{\bar{p}_l\bar{q}_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W (\#eq:EG-chi)
+4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2\bar{p}_l\bar{q}_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W (\#eq:EG-chi)
 \end{equation}
 
-in which $\color{red}{n_1}$ and $\color{blue}{n_2}$ are the numbers of samples at the left and right side of "0" on the eigenvector, see the figure below. $\color{red}{p_{1,l}}$ and $\color{blue}{p_{2,l}}$ are frequencies of the reference allele in two subgroups, respectively. $\bar{p_l}$ is the allele frequency of the reference allele.
+in which $\color{red}{n_1}$ and $\color{blue}{n_2}$ are the numbers of samples at the left and right side of "0" on the eigenvector, see the figure below. $\color{red}{p_{1,l}}$ and $\color{blue}{p_{2,l}}$ are frequencies of the reference allele in two subgroups, respectively. $\bar{p_l}$ is the allele frequency of the reference allele. $F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2\bar{p}_l\bar{q}_l}$ and $F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-{\bar p_l})^2}{\bar{p}_l\bar{q}_l}$.
 
 ```{r, eigen, collapse=TRUE, tidy=TRUE}
 set.seed(2018)
@@ -131,9 +131,12 @@ Singular value decomposition, [see SVD wiki for more details](https://en.wikiped
 \begin{equation}
 \mathbf{X}=\mathbf{U\Sigma V} (\#eq:SVD)
 \end{equation}
-in which 
-- $\mathbf{U}$ is a $n\times n$ unitary matrix, corresponding to individual-level loading for each sample,
-- $\mathbf{\Sigma}$ a $n\times m$ diagonal matrix, 
+in which
+
+- $\mathbf{U}$ is an $n\times n$ unitary matrix, corresponding to individual-level loading for each sample,
+
+- $\mathbf{\Sigma}$ an $n\times m$ diagonal matrix, 
+
 - and $\mathbf{V}$ an $m\times m$ unitary matrix, corresponding to SNP-level loading.
 
 Due to the transformation between $\mathbf{U}$ and $\mathbf{V}$, it has 

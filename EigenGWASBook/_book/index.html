@@ -256,7 +256,7 @@ m_e=\frac{1}{Var(\mathbf{G}_o)}  \tag{1.3}
 \end{equation}\]</span>
 The ratio between <span class="math inline">\(\frac{m_e}{m}\)</span> reflects the average linkage disequilibrium between the any pair of markers, and alternatively <span class="math inline">\(m_e\)</span> can be expressed as</p>
 <p><span class="math display" id="eq:Me2">\[\begin{equation}
-m_e=\frac{\sum_{i=1}^m\sum_{j=1}^m\rho_{ij}^2}{m^2}=\bar{\rho}^2 \tag{1.4}
+m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 \tag{1.4}
 \end{equation}\]</span></p>
 <p>It is an important parameter to describe the evolutionary process of a population of study.</p>
 </div>
@@ -271,9 +271,9 @@ m_e=\frac{\sum_{i=1}^m\sum_{j=1}^m\rho_{ij}^2}{m^2}=\bar{\rho}^2 \tag{1.4}
 Manhattan plot can be made.</p>
 <p>In particular, the one-degree-of-freedom <span class="math inline">\(\chi^2_1\)</span> has approximation as</p>
 <p><span class="math display" id="eq:EG-chi">\[\begin{equation}
-4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{\bar{p}_l\bar{q}_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W \tag{1.6}
+4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2\bar{p}_l\bar{q}_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W \tag{1.6}
 \end{equation}\]</span></p>
-<p>in which <span class="math inline">\(\color{red}{n_1}\)</span> and <span class="math inline">\(\color{blue}{n_2}\)</span> are the numbers of samples at the left and right side of “0” on the eigenvector, see the figure below. <span class="math inline">\(\color{red}{p_{1,l}}\)</span> and <span class="math inline">\(\color{blue}{p_{2,l}}\)</span> are frequencies of the reference allele in two subgroups, respectively. <span class="math inline">\(\bar{p_l}\)</span> is the allele frequency of the reference allele.</p>
+<p>in which <span class="math inline">\(\color{red}{n_1}\)</span> and <span class="math inline">\(\color{blue}{n_2}\)</span> are the numbers of samples at the left and right side of “0” on the eigenvector, see the figure below. <span class="math inline">\(\color{red}{p_{1,l}}\)</span> and <span class="math inline">\(\color{blue}{p_{2,l}}\)</span> are frequencies of the reference allele in two subgroups, respectively. <span class="math inline">\(\bar{p_l}\)</span> is the allele frequency of the reference allele. <span class="math inline">\(F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2\bar{p}_l\bar{q}_l}\)</span> and <span class="math inline">\(F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-{\bar p_l})^2}{\bar{p}_l\bar{q}_l}\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2018</span>)
 <span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">2</span>))
 freq =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1000</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>)
@@ -334,10 +334,12 @@ ChiGC=Chi<span class="op">/</span>gc
 <span class="math display" id="eq:SVD">\[\begin{equation}
 \mathbf{X}=\mathbf{U\Sigma V} \tag{1.8}
 \end{equation}\]</span>
-in which
-- <span class="math inline">\(\mathbf{U}\)</span> is a <span class="math inline">\(n\times n\)</span> unitary matrix, corresponding to individual-level loading for each sample,
-- <span class="math inline">\(\mathbf{\Sigma}\)</span> a <span class="math inline">\(n\times m\)</span> diagonal matrix,
-- and <span class="math inline">\(\mathbf{V}\)</span> an <span class="math inline">\(m\times m\)</span> unitary matrix, corresponding to SNP-level loading.</p>
+in which</p>
+<ul>
+<li><p><span class="math inline">\(\mathbf{U}\)</span> is an <span class="math inline">\(n\times n\)</span> unitary matrix, corresponding to individual-level loading for each sample,</p></li>
+<li><p><span class="math inline">\(\mathbf{\Sigma}\)</span> an <span class="math inline">\(n\times m\)</span> diagonal matrix,</p></li>
+<li><p>and <span class="math inline">\(\mathbf{V}\)</span> an <span class="math inline">\(m\times m\)</span> unitary matrix, corresponding to SNP-level loading.</p></li>
+</ul>
 <p>Due to the transformation between <span class="math inline">\(\mathbf{U}\)</span> and <span class="math inline">\(\mathbf{V}\)</span>, it has
 <span class="math display" id="eq:svd">\[\begin{equation}
 \mathbf{U}=\mathbf{\tilde{X}V\Sigma}^{-1} \tag{1.9}
