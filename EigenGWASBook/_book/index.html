@@ -140,7 +140,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#connection-to-svd"><i class="fa fa-check"></i><b>1.3</b> Connection to SVD</a><ul>
 <li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#threshold-for-eigengwas"><i class="fa fa-check"></i><b>1.3.1</b> Threshold for EigenGWAS</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#classic-mechanic-intepretation"><i class="fa fa-check"></i><b>1.4</b> Classic mechanic intepretation</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#intepretation"><i class="fa fa-check"></i><b>1.4</b> Intepretation</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#f_st"><i class="fa fa-check"></i><b>1.4.1</b> <span class="math inline">\(F_{st}\)</span></a></li>
+<li class="chapter" data-level="1.4.2" data-path="index.html"><a href="index.html#classic-mechanic-intepretation"><i class="fa fa-check"></i><b>1.4.2</b> Classic mechanic intepretation</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="protocols.html"><a href="protocols.html"><i class="fa fa-check"></i><b>2</b> Protocols</a><ul>
 <li class="chapter" data-level="2.1" data-path="protocols.html"><a href="protocols.html#protocols-for-selection"><i class="fa fa-check"></i><b>2.1</b> Protocols for selection</a></li>
@@ -241,7 +244,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We can construct the <span class="math inline">\(n\times n\)</span> genetic relatedness matrix as</p>
 <p><span class="math display">\[\mathbf{G}=\tilde{\mathbf{X}}\tilde{\mathbf{X}}^T\]</span>
 in which <span class="math inline">\(\tilde{\mathbf{X}}\)</span> is the scaled form of <span class="math inline">\(\mathbf{X}\)</span>.
-However, upon the mating type of the species, <span class="math inline">\(\mathbf{G}\)</span> should be constructly differently. For a random mating population, <span class="math inline">\(x_l\)</span> is scaled as <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}\)</span>, whereas for inbred population, <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}\)</span>, and <span class="math inline">\(q_l=1-p_l\)</span> the frequency for the alternative allele.</p>
+However, upon the mating type of the species, <span class="math inline">\(\mathbf{G}\)</span> should be constructed accordingly. For a random mating population, <span class="math inline">\(x_l\)</span> is scaled as <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}\)</span>, whereas for inbred population, <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}\)</span>, and <span class="math inline">\(q_l=1-p_l\)</span> the frequency for the alternative allele.</p>
 <p>So for individual <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>,</p>
 <p><span class="math display" id="eq:G">\[\begin{equation}
 G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_lq_l} \tag{1.1}
@@ -274,9 +277,9 @@ m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 \tag{1.
 <p>It consequently generates <span class="math inline">\(m\)</span> estimates of <span class="math inline">\(\hat{\beta}\)</span>, <span class="math inline">\(\hat{\sigma}_{\beta}\)</span>, and their corresponding <span class="math inline">\(p\)</span> values.</p>
 <p>In particular, the one-degree-of-freedom <span class="math inline">\(\chi^2_1\)</span> has approximation as</p>
 <p><span class="math display" id="eq:EG-chi">\[\begin{equation}
-4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2\bar{p}_l\bar{q}_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W \tag{1.6}
+4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W \tag{1.6}
 \end{equation}\]</span></p>
-<p>in which <span class="math inline">\(\color{red}{n_1}\)</span> and <span class="math inline">\(\color{blue}{n_2}\)</span> are the numbers of samples at the left and right side of “0” on the eigenvector, see the figure below. <span class="math inline">\(\color{red}{p_{1,l}}\)</span> and <span class="math inline">\(\color{blue}{p_{2,l}}\)</span> are frequencies of the reference allele in two subgroups, respectively. <span class="math inline">\(\bar{p_l}\)</span> is the allele frequency of the reference allele. <span class="math inline">\(F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2\bar{p}_l\bar{q}_l}\)</span> and <span class="math inline">\(F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-{\bar p_l})^2}{\bar{p}_l\bar{q}_l}\)</span>.</p>
+<p>in which <span class="math inline">\(\color{red}{n_1}\)</span> and <span class="math inline">\(\color{blue}{n_2}\)</span> are the numbers of samples at the left and right side of “0” on the eigenvector, see the figure below, and <span class="math inline">\(\omega_g=\frac{n_g}{n}\)</span> the proportion of a subgroup in the sample. <span class="math inline">\(g=2\)</span> in EigenGWAS analysis. <span class="math inline">\(\color{red}{p_{1,l}}\)</span> and <span class="math inline">\(\color{blue}{p_{2,l}}\)</span> are the frequencies of the reference allele in two subgroups, respectively. <span class="math inline">\(F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}\)</span> and <span class="math inline">\(F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-p_l)^2}{p_lq_l}\)</span>.</p>
 <pre><code>## [1]  100 1000
 ## [1] &quot;Ne= 100 Me= 1080.91076380488 given N= 100 and M= 1000&quot;</code></pre>
 <p><img src="EigenGWAS_files/figure-html/eigen-1.png" width="672" /></p>
@@ -324,8 +327,14 @@ The subtle difference, for instance for <span class="math inline">\(E_1\)</span>
 <p>As shown above, <font color="navy"><code>EigenGWAS</code></font> is a linear model framework nearly identical to the conventional GWAS, and Bonferroni correction, such as <span class="math inline">\(\alpha/m\)</span>, can be used to set the threshold at the significance level <span class="math inline">\(\alpha\)</span>, such as <span class="math inline">\(\alpha=0.05\)</span>.</p>
 </div>
 </div>
-<div id="classic-mechanic-intepretation" class="section level2">
-<h2><span class="header-section-number">1.4</span> Classic mechanic intepretation</h2>
+<div id="intepretation" class="section level2">
+<h2><span class="header-section-number">1.4</span> Intepretation</h2>
+<div id="f_st" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> <span class="math inline">\(F_{st}\)</span></h3>
+<p><code>EigenGWAS</code> provides an unsupervised implementation for conventional <span class="math inline">\(F_{st}\)</span> that assumes the underlying subgroups are known. In practice, however, it is often unclear how the possible subgroups can be defined. So, <code>EigenGWAS</code> continuously partitions the data on each eigenvector by splitting the data into two subgroups. There is no guarantee that this strategy is optimal, but it seems a reasonable try when the group information is missing.</p>
+</div>
+<div id="classic-mechanic-intepretation" class="section level3">
+<h3><span class="header-section-number">1.4.2</span> Classic mechanic intepretation</h3>
 <p>The <font color="navy"><code>EigenGWAS</code></font> model resembles the Newtown’s first and the second <a href="https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion">laws for classical mechanics</a>. The first law states</p>
 <blockquote>
 <p>“In an inertial frame of reference, an object either remains at rest or continues to move at a constant velocity, unless acted upon by a force.”</p>
@@ -338,6 +347,7 @@ The subtle difference, for instance for <span class="math inline">\(E_1\)</span>
 <p>Analogously, the selection can drive a genomic region run against its reference population at a velocity greater than <span class="math inline">\(\frac{pq}{\tilde{n}_e}\)</span>.</p>
 <p>Although, this interpretation works even for domesticated populations, its proportion of the markers divergent by genetic drift and selection would be very different.</p>
 
+</div>
 </div>
 </div>
             </section>

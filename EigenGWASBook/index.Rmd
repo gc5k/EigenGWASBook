@@ -20,7 +20,7 @@ We can construct the $n\times n$ genetic relatedness matrix as
 
 $$\mathbf{G}=\tilde{\mathbf{X}}\tilde{\mathbf{X}}^T$$
 in which $\tilde{\mathbf{X}}$ is the scaled form of $\mathbf{X}$.
-However, upon the mating type of the species, $\mathbf{G}$ should be constructly differently. For a random mating population, $x_l$ is scaled as $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}$, whereas for inbred population, $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}$, and  $q_l=1-p_l$ the frequency for the alternative allele.
+However, upon the mating type of the species, $\mathbf{G}$ should be constructed accordingly. For a random mating population, $x_l$ is scaled as $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}$, whereas for inbred population, $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}$, and  $q_l=1-p_l$ the frequency for the alternative allele.
 
 So for individual $i$ and $j$,
 
@@ -65,10 +65,10 @@ It consequently generates $m$ estimates of $\hat{\beta}$, $\hat{\sigma}_{\beta}$
 In particular, the one-degree-of-freedom $\chi^2_1$ has approximation as
 
 \begin{equation}
-4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2\bar{p}_l\bar{q}_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W (\#eq:EG-chi)
+4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W (\#eq:EG-chi)
 \end{equation}
 
-in which $\color{red}{n_1}$ and $\color{blue}{n_2}$ are the numbers of samples at the left and right side of "0" on the eigenvector, see the figure below. $\color{red}{p_{1,l}}$ and $\color{blue}{p_{2,l}}$ are frequencies of the reference allele in two subgroups, respectively. $\bar{p_l}$ is the allele frequency of the reference allele. $F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2\bar{p}_l\bar{q}_l}$ and $F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-{\bar p_l})^2}{\bar{p}_l\bar{q}_l}$.
+in which $\color{red}{n_1}$ and $\color{blue}{n_2}$ are the numbers of samples at the left and right side of "0" on the eigenvector, see the figure below, and $\omega_g=\frac{n_g}{n}$ the proportion of a subgroup in the sample. $g=2$ in EigenGWAS analysis. $\color{red}{p_{1,l}}$ and $\color{blue}{p_{2,l}}$ are the frequencies of the reference allele in two subgroups, respectively. $F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}$ and $F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-p_l)^2}{p_lq_l}$.
 
 ```{r, eigen, collapse=TRUE, tidy=TRUE, echo=FALSE}
 set.seed(2018)
@@ -156,7 +156,12 @@ However, in this transformation, eigenvalue is involved, as would be show. It wi
 ### Threshold for EigenGWAS
 As shown above, <font color="navy">`EigenGWAS`</font> is a linear model framework nearly identical to the conventional GWAS, and Bonferroni correction, such as $\alpha/m$, can be used to set the threshold at the significance level $\alpha$, such as $\alpha=0.05$.
 
-## Classic mechanic intepretation
+## Intepretation
+
+### $F_{st}$
+`EigenGWAS` provides an unsupervised implementation for conventional $F_{st}$ that assumes the underlying subgroups are known. In practice, however, it is often unclear how the possible subgroups can be defined. So, `EigenGWAS` continuously partitions the data on each eigenvector by splitting the data into two subgroups. There is no guarantee that this strategy is optimal, but it seems a reasonable try when the group information is missing.  
+
+### Classic mechanic intepretation
 The <font color="navy">`EigenGWAS`</font> model resembles the Newtown's first and the second [laws for classical mechanics](https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion). The first law states
 
 >"In an inertial frame of reference, an object either remains at rest or continues to move at a constant velocity, unless acted upon by a force."
