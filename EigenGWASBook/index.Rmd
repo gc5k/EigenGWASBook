@@ -12,7 +12,7 @@ description: "EigenGWAS Project."
 
 # EigenGWAS basis {#ch:basis}
 
-This project is dedicated to <font color="navy">`EigenGWAS`</font>, a linear model analysis approach for eigenvectors on genomic data, which can be represented as $\mathbf{X}$ the $n \times m$ genotype matrix. Without loss of generality, $x_{jl}$ is a biallic code for the $i^{th}$ individual at the $l^{th}$ locus. The data matrix $\mathbf{X}$ can be generated from genotyping chips, NGS, or GBS.
+This project is dedicated to <font color="navy">`EigenGWAS`</font>, a linear model analysis approach for eigenvectors on genomic data, which can be represented as $\mathbf{X}$ the $n \times m$ genotype matrix. Without loss of generality, $x_{jl}$ is a genotype code for the $i^{th}$ sample at the $l^{th}$ biallic locus. The data matrix $\mathbf{X}$ can be generated from genotyping chips, NGS, or GBS.
 
 ## Genetic relatedness matrix $\mathbf{G}$
 
@@ -34,7 +34,7 @@ in which $\tilde{m}$ is the number of genotyped loci at both individal $i$ and $
 
 ### Statistical properties of $\mathbf{G}$
 
-Given $\mathbf{G}$, we can define two population parameters, $n_e$, the effective population size, and $m_e$, the effective number of markers.
+Given $\mathbf{G}$, we can define two population parameters, $n_e$, the `effective population size`, and $m_e$, the `effective number of markers`.
 
 Let $\mathbf{G}_o$ denote the off diagonal elements of $\mathbf{G}$, then we have 
 
@@ -52,7 +52,7 @@ The ratio between $\frac{m_e}{m}$ reflects the average linkage disequilibrium be
 m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 (\#eq:Me2)
 \end{equation}
 
-in which $\rho_{l_1l_2}$ is Pearson's correlation between a pair of SNPs. It is an important parameter to describe the evolutionary process of a population of study.
+in which $\rho_{l_1l_2}$ is Pearson's correlation between a pair of SNPs, see Appendix \@ref(app:ld). It is an important parameter to describe the evolutionary process of a population of study.
 
 ## EigenGWAS linear model
 Given [eigenanalysis](https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors) of $\mathbf{X}$, we have $\mathbf{E}$ and $\mathbf{\Lambda}$, in which $\mathbf{\Lambda}$ is an $n \times n$ diagonal matrix for eigenvalues and $\mathbf{E}$ is an $n \times n$  matrix for the eigenvectors. $\mathbf{E}_k$ is the eigenvector associated with the $k^{th}$ largest eigenvalue. Regressing $\mathbf{E}_k$ against each marker, we have the model below
@@ -72,7 +72,7 @@ In particular, the one-degree-of-freedom $\chi^2_1$ has approximation as
 
 in which $\color{red}{n_1}$ and $\color{blue}{n_2}$ are the numbers of samples at the left and right side of "0" on the eigenvector, see the figure below. $\color{red}{p_{1,l}}$ and $\color{blue}{p_{2,l}}$ are frequencies of the reference allele in two subgroups, respectively. $\bar{p_l}$ is the allele frequency of the reference allele. $F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2\bar{p}_l\bar{q}_l}$ and $F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-{\bar p_l})^2}{\bar{p}_l\bar{q}_l}$.
 
-```{r, eigen, collapse=TRUE, tidy=TRUE}
+```{r, eigen, collapse=TRUE, tidy=TRUE, echo=FALSE}
 set.seed(2018)
 layout(matrix(1:4, 2, 2))
 freq=runif(1000, 0.1, 0.9)
@@ -105,7 +105,7 @@ We can define $\lambda_{GC}=\chi^2_{1,median(p)}/\chi^2_{1,0.5}$, in which $\chi
 After technical correction, correspondingly 
 
 \begin{equation}
-\tilde\chi^2_1=\chi^2_1/\lambda_{GC} (\#eq:EG-chi-adj)
+\tilde\chi^2_1=\chi^2_1/\lambda_{GC_k} (\#eq:EG-chi-adj)
 \end{equation}
 
 a correction of the test statistic compared to its original form. This correction has several implications
@@ -115,7 +115,7 @@ a correction of the test statistic compared to its original form. This correctio
 - Genetically, it corrects for genetic drift such as for $\mathbf{E}_1$. Here quantity of the genetic drift is measured by the median value of the $\chi^2_1$ values observed.
 
 
-```{r, gc, collapse=TRUE}
+```{r, gc, collapse=TRUE, echo=FALSE}
 Chi=rchisq(10000, 1, ncp=0.2)
 layout(matrix(1:2, 1, 2))
 qqplot(main="Raw", rchisq(1000,1), Chi, bty="n", xlab=expression(paste("Theoretical ",chi[1]^2)), ylab=expression(paste("Observed ",chi[1]^2)), pch=16, cex=0.5)
@@ -159,7 +159,7 @@ However, in this transformation, eigenvalue is involved, as would be show. It wi
 As shown above, <font color="navy">`EigenGWAS`</font> is a linear model framework nearly identical to the conventional GWAS, and Bonferroni correction, such as $\alpha/m$, can be used to set the threshold at the significance level $\alpha$, such as $\alpha=0.05$.
 
 ## Classic mechanic intepretation
-The <font color="navy">`EigenGWAS`</font> model resembles the Newtown's first and the second law for classical mechanics. The first law states that 
+The <font color="navy">`EigenGWAS`</font> model resembles the Newtown's first and the second [laws for classical mechanics](https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion). The first law states that 
 
 >"In an inertial frame of reference, an object either remains at rest or continues to move at a constant velocity, unless acted upon by a force."
 
