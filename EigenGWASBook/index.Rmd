@@ -52,7 +52,7 @@ The ratio between $\frac{m_e}{m}$ reflects the average linkage disequilibrium be
 m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 (\#eq:Me2)
 \end{equation}
 
-It is an important parameter to describe the evolutionary process of a population of study.
+in which $\rho_{l_1l_2}$ is Pearson's correlation between a pair of SNPs. It is an important parameter to describe the evolutionary process of a population of study.
 
 ## EigenGWAS linear model
 Given [eigenanalysis](https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors) of $\mathbf{X}$, we have $\mathbf{E}$ and $\mathbf{\Lambda}$, in which $\mathbf{\Lambda}$ is an $n \times n$ diagonal matrix for eigenvalues and $\mathbf{E}$ is an $n \times n$  matrix for the eigenvectors. $\mathbf{E}_k$ is the eigenvector associated with the $k^{th}$ largest eigenvalue. Regressing $\mathbf{E}_k$ against each marker, we have the model below
