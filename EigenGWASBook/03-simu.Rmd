@@ -1,6 +1,6 @@
 # Simulating population structure
 
-[Details](http://rpubs.com/gc5k/EigenGWAScore)
+A toy example for this Charpter can be found in [gc5k's Rpub](http://rpubs.com/gc5k/EigenGWAScore)
 
 ## Genetic drift
 As each locus follows binomial distribution, the **genetic drift** can be modelled $\frac{\sqrt{pq}}{2n_e}$, in which $n_e$ is the effective population size.
@@ -10,6 +10,15 @@ As each locus follows binomial distribution, the **genetic drift** can be modell
 ## Six pop
 
 ## Wishart distribution simulation
+R function `rWishart` can generate Wishart distribution easiliy.
+```{r, rWishart}
+## Artificial
+S <- toeplitz((10:1)/10)
+set.seed(11)
+R <- rWishart(1000, 20, S)
+dim(R)  #  10 10  1000
+```
+
 
 ## Distribution of the Wishart diagonal elements
 
@@ -18,3 +27,9 @@ As each locus follows binomial distribution, the **genetic drift** can be modell
 ## Heterogeneous cohort
 
 ## Tracy-Widom distribution
+R package `RMTstat` can help study Tracy-Widom distribution.
+```{r, TW}
+library(RMTstat)
+plot(density(rtw(1000)), main="TW distribbtion", bty='n')
+```
+

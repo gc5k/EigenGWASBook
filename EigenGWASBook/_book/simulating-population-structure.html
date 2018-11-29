@@ -226,7 +226,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="simulating-population-structure" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> Simulating population structure</h1>
-<p><a href="http://rpubs.com/gc5k/EigenGWAScore">Details</a></p>
+<p>A toy example for this Charpter can be found in <a href="http://rpubs.com/gc5k/EigenGWAScore">gc5k’s Rpub</a></p>
 <div id="genetic-drift" class="section level2">
 <h2><span class="header-section-number">4.1</span> Genetic drift</h2>
 <p>As each locus follows binomial distribution, the <strong>genetic drift</strong> can be modelled <span class="math inline">\(\frac{\sqrt{pq}}{2n_e}\)</span>, in which <span class="math inline">\(n_e\)</span> is the effective population size.</p>
@@ -239,6 +239,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="wishart-distribution-simulation" class="section level2">
 <h2><span class="header-section-number">4.4</span> Wishart distribution simulation</h2>
+<p>R function <code>rWishart</code> can generate Wishart distribution easiliy.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">## Artificial</span>
+S &lt;-<span class="st"> </span><span class="kw">toeplitz</span>((<span class="dv">10</span><span class="op">:</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">10</span>)
+<span class="kw">set.seed</span>(<span class="dv">11</span>)
+R &lt;-<span class="st"> </span><span class="kw">rWishart</span>(<span class="dv">1000</span>, <span class="dv">20</span>, S)
+<span class="kw">dim</span>(R)  <span class="co">#  10 10  1000</span></code></pre>
+<pre><code>## [1]   10   10 1000</code></pre>
 </div>
 <div id="distribution-of-the-wishart-diagonal-elements" class="section level2">
 <h2><span class="header-section-number">4.5</span> Distribution of the Wishart diagonal elements</h2>
@@ -251,6 +258,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="tracy-widom-distribution" class="section level2">
 <h2><span class="header-section-number">4.8</span> Tracy-Widom distribution</h2>
+<p>R package <code>RMTstat</code> can help study Tracy-Widom distribution.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(RMTstat)
+<span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">rtw</span>(<span class="dv">1000</span>)), <span class="dt">main=</span><span class="st">&quot;TW distribbtion&quot;</span>, <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/TW-1.png" width="672" /></p>
 
 </div>
 </div>
