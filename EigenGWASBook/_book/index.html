@@ -158,7 +158,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html"><i class="fa fa-check"></i><b>4</b> Simulating population structure</a><ul>
 <li class="chapter" data-level="4.1" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#genetic-drift"><i class="fa fa-check"></i><b>4.1</b> Genetic drift</a></li>
 <li class="chapter" data-level="4.2" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#three-pop"><i class="fa fa-check"></i><b>4.2</b> Three pop</a></li>
-<li class="chapter" data-level="4.3" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#six-pop"><i class="fa fa-check"></i><b>4.3</b> Six pop</a></li>
+<li class="chapter" data-level="4.3" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#five-pop"><i class="fa fa-check"></i><b>4.3</b> Five pop</a></li>
 <li class="chapter" data-level="4.4" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#wishart-distribution-simulation"><i class="fa fa-check"></i><b>4.4</b> Wishart distribution simulation</a></li>
 <li class="chapter" data-level="4.5" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#distribution-of-the-wishart-diagonal-elements"><i class="fa fa-check"></i><b>4.5</b> Distribution of the Wishart diagonal elements</a></li>
 <li class="chapter" data-level="4.6" data-path="simulating-population-structure.html"><a href="simulating-population-structure.html#homo-cohort"><i class="fa fa-check"></i><b>4.6</b> Homo cohort</a></li>
@@ -238,12 +238,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This project is dedicated to <font color="navy"><code>EigenGWAS</code></font>, a linear model analysis approach for eigenvectors on genomic data, which can be represented as <span class="math inline">\(\mathbf{X}\)</span> the <span class="math inline">\(n \times m\)</span> genotype matrix. Without loss of generality, <span class="math inline">\(x_{jl}\)</span> is a genotype code for the <span class="math inline">\(i^{th}\)</span> sample at the <span class="math inline">\(l^{th}\)</span> biallic locus. The data matrix <span class="math inline">\(\mathbf{X}\)</span> can be generated from genotyping chips, NGS, or GBS.</p>
 <div id="genetic-relatedness-matrix-mathbfg" class="section level2">
 <h2><span class="header-section-number">1.1</span> Genetic relatedness matrix <span class="math inline">\(\mathbf{G}\)</span></h2>
-<p>We can construct the <span class="math inline">\(n\times\)</span> genetic relatedness matrix as
-<span class="math inline">\(\mathbf{X}\)</span> the <span class="math inline">\(n\times m\)</span> genotype matrix. We can construct the <span class="math inline">\(n\times\)</span> genetic relatedness matrix as</p>
+<p>We can construct the <span class="math inline">\(n\times n\)</span> genetic relatedness matrix as</p>
 <p><span class="math display">\[\mathbf{G}=\tilde{\mathbf{X}}\tilde{\mathbf{X}}^T\]</span>
-in which <span class="math inline">\(\tilde{\mathbf{X}}\)</span> is the scaled form of <span class="math inline">\(\mathbf{X}\)</span>
-However, upon the mating type of the species, <span class="math inline">\(\mathbf{G}\)</span> should be constructly differently. For a random mating population, <span class="math inline">\(x_l\)</span> is scaled as <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}\)</span>, whereas for inbred population, <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}\)</span>. <span class="math inline">\(q_l\)</span> equals <span class="math inline">\(1-p_l\)</span>.</p>
-<p>So for a pair of individuals <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>,</p>
+in which <span class="math inline">\(\tilde{\mathbf{X}}\)</span> is the scaled form of <span class="math inline">\(\mathbf{X}\)</span>.
+However, upon the mating type of the species, <span class="math inline">\(\mathbf{G}\)</span> should be constructly differently. For a random mating population, <span class="math inline">\(x_l\)</span> is scaled as <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}\)</span>, whereas for inbred population, <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}\)</span>, and <span class="math inline">\(q_l=1-p_l\)</span> the frequency for the alternative allele.</p>
+<p>So for individual <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>,</p>
 <p><span class="math display" id="eq:G">\[\begin{equation}
 G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_lq_l} \tag{1.1}
 \end{equation}\]</span></p>
@@ -268,12 +267,11 @@ m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 \tag{1.
 </div>
 <div id="eigengwas-linear-model" class="section level2">
 <h2><span class="header-section-number">1.2</span> EigenGWAS linear model</h2>
-<p>Given <a href="https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">eigenanalysis</a> of <span class="math inline">\(\mathbf{X}\)</span>, we have <span class="math inline">\(\mathbf{E}\)</span> and <span class="math inline">\(\mathbf{\Lambda}\)</span>, in which <span class="math inline">\(\mathbf{\Lambda}\)</span> is an <span class="math inline">\(n \times n\)</span> diagonal matrix for eigenvalues and <span class="math inline">\(\mathbf{E}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix for the eigenvectors. <span class="math inline">\(\mathbf{E}_k\)</span> is the eigenvector associated with the <span class="math inline">\(k^{th}\)</span> largest eigenvalue. Regressing <span class="math inline">\(\mathbf{E}_k\)</span> against each marker, we have the model below</p>
+<p>Given eigenanalysis (<a href="https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">see more its details in wikipedia</a>) of <span class="math inline">\(\mathbf{X}\)</span>, we have <span class="math inline">\(\mathbf{E}\)</span> and <span class="math inline">\(\mathbf{\Lambda}\)</span>, in which <span class="math inline">\(\mathbf{\Lambda}\)</span> is an <span class="math inline">\(n \times n\)</span> diagonal matrix for eigenvalues and <span class="math inline">\(\mathbf{E}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix for the eigenvectors. <span class="math inline">\(\mathbf{E}_k\)</span> is the <span class="math inline">\(k^{th}\)</span> eigenvector associated with the <span class="math inline">\(k^{th}\)</span> largest eigenvalue. Regressing <span class="math inline">\(\mathbf{E}_k\)</span> against the <span class="math inline">\(l^{th}\)</span> marker, we have the model below</p>
 <p><span class="math display" id="eq:EG-mod">\[\begin{equation}
-\mathbf{E}_k=a+\beta_j\mathbf{x}_i+e \tag{1.5}
+\mathbf{E}_k=a+\beta_l\mathbf{x}_l+e \tag{1.5}
 \end{equation}\]</span></p>
-<p>It consequently generates <span class="math inline">\(m\)</span> estimates of <span class="math inline">\(\beta\)</span>, <span class="math inline">\(\sigma_j\)</span>, and their corresponding <span class="math inline">\(p\)</span> values. Given the <span class="math inline">\(m\)</span> <span class="math inline">\(p\)</span> values, the conventional
-Manhattan plot can be made.</p>
+<p>It consequently generates <span class="math inline">\(m\)</span> estimates of <span class="math inline">\(\hat{\beta}\)</span>, <span class="math inline">\(\hat{\sigma}_{\beta}\)</span>, and their corresponding <span class="math inline">\(p\)</span> values.</p>
 <p>In particular, the one-degree-of-freedom <span class="math inline">\(\chi^2_1\)</span> has approximation as</p>
 <p><span class="math display" id="eq:EG-chi">\[\begin{equation}
 4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2\bar{p}_l\bar{q}_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W \tag{1.6}
@@ -289,10 +287,10 @@ Manhattan plot can be made.</p>
 <p><span class="math display" id="eq:EG-chi-adj">\[\begin{equation}
 \tilde\chi^2_1=\chi^2_1/\lambda_{GC_k} \tag{1.7}
 \end{equation}\]</span></p>
-<p>a correction of the test statistic compared to its original form. This correction has several implications</p>
+<p>a correction of the test statistic. Compared with its original form, the correction has several implications</p>
 <ul>
-<li><p>Statistically, as <a href="index.html#eq:EG-mod">(1.5)</a> has its response variable from <span class="math inline">\(\mathbf{X}\)</span>, the correctin removes its overfitting.</p></li>
-<li><p>Genetically, it corrects for genetic drift such as for <span class="math inline">\(\mathbf{E}_1\)</span>. Here quantity of the genetic drift is measured by the median value of the <span class="math inline">\(\chi^2_1\)</span> values observed.</p></li>
+<li><p>Statistically, as <a href="index.html#eq:EG-mod">(1.5)</a> has its response variable from <span class="math inline">\(\mathbf{X}\)</span>, the correction removes its overfitting.</p></li>
+<li><p>Genetically, it corrects for genetic drift such as soaked in <span class="math inline">\(\mathbf{E}_1\)</span>. Here the quantity of the genetic drift is measured by the median of the <span class="math inline">\(m\)</span> <span class="math inline">\(\chi^2_1\)</span> values observed.</p></li>
 </ul>
 <p><img src="EigenGWAS_files/figure-html/gc-1.png" width="672" /></p>
 </div>
@@ -313,12 +311,12 @@ in which</p>
 <span class="math display" id="eq:svd">\[\begin{equation}
 \mathbf{U}=\mathbf{\tilde{X}V\Sigma}^{-1} \tag{1.9}
 \end{equation}\]</span>
-The right side can be unfolded as <span class="math inline">\(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{x}_l\mathbf{v}_k\)</span>, follows <span class="math inline">\(N(0,1)\)</span>, and taking square of it leads to
-<span class="math display" id="eq:chi-svd">\[\begin{equation}
+The right side can be unfolded as <span class="math inline">\(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k\)</span>, following <span class="math inline">\(N(0,1)\)</span>, and taking square of it leads to</p>
+<p><span class="math display" id="eq:chi-svd">\[\begin{equation}
 (\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k)^2 \sim \chi^2_1 \tag{1.10}
 \end{equation}\]</span></p>
 <p>It brings out an interesting comparison between <a href="index.html#eq:EG-chi-adj">(1.7)</a> and <a href="index.html#eq:svd">(1.9)</a>.
-The subtle difference, for instance for <span class="math inline">\(E_1\)</span>, in their correction using <span class="math inline">\(\lambda_{GC}\)</span> and <span class="math inline">\(\Sigma_1\)</span>. When the population divergency is due to genetic drift and a small proportion of loci are under selection, <span class="math inline">\(\Sigma_1 \gt \lambda_{GC}\)</span>. It is because <span class="math inline">\(\Sigma_1\)</span> is the mean of the <span class="math inline">\(\chi^2_1\)</span> from <a href="index.html#eq:EG-chi">(1.6)</a>, but <span class="math inline">\(\lambda_{GC}\)</span> is the median of it. Given a population under selection, such as selection sweep, it does have <span class="math inline">\(\lambda_{GC} \gt \Sigma_1\)</span>, as demonstrated in <a href="http://rpubs.com/gc5k/EigenGWAScore">simulation</a>.</p>
+The subtle difference, for instance for <span class="math inline">\(E_1\)</span>, in their correction using <span class="math inline">\(\lambda_{GC}\)</span> and <span class="math inline">\(\Sigma_1\)</span>. When the population divergency is due to genetic drift and a small proportion of loci are under selection, <span class="math inline">\(\Sigma_1 \gt \lambda_{GC}\)</span>. It is because <span class="math inline">\(\Sigma_1\)</span> is the mean of the <span class="math inline">\(\chi^2_1\)</span> from <a href="index.html#eq:EG-chi">(1.6)</a>, but <span class="math inline">\(\lambda_{GC}\)</span> is the median of it. Given a population under selection, such as selection sweep, it does have <span class="math inline">\(\Sigma_1 \gt \lambda_{GC}\)</span>, as demonstrated in <a href="http://rpubs.com/gc5k/EigenGWAScore">simulation</a>.</p>
 <p>So, using linear model system such as <font color="navy"><code>EigenGWAS</code></font> gives more flexibility, as well as improved statistical power comparing with SVD transformation.</p>
 <p>However, in this transformation, eigenvalue is involved, as would be show. It will reduce the statistical power for <font color="navy"><code>EigenGWAS</code></font>.</p>
 <div id="threshold-for-eigengwas" class="section level3">
@@ -328,15 +326,17 @@ The subtle difference, for instance for <span class="math inline">\(E_1\)</span>
 </div>
 <div id="classic-mechanic-intepretation" class="section level2">
 <h2><span class="header-section-number">1.4</span> Classic mechanic intepretation</h2>
-<p>The <font color="navy"><code>EigenGWAS</code></font> model resembles the Newtown’s first and the second <a href="https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion">laws for classical mechanics</a>. The first law states that</p>
+<p>The <font color="navy"><code>EigenGWAS</code></font> model resembles the Newtown’s first and the second <a href="https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion">laws for classical mechanics</a>. The first law states</p>
 <blockquote>
 <p>“In an inertial frame of reference, an object either remains at rest or continues to move at a constant velocity, unless acted upon by a force.”</p>
 </blockquote>
 <p>Analogously, in population genetics, it can be seemed as genetic drift that is constantly driving the a pair of population apart from each other, and its velocity can be quantified by a binomial distribution as <span class="math inline">\(\frac{pq}{\tilde{n}_e}\)</span>.</p>
+<p>The second law stats</p>
 <blockquote>
 <p>“In an inertial frame of reference, the vector sum of the forces <span class="math inline">\(F\)</span> on an object is equal to the mass m of that object multiplied by the acceleration a of the object: <span class="math inline">\(F = ma\)</span>.”</p>
 </blockquote>
 <p>Analogously, the selection can drive a genomic region run against its reference population at a velocity greater than <span class="math inline">\(\frac{pq}{\tilde{n}_e}\)</span>.</p>
+<p>Although, this interpretation works even for domesticated populations, its proportion of the markers divergent by genetic drift and selection would be very different.</p>
 
 </div>
 </div>

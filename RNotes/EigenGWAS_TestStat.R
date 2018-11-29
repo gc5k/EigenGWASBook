@@ -2,9 +2,9 @@ rep=1
 EV=matrix(0, rep, 10)
 typeI=matrix(0, rep, 4)
 fst=c(0.002, 0.01)
-N1=c(100, 500, 1000)
-N2=1000
-Ml=c(8000, 2000)
+N1=c(100, 500)
+N2=100
+Ml=c(2000)
 M=sum(Ml)
 ME=matrix(0, length(N1), 3)
 for(s in 1:length(N1)) {
@@ -49,7 +49,7 @@ for(s in 1:length(N1)) {
   abline(a=0, b=1, col="red")
   gc=median(RegB[,3])/0.455
   abline(a=0, b=gc, col="blue")
-  
+
   ME[s,1]=mean(Fst)*(N1[s]+N2)
   ME[s,2]=gc
   ME[s,3]=EigenGN$values[1]
@@ -57,31 +57,3 @@ for(s in 1:length(N1)) {
 rownames(ME)=N1
 barplot(t(ME), beside = T, border = F)
 legend("topleft", legend = c("Fst", "GC", "Eigenvalue"), pch=15, col=c("black", "grey50", "grey"), bty='n')
-
-
-
-EG=matrix(0, 50, 1)
-for(rp in 1:50) {
-  N=500
-  M=5000
-  p=runif(M, 0.2, 0.8)
-  X=matrix(0, N, M)
-  for(i in 1:M) {
-    X[,i] = rbinom(N, 2, p[i])
-  }
-  mu=apply(X, 2, mean)
-  sig=apply(X, 2, var)
-  Xs=apply(X, 2, scale)
-  G=Xs %*% t(Xs) / M
-  rc=rchisq(nrow(G), nrow(G)-1)/nrow(G)
-  qqplot(rc, diag(G), xlab=expression(paste(chi[N]^2, "/N")), ylab="Diag (G)", bty='n', pch=16)
-  abline(a=0, b=1, col="red")
-  mod=lm(sort(diag(G))~sort(rc))
-  Eg=eigen(G)
-  EG[rp,1]=Eg$values[1]
-}
-Emu=(sqrt(M-1)+sqrt(N))^2/M
-Esd=sqrt(Emu/M)*(1/sqrt(M-1/2)+1/sqrt(N-1/2))^(1/3)
-
-hist((EG/(sum(diag(G))/N)-Emu)/Esd)
-x=matrix(rnorm(N*M), N, M)

@@ -16,14 +16,13 @@ This project is dedicated to <font color="navy">`EigenGWAS`</font>, a linear mod
 
 ## Genetic relatedness matrix $\mathbf{G}$
 
-We can construct the $n\times$ genetic relatedness matrix as
-$\mathbf{X}$ the $n\times m$ genotype matrix. We can construct the $n\times$ genetic relatedness matrix as
+We can construct the $n\times n$ genetic relatedness matrix as
 
 $$\mathbf{G}=\tilde{\mathbf{X}}\tilde{\mathbf{X}}^T$$
-in which $\tilde{\mathbf{X}}$ is the scaled form of $\mathbf{X}$
-However, upon the mating type of the species, $\mathbf{G}$ should be constructly differently. For a random mating population, $x_l$ is scaled as $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}$, whereas for inbred population, $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}$. $q_l$ equals $1-p_l$.
+in which $\tilde{\mathbf{X}}$ is the scaled form of $\mathbf{X}$.
+However, upon the mating type of the species, $\mathbf{G}$ should be constructly differently. For a random mating population, $x_l$ is scaled as $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}$, whereas for inbred population, $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}$, and  $q_l=1-p_l$ the frequency for the alternative allele.
 
-So for a pair of individuals $i$ and $j$, 
+So for individual $i$ and $j$,
 
 \begin{equation}
 G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_lq_l} (\#eq:G)
@@ -55,14 +54,13 @@ m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 (\#eq:M
 in which $\rho_{l_1l_2}$ is Pearson's correlation between a pair of SNPs, see Appendix \@ref(app:ld). It is an important parameter to describe the evolutionary process of a population of study.
 
 ## EigenGWAS linear model
-Given [eigenanalysis](https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors) of $\mathbf{X}$, we have $\mathbf{E}$ and $\mathbf{\Lambda}$, in which $\mathbf{\Lambda}$ is an $n \times n$ diagonal matrix for eigenvalues and $\mathbf{E}$ is an $n \times n$  matrix for the eigenvectors. $\mathbf{E}_k$ is the eigenvector associated with the $k^{th}$ largest eigenvalue. Regressing $\mathbf{E}_k$ against each marker, we have the model below
+Given eigenanalysis ([see more its details in wikipedia](https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors)) of $\mathbf{X}$, we have $\mathbf{E}$ and $\mathbf{\Lambda}$, in which $\mathbf{\Lambda}$ is an $n \times n$ diagonal matrix for eigenvalues and $\mathbf{E}$ is an $n \times n$  matrix for the eigenvectors. $\mathbf{E}_k$ is the $k^{th}$ eigenvector associated with the $k^{th}$ largest eigenvalue. Regressing $\mathbf{E}_k$ against the $l^{th}$ marker, we have the model below
 
 \begin{equation}
-\mathbf{E}_k=a+\beta_j\mathbf{x}_i+e (\#eq:EG-mod)
+\mathbf{E}_k=a+\beta_l\mathbf{x}_l+e (\#eq:EG-mod)
 \end{equation}
 
-It consequently generates $m$ estimates of $\beta$, $\sigma_j$, and their corresponding $p$ values. Given the $m$ $p$ values, the conventional 
-Manhattan plot can be made.
+It consequently generates $m$ estimates of $\hat{\beta}$, $\hat{\sigma}_{\beta}$, and their corresponding $p$ values.
 
 In particular, the one-degree-of-freedom $\chi^2_1$ has approximation as
 
@@ -108,12 +106,11 @@ After technical correction, correspondingly
 \tilde\chi^2_1=\chi^2_1/\lambda_{GC_k} (\#eq:EG-chi-adj)
 \end{equation}
 
-a correction of the test statistic compared to its original form. This correction has several implications
+a correction of the test statistic. Compared with its original form, the correction has several implications
 
-- Statistically, as \@ref(eq:EG-mod) has its response variable from $\mathbf{X}$, the correctin removes its overfitting.
+- Statistically, as \@ref(eq:EG-mod) has its response variable from $\mathbf{X}$, the correction removes its overfitting.
 
-- Genetically, it corrects for genetic drift such as for $\mathbf{E}_1$. Here quantity of the genetic drift is measured by the median value of the $\chi^2_1$ values observed.
-
+- Genetically, it corrects for genetic drift such as soaked in $\mathbf{E}_1$. Here the quantity of the genetic drift is measured by the median of the $m$ $\chi^2_1$ values observed.
 
 ```{r, gc, collapse=TRUE, echo=FALSE}
 Chi=rchisq(10000, 1, ncp=0.2)
@@ -143,13 +140,14 @@ Due to the transformation between $\mathbf{U}$ and $\mathbf{V}$, it has
 \begin{equation}
 \mathbf{U}=\mathbf{\tilde{X}V\Sigma}^{-1} (\#eq:svd)
 \end{equation}
-The right side can be unfolded as $\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{x}_l\mathbf{v}_k$, follows $N(0,1)$, and taking square of it leads to 
+The right side can be unfolded as $\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k$, following $N(0,1)$, and taking square of it leads to 
+
 \begin{equation}
 (\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k)^2 \sim \chi^2_1 (\#eq:chi-svd)
 \end{equation}
 
 It brings out an interesting comparison between \@ref(eq:EG-chi-adj) and \@ref(eq:svd).
-The subtle difference, for instance for $E_1$, in their correction using $\lambda_{GC}$ and $\Sigma_1$. When the population divergency is due to genetic drift and a small proportion of loci are under selection,  $\Sigma_1 \gt \lambda_{GC}$. It is because $\Sigma_1$ is the mean of the $\chi^2_1$ from \@ref(eq:EG-chi), but $\lambda_{GC}$ is the median of it. Given a population under selection, such as selection sweep, it does have $\lambda_{GC} \gt \Sigma_1$, as demonstrated in [simulation](http://rpubs.com/gc5k/EigenGWAScore).
+The subtle difference, for instance for $E_1$, in their correction using $\lambda_{GC}$ and $\Sigma_1$. When the population divergency is due to genetic drift and a small proportion of loci are under selection,  $\Sigma_1 \gt \lambda_{GC}$. It is because $\Sigma_1$ is the mean of the $\chi^2_1$ from \@ref(eq:EG-chi), but $\lambda_{GC}$ is the median of it. Given a population under selection, such as selection sweep, it does have $\Sigma_1 \gt \lambda_{GC}$, as demonstrated in [simulation](http://rpubs.com/gc5k/EigenGWAScore).
 
 So, using linear model system such as <font color="navy">`EigenGWAS`</font> gives more flexibility, as well as improved statistical power comparing with SVD transformation.
 
@@ -159,12 +157,16 @@ However, in this transformation, eigenvalue is involved, as would be show. It wi
 As shown above, <font color="navy">`EigenGWAS`</font> is a linear model framework nearly identical to the conventional GWAS, and Bonferroni correction, such as $\alpha/m$, can be used to set the threshold at the significance level $\alpha$, such as $\alpha=0.05$.
 
 ## Classic mechanic intepretation
-The <font color="navy">`EigenGWAS`</font> model resembles the Newtown's first and the second [laws for classical mechanics](https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion). The first law states that 
+The <font color="navy">`EigenGWAS`</font> model resembles the Newtown's first and the second [laws for classical mechanics](https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion). The first law states
 
 >"In an inertial frame of reference, an object either remains at rest or continues to move at a constant velocity, unless acted upon by a force."
 
 Analogously, in population genetics, it can be seemed as genetic drift that is constantly driving the a pair of population apart from each other, and its velocity can be quantified by a binomial distribution as $\frac{pq}{\tilde{n}_e}$.
 
+The second law stats
+
 >"In an inertial frame of reference, the vector sum of the forces $F$ on an object is equal to the mass m of that object multiplied by the acceleration a of the object: $F = ma$."
 
 Analogously, the selection can drive a genomic region run against its reference population at a velocity greater than $\frac{pq}{\tilde{n}_e}$.
+
+Although, this interpretation works even for domesticated populations, its proportion of the markers divergent by genetic drift and selection would be very different.
