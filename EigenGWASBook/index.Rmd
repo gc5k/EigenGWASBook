@@ -12,35 +12,39 @@ description: "EigenGWAS Project."
 
 # EigenGWAS basis {#ch:basis}
 
-This project is dedicated to <font color="navy">`EigenGWAS`</font>, a linear model analysis approach for eigenvectors on genomic data, which can be represented as $\mathbf{X}$ the $n \times m$ genotype matrix. Without loss of generality, $x_{jl}$ is a genotype code for the $i^{th}$ sample at the $l^{th}$ biallic locus. The data matrix $\mathbf{X}$ can be generated from genotyping chips, NGS, or GBS.
+This project is dedicated to <font color="navy">`EigenGWAS`</font>, a linear model analysis approach for genomic data.
+
+<font color="navy">`EigenGWAS`</font> can be seamlessly applied to the steps after `STRUCTRURE` and `principal component analysis`. **In a nutshell**, **<font color="navy">it regresses the eigenvector agaist each SNP</font>**, an analysis that finds the loci under selection. It analysis pipeline may be found at [pipeline](http://rpubs.com/gc5k/EigenGWASpipeline).
 
 ## Genetic relatedness matrix $\mathbf{G}$
 
-We can construct the $n\times n$ genetic relatedness matrix as
+The genomic data can be represented as $\mathbf{X}$, an $n \times m$ matrix representing $n$ individuals and $m$ markers. Without loss of generality, $x_{jl}$ is the genotype code for the $i^{th}$ individual at the $l^{th}$ biallic locus. The data matrix $\mathbf{X}$ can be generated from chips, NGS, or GBS.
 
-$$\mathbf{G}=\tilde{\mathbf{X}}\tilde{\mathbf{X}}^T$$
-in which $\tilde{\mathbf{X}}$ is the scaled form of $\mathbf{X}$.
-However, upon the mating type of the species, $\mathbf{G}$ should be constructed accordingly. For a random mating population, $x_l$ is scaled as $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}$, whereas for inbred population, $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}$, and  $q_l=1-p_l$ the frequency for the alternative allele.
+In general, given $\mathbf{X}$ we can construct the $n\times n$ genetic relatedness matrix as
 
-So for individual $i$ and $j$,
+\begin{equation}
+\mathbf{G}=\frac{1}{m}\tilde{\mathbf{X}}\tilde{\mathbf{X}}^T (\#eq:GM)
+\end{equation}
+
+in which $\tilde{\mathbf{X}}$ is the scaled form of $\mathbf{X}$ (slighlty different from standardization, which will be $\frac{x_l-2p_l}{\sqrt{2(1+F_l)p_lq_l}}$).
+However, upon the mating type of the species, $\mathbf{G}$ should be constructed accordingly. For a random mating population, $x_l$ is scaled as $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}$, assuming the current population as the base population, whereas for inbred population, $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}$, and  $q_l=1-p_l$ the frequency for the alternative allele.
+
+Due to missing data, in practice for individual $i$ and $j$, their pairwise relatedness is
 
 \begin{equation}
 G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_lq_l} (\#eq:G)
 \end{equation}
 
-in which $\tilde{m}$ is the number of genotyped loci at both individal $i$ and $j$, and $F$ the inbreeding coefficient takes value of 0 for random mating population and 1 for inbred population.
-
+in which $\tilde{m}$ is the number of loci genotyped at both individal $i$ and $j$, and $F$ the inbreeding coefficient taking the value of 0 for random mating population and 1 for inbred population. When $F$ is set as zero, it is assumed that the current population is the `base population`.
 
 ### Statistical properties of $\mathbf{G}$
 
-Given $\mathbf{G}$, we can define two population parameters, $n_e$, the `effective population size`, and $m_e$, the `effective number of markers`.
-
-Let $\mathbf{G}_o$ denote the off diagonal elements of $\mathbf{G}$, then we have 
+Let $\mathbf{G}_o$ denote the off diagonal elements of $\mathbf{G}$, then we can define two population parameters, $n_e$, the `effective population size`, and $m_e$, the `effective number of markers`.
 
 \begin{equation}
 n_e=\frac{-1}{mean(\mathbf{G}_o)} (\#eq:Ne)
 \end{equation}
-$n_e$ reflects true relatedness between any pair of samples; 
+$n_e$ reflects true relatedness between any pair of samples;
 
 \begin{equation}
 m_e=\frac{1}{Var(\mathbf{G}_o)}  (\#eq:Me1)
@@ -54,21 +58,19 @@ m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 (\#eq:M
 in which $\rho_{l_1l_2}$ is Pearson's correlation between a pair of SNPs, see Appendix \@ref(app:ld). It is an important parameter to describe the evolutionary process of a population of study.
 
 ## EigenGWAS linear model
-Given eigenanalysis ([see more its details in wikipedia](https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors)) of $\mathbf{X}$, we have $\mathbf{E}$ and $\mathbf{\Lambda}$, in which $\mathbf{\Lambda}$ is an $n \times n$ diagonal matrix for eigenvalues and $\mathbf{E}$ is an $n \times n$  matrix for the eigenvectors. $\mathbf{E}_k$ is the $k^{th}$ eigenvector associated with the $k^{th}$ largest eigenvalue. Regressing $\mathbf{E}_k$ against the $l^{th}$ marker, we have the model below
+Given eigenanalysis ([see wikipedia for its more details](https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors)) of $\mathbf{X}$, we have $\mathbf{E}$ and $\mathbf{\Lambda}$, in which $\mathbf{\Lambda}$ is an $n \times n$ diagonal matrix for eigenvalues and $\mathbf{E}$ is an $n \times n$  matrix for the eigenvectors. $\mathbf{E}_k$ is the $k^{th}$ eigenvector associated with the $k^{th}$ largest eigenvalue. Regressing $\mathbf{E}_k$ against the $l^{th}$ marker, we have the model below
 
 \begin{equation}
 \mathbf{E}_k=a+\beta_l\mathbf{x}_l+e (\#eq:EG-mod)
 \end{equation}
 
-It consequently generates $m$ estimates of $\hat{\beta}$, $\hat{\sigma}_{\beta}$, and their corresponding $p$ values.
-
-In particular, the one-degree-of-freedom $\chi^2_1$ has approximation as
+It consequently generates $m$ estimates of $\hat{\beta}$, $\hat{\sigma}_{\beta}$, and their corresponding $p$ values. The $p$ value can be converted to one-degree-of-freedom $\chi^2_1$. Under the context of <font color="navy">`EigenGWAS`</font>, the $\chi^2_1$ can be intepreted as
 
 \begin{equation}
 4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W (\#eq:EG-chi)
 \end{equation}
 
-in which $\color{red}{n_1}$ and $\color{blue}{n_2}$ are the numbers of samples at the left and right side of "0" on the eigenvector, see the figure below, and $\omega_g=\frac{n_g}{n}$ the proportion of a subgroup in the sample. $g=2$ in EigenGWAS analysis. $\color{red}{p_{1,l}}$ and $\color{blue}{p_{2,l}}$ are the frequencies of the reference allele in two subgroups, respectively. $F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}$ and $F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-p_l)^2}{p_lq_l}$.
+in which $\color{red}{n_1}$ and $\color{blue}{n_2}$ are the numbers of samples at the left and right side of "0" on the eigenvector (see the figure below), and $\omega_g=\frac{n_g}{n}$ the proportion of a subgroup in the sample ($g=2$ in EigenGWAS analysis), and $\color{red}{p_{1,l}}$ and $\color{blue}{p_{2,l}}$ are the frequencies of the reference allele in two subgroups, respectively. $F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}$ and $F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-p_l)^2}{p_lq_l}$. It is obviously that when $n_1=n_2=\frac{n}{2}$ the test statistic reaches its maximum.
 
 ```{r, eigen, collapse=TRUE, tidy=TRUE, echo=FALSE}
 set.seed(2018)
@@ -98,7 +100,7 @@ abline(v=0, col="grey", lty=2)
 ```
 
 ### $\lambda_{GC}$ correction
-We can define $\lambda_{GC}=\chi^2_{1,median(p)}/\chi^2_{1,0.5}$, in which $\chi^2_{1,0.5}=0.455$. We further use subscript $k$ to denote $\lambda_{GC_k}$ the one that is estimated from the EigenGWAS analysis of $\mathbf{E}_k$, as shown \@ref(eq:EG-mod).
+Given the median, denoted as $\chi^2_{1,median(p)}$, of the $m$ $\chi^2_1$ values observed, we can define $\lambda_{GC}=\chi^2_{1,median(p)}/\chi^2_{1,0.5}$, in which $\chi^2_{1,0.5}=0.455$. We further use subscript $k$ to denote $\lambda_{GC_k}$ the one that is estimated from the EigenGWAS analysis of $\mathbf{E}_k$, as shown \@ref(eq:EG-mod).
 
 After technical correction, correspondingly 
 
@@ -112,6 +114,8 @@ a correction of the test statistic. Compared with its original form, the correct
 
 - Genetically, it corrects for genetic drift such as soaked in $\mathbf{E}_1$. Here the quantity of the genetic drift is measured by the median of the $m$ $\chi^2_1$ values observed.
 
+- $\lambda_{GC}$ parameter has long been proposed in controlling population structure in GWAS, but finds its best fit in <font color="navy">`EigenGWAS`</font>.
+
 ```{r, gc, collapse=TRUE, echo=FALSE}
 Chi=rchisq(10000, 1, ncp=0.2)
 layout(matrix(1:2, 1, 2))
@@ -123,55 +127,56 @@ qqplot(main="After correction", rchisq(1000,1), ChiGC, bty="n", xlab=expression(
 abline(a=0, b=1, col="red", lty=2)
 ```
 
-## Connection to SVD
-Singular value decomposition, [see SVD wiki for more details](https://en.wikipedia.org/wiki/Singular_value_decomposition), can decompose the matrix $\mathbf{X}$ into
+### Threshold for EigenGWAS
+As shown above, <font color="navy">`EigenGWAS`</font> is a linear model framework nearly identical to the conventional GWAS, and Bonferroni correction, such as $\alpha/m$, can be used to set the threshold at the significance level $\alpha$, such as $\alpha=0.05$. The loci that exceeds the threshold are under selection.
+
+## Connection to singular value decomposition
+Singular value decomposition ((see wiki for more details](https://en.wikipedia.org/wiki/Singular_value_decomposition)) can decompose the matrix $\mathbf{X}$ into
 \begin{equation}
 \mathbf{X}=\mathbf{U\Sigma V} (\#eq:SVD)
 \end{equation}
 in which
 
-- $\mathbf{U}$ is an $n\times n$ unitary matrix, corresponding to individual-level loading for each sample,
+- $\mathbf{U}$ is an $n\times n$ unitary matrix, corresponding to individual-level loading for each sample. $\mathbf{U}$ is also called left-singular vectors.
 
 - $\mathbf{\Sigma}$ an $n\times m$ diagonal matrix, 
 
-- and $\mathbf{V}$ an $m\times m$ unitary matrix, corresponding to SNP-level loading.
+- $\mathbf{V}$ an $m\times m$ unitary matrix, corresponding to SNP-level loading. $\mathbf{U}$ is also called right-singular vectors.
 
 Due to the transformation between $\mathbf{U}$ and $\mathbf{V}$, it has 
 \begin{equation}
 \mathbf{U}=\mathbf{\tilde{X}V\Sigma}^{-1} (\#eq:svd)
 \end{equation}
-The right side can be unfolded as $\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k$, following $N(0,1)$, and taking square of it leads to 
+The right side of \@ref(eq:svd) can be unfolded as $\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k$, following $N(0,1)$, and taking square of it leads to 
 
 \begin{equation}
-(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k)^2 \sim \chi^2_1 (\#eq:chi-svd)
+(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k)^2 \sim \tilde{\chi}^2_{1,svd} (\#eq:chi-svd)
 \end{equation}
 
-It brings out an interesting comparison between \@ref(eq:EG-chi-adj) and \@ref(eq:svd).
-The subtle difference, for instance for $E_1$, in their correction using $\lambda_{GC}$ and $\Sigma_1$. When the population divergency is due to genetic drift and a small proportion of loci are under selection,  $\Sigma_1 \gt \lambda_{GC}$. It is because $\Sigma_1$ is the mean of the $\chi^2_1$ from \@ref(eq:EG-chi), but $\lambda_{GC}$ is the median of it. Given a population under selection, such as selection sweep, it does have $\Sigma_1 \gt \lambda_{GC}$, as demonstrated in [simulation](http://rpubs.com/gc5k/EigenGWAScore).
+It brings out an interesting comparison between \@ref(eq:EG-chi-adj) and \@ref(eq:svd),
+and exists subtle difference, for instance $E_1$, in their correction using $\lambda_{GC}$ and $\Sigma_1$. When the population divergency is due to genetic drift and a small proportion of loci are under selection,  $\Sigma_1 \gt \lambda_{GC}$. It is because $\Sigma_1$ is the mean of the $\chi^2_1$ from \@ref(eq:EG-chi), but $\lambda_{GC}$ is the median of it. Given a population under selection, such as selection sweep, it does have $\Sigma_1 \gt \lambda_{GC}$, as demonstrated in [simulation](http://rpubs.com/gc5k/EigenGWAScore).
 
-So, using linear model system such as <font color="navy">`EigenGWAS`</font> gives more flexibility, as well as improved statistical power comparing with SVD transformation.
+So, using linear model system such as <font color="navy">`EigenGWAS`</font> brings more flexibility, as well as improved statistical power comparing with direct `left-to-right singular vector` transformation in SVD \@ref(eq:svd).
 
-However, in this transformation, eigenvalue is involved, as would be show. It will reduce the statistical power for <font color="navy">`EigenGWAS`</font>.
+However, in this transformation, eigenvalue is involved, as would be show. It will reduce the statistical power for <font color="navy">`EigenGWAS`</font>. In theory and practice, with type-I error rate well-controlled, $\tilde{\chi}^2_1$ \@ref(eq:EG-chi-adj) is greater than  $\tilde{\chi}^2_{1.svd}$ \@ref(eq:svd).
 
-### Threshold for EigenGWAS
-As shown above, <font color="navy">`EigenGWAS`</font> is a linear model framework nearly identical to the conventional GWAS, and Bonferroni correction, such as $\alpha/m$, can be used to set the threshold at the significance level $\alpha$, such as $\alpha=0.05$.
 
 ## Intepretation
 
 ### $F_{st}$
-`EigenGWAS` provides an unsupervised implementation for conventional $F_{st}$ that assumes the underlying subgroups are known. In practice, however, it is often unclear how the possible subgroups can be defined. So, `EigenGWAS` continuously partitions the data on each eigenvector by splitting the data into two subgroups. There is no guarantee that this strategy is optimal, but it seems a reasonable try when the group information is missing.  
+`EigenGWAS` provides an unsupervised realization for $F_{st}$ the conventional implementation of that assumes the underlying subgroups are known. In practice, however, it is often unclear how the possible subgroups should be defined. In contrast, `EigenGWAS` implicitly partitions the samples into two subgroups at each eigenvector at zero point on the coordinate. No guarantee that this strategy optimal, it seems a sound attempt when the group information is missing.
 
 ### Classic mechanic intepretation
-The <font color="navy">`EigenGWAS`</font> model resembles the Newtown's first and the second [laws for classical mechanics](https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion). The first law states
+The early framework of population genetics indebts a lot for theoretical physics ([Ronald Fisher](https://en.wikipedia.org/wiki/Ronald_Fisher) studied  astronomy). As a linear model system, <font color="navy">`EigenGWAS`</font> also finds its analogue in Newtown's first and the second [laws for classical mechanics](https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion). The first law states
 
 >"In an inertial frame of reference, an object either remains at rest or continues to move at a constant velocity, unless acted upon by a force."
 
-Analogously, in population genetics, it can be seemed as genetic drift that is constantly driving the a pair of population apart from each other, and its velocity can be quantified by a binomial distribution as $\frac{pq}{\tilde{n}_e}$.
+In population genetics, it can be seemed as genetic drift that is constantly driving the a pair of population apart from each other, and its velocity can be quantified by a binomial distribution as $\frac{pq}{\tilde{n}_e}$.
 
 The second law stats
 
 >"In an inertial frame of reference, the vector sum of the forces $F$ on an object is equal to the mass m of that object multiplied by the acceleration a of the object: $F = ma$."
 
-Analogously, the selection can drive a genomic region run against its reference population at a velocity greater than $\frac{pq}{\tilde{n}_e}$.
+The selection can drive a genomic region run against its reference population at a velocity greater than $\frac{pq}{\tilde{n}_e}$.
 
 Although, this interpretation works even for domesticated populations, its proportion of the markers divergent by genetic drift and selection would be very different.

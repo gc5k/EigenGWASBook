@@ -1,0 +1,732 @@
+\documentclass[]{book}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={EigenGWAS theory and application},
+            pdfauthor={Guo-Bo Chen {[}chen.guobo@foxmail.com{]}},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{natbib}
+\bibliographystyle{apalike}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{EigenGWAS theory and application}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Guo-Bo Chen
+{[}\href{mailto:chen.guobo@foxmail.com}{\nolinkurl{chen.guobo@foxmail.com}}{]}}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2018-11-30}
+
+\usepackage{booktabs}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\hypertarget{ch:basis}{%
+\chapter{EigenGWAS basis}\label{ch:basis}}
+
+This project is dedicated to \texttt{EigenGWAS}, a linear model analysis
+approach for eigenvectors on genomic data, which can be represented as
+\(\mathbf{X}\) the \(n \times m\) genotype matrix. Without loss of
+generality, \(x_{jl}\) is a genotype code for the \(i^{th}\) sample at
+the \(l^{th}\) biallic locus. The data matrix \(\mathbf{X}\) can be
+generated from genotyping chips, NGS, or GBS.
+
+\hypertarget{genetic-relatedness-matrix-mathbfg}{%
+\section{\texorpdfstring{Genetic relatedness matrix
+\(\mathbf{G}\)}{Genetic relatedness matrix \textbackslash{}mathbf\{G\}}}\label{genetic-relatedness-matrix-mathbfg}}
+
+We can construct the \(n\times n\) genetic relatedness matrix as
+
+\[\mathbf{G}=\tilde{\mathbf{X}}\tilde{\mathbf{X}}^T\] in which
+\(\tilde{\mathbf{X}}\) is the scaled form of \(\mathbf{X}\). However,
+upon the mating type of the species, \(\mathbf{G}\) should be
+constructed accordingly. For a random mating population, \(x_l\) is
+scaled as \(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}\), whereas for
+inbred population, \(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}\), and
+\(q_l=1-p_l\) the frequency for the alternative allele.
+
+So for individual \(i\) and \(j\),
+
+\begin{equation}
+G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_lq_l} \label{eq:G}
+\end{equation}
+
+in which \(\tilde{m}\) is the number of genotyped loci at both individal
+\(i\) and \(j\), and \(F\) the inbreeding coefficient takes value of 0
+for random mating population and 1 for inbred population.
+
+\hypertarget{statistical-properties-of-mathbfg}{%
+\subsection{\texorpdfstring{Statistical properties of
+\(\mathbf{G}\)}{Statistical properties of \textbackslash{}mathbf\{G\}}}\label{statistical-properties-of-mathbfg}}
+
+Given \(\mathbf{G}\), we can define two population parameters, \(n_e\),
+the \texttt{effective\ population\ size}, and \(m_e\), the
+\texttt{effective\ number\ of\ markers}.
+
+Let \(\mathbf{G}_o\) denote the off diagonal elements of \(\mathbf{G}\),
+then we have
+
+\begin{equation}
+n_e=\frac{-1}{mean(\mathbf{G}_o)} \label{eq:Ne}
+\end{equation} \(n_e\) reflects true relatedness between any pair of
+samples;
+
+\begin{equation}
+m_e=\frac{1}{Var(\mathbf{G}_o)}  \label{eq:Me1}
+\end{equation} The ratio between \(\frac{m_e}{m}\) reflects the average
+linkage disequilibrium between the any pair of markers, and
+alternatively \(m_e\) can be expressed as
+
+\begin{equation}
+m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 \label{eq:Me2}
+\end{equation}
+
+in which \(\rho_{l_1l_2}\) is Pearson's correlation between a pair of
+SNPs, see Appendix \ref{app:ld}. It is an important parameter to
+describe the evolutionary process of a population of study.
+
+\hypertarget{eigengwas-linear-model}{%
+\section{EigenGWAS linear model}\label{eigengwas-linear-model}}
+
+Given eigenanalysis
+(\href{https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors}{see
+more its details in wikipedia}) of \(\mathbf{X}\), we have
+\(\mathbf{E}\) and \(\mathbf{\Lambda}\), in which \(\mathbf{\Lambda}\)
+is an \(n \times n\) diagonal matrix for eigenvalues and \(\mathbf{E}\)
+is an \(n \times n\) matrix for the eigenvectors. \(\mathbf{E}_k\) is
+the \(k^{th}\) eigenvector associated with the \(k^{th}\) largest
+eigenvalue. Regressing \(\mathbf{E}_k\) against the \(l^{th}\) marker,
+we have the model below
+
+\begin{equation}
+\mathbf{E}_k=a+\beta_l\mathbf{x}_l+e \label{eq:EG-mod}
+\end{equation}
+
+It consequently generates \(m\) estimates of \(\hat{\beta}\),
+\(\hat{\sigma}_{\beta}\), and their corresponding \(p\) values.
+
+In particular, the one-degree-of-freedom \(\chi^2_1\) has approximation
+as
+
+\begin{equation}
+4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W \label{eq:EG-chi}
+\end{equation}
+
+in which \(\color{red}{n_1}\) and \(\color{blue}{n_2}\) are the numbers
+of samples at the left and right side of ``0'' on the eigenvector, see
+the figure below, and \(\omega_g=\frac{n_g}{n}\) the proportion of a
+subgroup in the sample. \(g=2\) in EigenGWAS analysis.
+\(\color{red}{p_{1,l}}\) and \(\color{blue}{p_{2,l}}\) are the
+frequencies of the reference allele in two subgroups, respectively.
+\(F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}\)
+and \(F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-p_l)^2}{p_lq_l}\).
+
+\begin{verbatim}
+## [1]  100 1000
+## [1] "Ne= 100 Me= 1080.91076380488 given N= 100 and M= 1000"
+\end{verbatim}
+
+\includegraphics{EigenGWAS_files/figure-latex/eigen-1.pdf}
+
+\hypertarget{lambda_gc-correction}{%
+\subsection{\texorpdfstring{\(\lambda_{GC}\)
+correction}{\textbackslash{}lambda\_\{GC\} correction}}\label{lambda_gc-correction}}
+
+We can define \(\lambda_{GC}=\chi^2_{1,median(p)}/\chi^2_{1,0.5}\), in
+which \(\chi^2_{1,0.5}=0.455\). We further use subscript \(k\) to denote
+\(\lambda_{GC_k}\) the one that is estimated from the EigenGWAS analysis
+of \(\mathbf{E}_k\), as shown \eqref{eq:EG-mod}.
+
+After technical correction, correspondingly
+
+\begin{equation}
+\tilde\chi^2_1=\chi^2_1/\lambda_{GC_k} \label{eq:EG-chi-adj}
+\end{equation}
+
+a correction of the test statistic. Compared with its original form, the
+correction has several implications
+
+\begin{itemize}
+\item
+  Statistically, as \eqref{eq:EG-mod} has its response variable from
+  \(\mathbf{X}\), the correction removes its overfitting.
+\item
+  Genetically, it corrects for genetic drift such as soaked in
+  \(\mathbf{E}_1\). Here the quantity of the genetic drift is measured
+  by the median of the \(m\) \(\chi^2_1\) values observed.
+\end{itemize}
+
+\includegraphics{EigenGWAS_files/figure-latex/gc-1.pdf}
+
+\hypertarget{connection-to-svd}{%
+\section{Connection to SVD}\label{connection-to-svd}}
+
+Singular value decomposition,
+\href{https://en.wikipedia.org/wiki/Singular_value_decomposition}{see
+SVD wiki for more details}, can decompose the matrix \(\mathbf{X}\) into
+\begin{equation}
+\mathbf{X}=\mathbf{U\Sigma V} \label{eq:SVD}
+\end{equation} in which
+
+\begin{itemize}
+\item
+  \(\mathbf{U}\) is an \(n\times n\) unitary matrix, corresponding to
+  individual-level loading for each sample,
+\item
+  \(\mathbf{\Sigma}\) an \(n\times m\) diagonal matrix,
+\item
+  and \(\mathbf{V}\) an \(m\times m\) unitary matrix, corresponding to
+  SNP-level loading.
+\end{itemize}
+
+Due to the transformation between \(\mathbf{U}\) and \(\mathbf{V}\), it
+has \begin{equation}
+\mathbf{U}=\mathbf{\tilde{X}V\Sigma}^{-1} \label{eq:svd}
+\end{equation} The right side can be unfolded as
+\(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k\),
+following \(N(0,1)\), and taking square of it leads to
+
+\begin{equation}
+(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k)^2 \sim \chi^2_1 \label{eq:chi-svd}
+\end{equation}
+
+It brings out an interesting comparison between \eqref{eq:EG-chi-adj} and
+\eqref{eq:svd}. The subtle difference, for instance for \(E_1\), in their
+correction using \(\lambda_{GC}\) and \(\Sigma_1\). When the population
+divergency is due to genetic drift and a small proportion of loci are
+under selection, \(\Sigma_1 \gt \lambda_{GC}\). It is because
+\(\Sigma_1\) is the mean of the \(\chi^2_1\) from \eqref{eq:EG-chi}, but
+\(\lambda_{GC}\) is the median of it. Given a population under
+selection, such as selection sweep, it does have
+\(\Sigma_1 \gt \lambda_{GC}\), as demonstrated in
+\href{http://rpubs.com/gc5k/EigenGWAScore}{simulation}.
+
+So, using linear model system such as \texttt{EigenGWAS} gives more
+flexibility, as well as improved statistical power comparing with SVD
+transformation.
+
+However, in this transformation, eigenvalue is involved, as would be
+show. It will reduce the statistical power for \texttt{EigenGWAS}.
+
+\hypertarget{threshold-for-eigengwas}{%
+\subsection{Threshold for EigenGWAS}\label{threshold-for-eigengwas}}
+
+As shown above, \texttt{EigenGWAS} is a linear model framework nearly
+identical to the conventional GWAS, and Bonferroni correction, such as
+\(\alpha/m\), can be used to set the threshold at the significance level
+\(\alpha\), such as \(\alpha=0.05\).
+
+\hypertarget{intepretation}{%
+\section{Intepretation}\label{intepretation}}
+
+\hypertarget{f_st}{%
+\subsection{\texorpdfstring{\(F_{st}\)}{F\_\{st\}}}\label{f_st}}
+
+\texttt{EigenGWAS} provides an unsupervised implementation for
+conventional \(F_{st}\) that assumes the underlying subgroups are known.
+In practice, however, it is often unclear how the possible subgroups can
+be defined. So, \texttt{EigenGWAS} continuously partitions the data on
+each eigenvector by splitting the data into two subgroups. There is no
+guarantee that this strategy is optimal, but it seems a reasonable try
+when the group information is missing.
+
+\hypertarget{classic-mechanic-intepretation}{%
+\subsection{Classic mechanic
+intepretation}\label{classic-mechanic-intepretation}}
+
+The \texttt{EigenGWAS} model resembles the Newtown's first and the
+second
+\href{https://en.wikipedia.org/wiki/Newton\%27s_laws_of_motion}{laws for
+classical mechanics}. The first law states
+
+\begin{quote}
+``In an inertial frame of reference, an object either remains at rest or
+continues to move at a constant velocity, unless acted upon by a
+force.''
+\end{quote}
+
+Analogously, in population genetics, it can be seemed as genetic drift
+that is constantly driving the a pair of population apart from each
+other, and its velocity can be quantified by a binomial distribution as
+\(\frac{pq}{\tilde{n}_e}\).
+
+The second law stats
+
+\begin{quote}
+``In an inertial frame of reference, the vector sum of the forces \(F\)
+on an object is equal to the mass m of that object multiplied by the
+acceleration a of the object: \(F = ma\).''
+\end{quote}
+
+Analogously, the selection can drive a genomic region run against its
+reference population at a velocity greater than
+\(\frac{pq}{\tilde{n}_e}\).
+
+Although, this interpretation works even for domesticated populations,
+its proportion of the markers divergent by genetic drift and selection
+would be very different.
+
+\hypertarget{protocols}{%
+\chapter{Protocols}\label{protocols}}
+
+\hypertarget{protocols-for-selection}{%
+\section{Protocols for selection}\label{protocols-for-selection}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Constructing genetic relationship matrix \(\mathbf{G}\). The
+  difference between a random mating population and inbred population is
+  the way \(\mathbf{G}\) is constructed. So for a pair of individuals
+  \(i\) and \(j\),
+  \[G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_lq_l}\]
+  and \(F=1\) for inbred lines. Please refer to Chapter \ref{ch:basis}.
+\item
+  Conducting eigenanalysis for \(\mathbf{G}\), see it definition
+  \eqref{eq:G}.
+\item
+  Linear regression analysis for each SNP.
+\end{enumerate}
+
+\hypertarget{protocal-for-eigengwas}{%
+\section{Protocal for EigenGWAS}\label{protocal-for-eigengwas}}
+
+A simple analysis pipeline written in Rscript may be found at my
+\href{http://rpubs.com/gc5k/EigenGWASpipeline}{Rpub}.
+
+\hypertarget{protocol-for-predicted-eigenvectors}{%
+\section{Protocol for predicted
+eigenvectors}\label{protocol-for-predicted-eigenvectors}}
+
+The prediction accuracy can be written as
+\[R^2 \approx \frac{1}{1+\frac{n_e}{m}}\]
+
+\hypertarget{resequencing-studies}{%
+\chapter{Resequencing studies}\label{resequencing-studies}}
+
+This is a technical review for resequencing studies.
+
+\hypertarget{technical-review}{%
+\section{Technical review}\label{technical-review}}
+
+\hypertarget{ngs}{%
+\subsection{NGS}\label{ngs}}
+
+\hypertarget{chip-data}{%
+\subsection{Chip data}\label{chip-data}}
+
+\hypertarget{gbs}{%
+\subsection{GBS}\label{gbs}}
+
+\hypertarget{drop-hwe-test}{%
+\section{Drop HWE test}\label{drop-hwe-test}}
+
+\hypertarget{simulating-population-structure}{%
+\chapter{Simulating population
+structure}\label{simulating-population-structure}}
+
+A toy example for this Charpter can be found in
+\href{http://rpubs.com/gc5k/EigenGWAScore}{gc5k's Rpub}
+
+\hypertarget{genetic-drift}{%
+\section{Genetic drift}\label{genetic-drift}}
+
+As each locus follows binomial distribution, the \textbf{genetic drift}
+can be modelled \(\frac{\sqrt{pq}}{2n_e}\), in which \(n_e\) is the
+effective population size.
+\includegraphics{EigenGWAS_files/figure-latex/drift-1.pdf}
+
+\hypertarget{three-pop}{%
+\section{Three pop}\label{three-pop}}
+
+\begin{verbatim}
+## [1] "Fst1=0.050000, Fst2=0.020000"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "300 ind, 5000 marker"
+\end{verbatim}
+
+\includegraphics{EigenGWAS_files/figure-latex/3pop-1.pdf}
+
+\hypertarget{five-pop}{%
+\section{Five pop}\label{five-pop}}
+
+\begin{verbatim}
+## [1] "Fst1=0.050000, Fst2=0.020000"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "500 ind, 5000 marker"
+\end{verbatim}
+
+\includegraphics{EigenGWAS_files/figure-latex/5pop-1.pdf}
+
+\hypertarget{nine-pop}{%
+\section{Nine pop}\label{nine-pop}}
+
+\begin{verbatim}
+## [1] "Fst1=0.050000, Fst2=0.020000"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "900 ind, 10000 marker"
+\end{verbatim}
+
+\includegraphics{EigenGWAS_files/figure-latex/9pop-1.pdf}
+
+\hypertarget{wishart-distribution-simulation}{%
+\section{Wishart distribution
+simulation}\label{wishart-distribution-simulation}}
+
+R function \texttt{rWishart} can generate Wishart distribution easiliy.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{## Artificial}
+\NormalTok{S <-}\StringTok{ }\KeywordTok{toeplitz}\NormalTok{((}\DecValTok{10}\OperatorTok{:}\DecValTok{1}\NormalTok{)}\OperatorTok{/}\DecValTok{10}\NormalTok{)}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{11}\NormalTok{)}
+\NormalTok{R <-}\StringTok{ }\KeywordTok{rWishart}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\DecValTok{20}\NormalTok{, S)}
+\KeywordTok{dim}\NormalTok{(R)  }\CommentTok{#  10 10  1000}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]   10   10 1000
+\end{verbatim}
+
+\hypertarget{distribution-of-the-wishart-diagonal-elements}{%
+\section{Distribution of the Wishart diagonal
+elements}\label{distribution-of-the-wishart-diagonal-elements}}
+
+\hypertarget{homo-cohort}{%
+\section{Homo cohort}\label{homo-cohort}}
+
+\hypertarget{heterogeneous-cohort}{%
+\section{Heterogeneous cohort}\label{heterogeneous-cohort}}
+
+\hypertarget{tracy-widom-distribution}{%
+\section{Tracy-Widom distribution}\label{tracy-widom-distribution}}
+
+R package \texttt{RMTstat} can help study Tracy-Widom distribution.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(RMTstat)}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{density}\NormalTok{(}\KeywordTok{rtw}\NormalTok{(}\DecValTok{1000}\NormalTok{)), }\DataTypeTok{main=}\StringTok{"TW distribbtion"}\NormalTok{, }\DataTypeTok{bty=}\StringTok{'n'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EigenGWAS_files/figure-latex/TW-1.pdf}
+
+\hypertarget{applications}{%
+\chapter{Applications}\label{applications}}
+
+\hypertarget{analysis-pipeline}{%
+\section{Analysis pipeline}\label{analysis-pipeline}}
+
+\hypertarget{commandline-protocol}{%
+\subsection{Commandline protocol}\label{commandline-protocol}}
+
+\hypertarget{web-interactive-tools}{%
+\subsection{Web interactive tools}\label{web-interactive-tools}}
+
+\hypertarget{examples}{%
+\section{Examples}\label{examples}}
+
+\hypertarget{arabdiopsis}{%
+\subsection{Arabdiopsis}\label{arabdiopsis}}
+
+\hypertarget{als}{%
+\subsection{ALS}\label{als}}
+
+\hypertarget{gf}{%
+\subsection{GF}\label{gf}}
+
+\hypertarget{uk-birds}{%
+\subsection{UK birds}\label{uk-birds}}
+
+\hypertarget{darwins-finches}{%
+\subsection{Darwin's finches}\label{darwins-finches}}
+
+\hypertarget{maize-li-hh}{%
+\subsection{Maize (Li HH)}\label{maize-li-hh}}
+
+\hypertarget{k-rice}{%
+\subsection{3K rice}\label{k-rice}}
+
+\hypertarget{sea-volumn-data-neo}{%
+\section{Sea volumn data (NEO)}\label{sea-volumn-data-neo}}
+
+\hypertarget{data-analysis}{%
+\chapter{Data analysis}\label{data-analysis}}
+
+\hypertarget{on-site-examples}{%
+\section{On site examples}\label{on-site-examples}}
+
+\hypertarget{arabdiopsis-1}{%
+\subsection{Arabdiopsis}\label{arabdiopsis-1}}
+
+\hypertarget{k-rice-1}{%
+\subsection{3K rice}\label{k-rice-1}}
+
+\hypertarget{als-1}{%
+\subsection{ALS}\label{als-1}}
+
+\hypertarget{gf-1}{%
+\subsection{GF}\label{gf-1}}
+
+\hypertarget{uk-birds-1}{%
+\subsection{UK birds}\label{uk-birds-1}}
+
+\hypertarget{darwins-finches-1}{%
+\subsection{Darwin's finches}\label{darwins-finches-1}}
+
+\hypertarget{gbs-maize}{%
+\subsection{GBS Maize}\label{gbs-maize}}
+
+\hypertarget{uk-biobank}{%
+\subsection{UK Biobank}\label{uk-biobank}}
+
+\hypertarget{public-datahub-neo}{%
+\section{Public datahub (NEO)}\label{public-datahub-neo}}
+
+\hypertarget{meta-research}{%
+\chapter{Meta-research}\label{meta-research}}
+
+Meta-research
+
+\hypertarget{n_e}{%
+\section{\texorpdfstring{\(n_e\)}{n\_e}}\label{n_e}}
+
+\hypertarget{m_e}{%
+\section{\texorpdfstring{\(m_e\)}{m\_e}}\label{m_e}}
+
+\hypertarget{conclusion}{%
+\chapter{Conclusion}\label{conclusion}}
+
+\hypertarget{statistical-power}{%
+\section{Statistical power}\label{statistical-power}}
+
+\hypertarget{selection-pattern}{%
+\section{Selection pattern}\label{selection-pattern}}
+
+\hypertarget{app-1}{%
+\chapter{Appendix 1}\label{app-1}}
+
+\hypertarget{app:ld}{%
+\section{Notes on linkage disequilibrium}\label{app:ld}}
+
+For the haplotypes, as tabulated below, consisting of locus 1, which has
+alleles \(A\) and \(a\), and locus 2, which has alleles \(B\) and \(b\),
+
+\begin{longtable}[]{@{}cccc@{}}
+\toprule
+& \(B\) & \(b\) &\tabularnewline
+\midrule
+\endhead
+\(A\) & \(P_{AB}=P_A \times P_B + D\) & \(P_{Ab}=P_A \times P_b - D\) &
+\(P_A\)\tabularnewline
+\(a\) & \(P_{aB}=P_a \times P_B - D\) & \(P_{ab}=P_a \times P_b + D\) &
+\(P_a\)\tabularnewline
+& \(P_B\) & \(P_b\) &\tabularnewline
+\bottomrule
+\end{longtable}
+
+It is a typical \(2\times2\) contingency table, once one of these four
+cell is fixed, other three are all known. Consequently, we can implement
+Fisher's Exact test for this table. However, given the current
+biotechnology, \(D\) is often unknown. But given the correlation,
+\(\rho_{1,2}\), of a pair of markers, we know that
+\[\rho_{1,2}=\frac{D_{1,2}}{\sqrt{P_AP_aP_BP_b}}\]
+
+In simulation, it is very easy to simulate LD given the correlation.
+
+Calculate \(D_{1,2}=\rho_{1,2}\sqrt{P_AP_aP_BP_b}\) first.
+
+Depending on the allele at locus 1, the probabilities of observing
+allele \(B\) and \(b\) are
+\(P(B|A)=\frac{P_{AB}}{P_{A}} =\frac{P_A\times P_B+D}{P_A}\),
+\(P(b|A)=1-P(B|A)\),
+\(P(b|a)=\frac{P_{ab}}{P_a} =\frac{P_a\times P_b+D}{P_a}\), and
+\(P(B|a)=1-P(B|a)\), respectively. So, the recombination can be defined
+as \(\frac{P(B|A)}{P(B|A) + P(b|A)}=P_B + \frac{D}{P_A}\).
+
+\hypertarget{the-maximal-value-rho_ab}{%
+\section{\texorpdfstring{The maximal value
+\(\rho_{AB}\)}{The maximal value \textbackslash{}rho\_\{AB\}}}\label{the-maximal-value-rho_ab}}
+
+Assuming \(P_A \leq P_B \leq 0.5\), the maximal of \(\rho_{l_1l_2}\)
+reaches when allele \(A\) is \(a\) subset of \(B\) linage so that
+\(P_{AB}=P_{A}\), because (see PLoS Genet 2(9): e142)
+\[\rho_{1,2}=\frac{P_{AB}-P_{A}P_{B}}{\sqrt{P_A P_a P_B P_b}}=\frac{P_A(1-P_B)}{\sqrt{P_A P_a P_B P_b}}=\sqrt{\frac{P_AP_b}{P_B P_a}} \leq 1\]
+
+\hypertarget{ld-and-recombination-fraction}{%
+\section{LD and recombination
+fraction}\label{ld-and-recombination-fraction}}
+
+It is sometimes useful to simulate \(F_2\) population given known LD
+between any pair of markers. Below is the procedure for doing that.
+
+For a pair of loci, the correlation is the function of their
+recombination function \[\rho_{1,2}=1-2c_{1,2}\]
+
+In addition, the correlation is also the function of LD
+\[\rho_{1,2}=\frac{D_{1,2}}{\sqrt{P_AP_aP_BP_b}}\]
+
+So given the allele frequency of 0.5 and the markers are evenly
+distributed, \(c_{1,2}=0.5-2D_{1,2}\), and their corresponding genetic
+distance is
+\(d_{1,2}=-\frac{1}{2}ln(1-2c_{1,2})=-\frac{1}{2}ln(4D_{1,2})\) given
+\texttt{Haldane\ map\ function}.
+
+Under the Haldane map function, the recombination between locus 1 and 3
+is
+\(c_{1,3}=\frac{1}{2}[1-e^{-2(d_{1,2}+d_{2,3})}]=\frac{1}{2}[1-e^{2ln(4D_{1,2})}]\)
+Then the correlation between the locus 1 and 3 is
+\(\rho_{1,3}=1-2c_{1,3}=e^{2ln(4D_{1,2})}\) And, their corresponding LD
+is \(D_{1,3}=\sqrt{P_AP_aP_BP_b}e^{ln(4D_{1,2})}=0.25e^{2ln(4D_{1,2})}\)
+
+In general, \(D_{l_1l_2}=0.25e^{|l_1-l_2|ln(4D_{1,2})}\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A =}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\FloatTok{0.01}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.01}\NormalTok{)}
+\NormalTok{B =}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\FloatTok{0.01}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.01}\NormalTok{)}
+
+\NormalTok{C =}\StringTok{ }\FloatTok{0.8}
+\NormalTok{M =}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\KeywordTok{length}\NormalTok{(A), }\KeywordTok{length}\NormalTok{(B))}
+\KeywordTok{plot}\NormalTok{(}\DataTypeTok{x =} \OtherTok{NULL}\NormalTok{, }\DataTypeTok{y =} \OtherTok{NULL}\NormalTok{, }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{), }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{), }\DataTypeTok{xlab =} \StringTok{"MAF Locus 1"}\NormalTok{, }
+    \DataTypeTok{ylab =} \StringTok{"MAF Locus 2"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"the relationship between D"}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(A)) \{}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(B)) \{}
+\NormalTok{        M[i, j] =}\StringTok{ }\NormalTok{C }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(A[i] }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{A[i]) }\OperatorTok{*}\StringTok{ }\NormalTok{B[j] }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{B[j]))}
+        \KeywordTok{points}\NormalTok{(A[i], B[j], }\DataTypeTok{col =} \KeywordTok{rgb}\NormalTok{(M[i, j]}\OperatorTok{/}\FloatTok{0.2}\NormalTok{, }\DataTypeTok{green =} \DecValTok{0}\NormalTok{, }\DataTypeTok{blue =} \DecValTok{0}\NormalTok{), }\DataTypeTok{pch =} \DecValTok{16}\NormalTok{, }
+            \DataTypeTok{cex =} \FloatTok{0.3}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EigenGWAS_files/figure-latex/ld-1.pdf}
+
+\bibliography{book.bib,packages.bib}
+
+
+\end{document}

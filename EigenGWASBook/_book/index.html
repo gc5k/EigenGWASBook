@@ -50,69 +50,6 @@
 
 
 
-<style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -136,10 +73,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#eigengwas-linear-model"><i class="fa fa-check"></i><b>1.2</b> EigenGWAS linear model</a><ul>
 <li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#lambda_gc-correction"><i class="fa fa-check"></i><b>1.2.1</b> <span class="math inline">\(\lambda_{GC}\)</span> correction</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#threshold-for-eigengwas"><i class="fa fa-check"></i><b>1.2.2</b> Threshold for EigenGWAS</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#connection-to-svd"><i class="fa fa-check"></i><b>1.3</b> Connection to SVD</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#threshold-for-eigengwas"><i class="fa fa-check"></i><b>1.3.1</b> Threshold for EigenGWAS</a></li>
-</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#connection-to-singular-value-decomposition"><i class="fa fa-check"></i><b>1.3</b> Connection to singular value decomposition</a></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#intepretation"><i class="fa fa-check"></i><b>1.4</b> Intepretation</a><ul>
 <li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#f_st"><i class="fa fa-check"></i><b>1.4.1</b> <span class="math inline">\(F_{st}\)</span></a></li>
 <li class="chapter" data-level="1.4.2" data-path="index.html"><a href="index.html#classic-mechanic-intepretation"><i class="fa fa-check"></i><b>1.4.2</b> Classic mechanic intepretation</a></li>
@@ -239,113 +175,116 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="ch:basis" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> EigenGWAS basis</h1>
-<p>This project is dedicated to <font color="navy"><code>EigenGWAS</code></font>, a linear model analysis approach for eigenvectors on genomic data, which can be represented as <span class="math inline">\(\mathbf{X}\)</span> the <span class="math inline">\(n \times m\)</span> genotype matrix. Without loss of generality, <span class="math inline">\(x_{jl}\)</span> is a genotype code for the <span class="math inline">\(i^{th}\)</span> sample at the <span class="math inline">\(l^{th}\)</span> biallic locus. The data matrix <span class="math inline">\(\mathbf{X}\)</span> can be generated from genotyping chips, NGS, or GBS.</p>
+<p>This project is dedicated to <font color="navy"><code>EigenGWAS</code></font>, a linear model analysis approach for genomic data.</p>
+<p><font color="navy"><code>EigenGWAS</code></font> can be seamlessly applied to the steps after <code>STRUCTRURE</code> and <code>principal component analysis</code>. <strong>In a nutshell</strong>, <strong><font color="navy">it regresses the eigenvector agaist each SNP</font></strong>, an analysis that finds the loci under selection. It analysis pipeline may be found at <a href="http://rpubs.com/gc5k/EigenGWASpipeline">pipeline</a>.</p>
 <div id="genetic-relatedness-matrix-mathbfg" class="section level2">
 <h2><span class="header-section-number">1.1</span> Genetic relatedness matrix <span class="math inline">\(\mathbf{G}\)</span></h2>
-<p>We can construct the <span class="math inline">\(n\times n\)</span> genetic relatedness matrix as</p>
-<p><span class="math display">\[\mathbf{G}=\tilde{\mathbf{X}}\tilde{\mathbf{X}}^T\]</span>
-in which <span class="math inline">\(\tilde{\mathbf{X}}\)</span> is the scaled form of <span class="math inline">\(\mathbf{X}\)</span>.
-However, upon the mating type of the species, <span class="math inline">\(\mathbf{G}\)</span> should be constructed accordingly. For a random mating population, <span class="math inline">\(x_l\)</span> is scaled as <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}\)</span>, whereas for inbred population, <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}\)</span>, and <span class="math inline">\(q_l=1-p_l\)</span> the frequency for the alternative allele.</p>
-<p>So for individual <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>,</p>
-<p><span class="math display" id="eq:G">\[\begin{equation}
-G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_lq_l} \tag{1.1}
+<p>The genomic data can be represented as <span class="math inline">\(\mathbf{X}\)</span>, an <span class="math inline">\(n \times m\)</span> matrix representing <span class="math inline">\(n\)</span> individuals and <span class="math inline">\(m\)</span> markers. Without loss of generality, <span class="math inline">\(x_{jl}\)</span> is the genotype code for the <span class="math inline">\(i^{th}\)</span> individual at the <span class="math inline">\(l^{th}\)</span> biallic locus. The data matrix <span class="math inline">\(\mathbf{X}\)</span> can be generated from chips, NGS, or GBS.</p>
+<p>In general, given <span class="math inline">\(\mathbf{X}\)</span> we can construct the <span class="math inline">\(n\times n\)</span> genetic relatedness matrix as</p>
+<p><span class="math display" id="eq:GM">\[\begin{equation}
+\mathbf{G}=\frac{1}{m}\tilde{\mathbf{X}}\tilde{\mathbf{X}}^T \tag{1.1}
 \end{equation}\]</span></p>
-<p>in which <span class="math inline">\(\tilde{m}\)</span> is the number of genotyped loci at both individal <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, and <span class="math inline">\(F\)</span> the inbreeding coefficient takes value of 0 for random mating population and 1 for inbred population.</p>
+<p>in which <span class="math inline">\(\tilde{\mathbf{X}}\)</span> is the scaled form of <span class="math inline">\(\mathbf{X}\)</span> (slighlty different from standardization, which will be <span class="math inline">\(\frac{x_l-2p_l}{\sqrt{2(1+F_l)p_lq_l}}\)</span>).
+However, upon the mating type of the species, <span class="math inline">\(\mathbf{G}\)</span> should be constructed accordingly. For a random mating population, <span class="math inline">\(x_l\)</span> is scaled as <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}\)</span>, assuming the current population as the base population, whereas for inbred population, <span class="math inline">\(\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}\)</span>, and <span class="math inline">\(q_l=1-p_l\)</span> the frequency for the alternative allele.</p>
+<p>Due to missing data, in practice for individual <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, their pairwise relatedness is</p>
+<p><span class="math display" id="eq:G">\[\begin{equation}
+G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_lq_l} \tag{1.2}
+\end{equation}\]</span></p>
+<p>in which <span class="math inline">\(\tilde{m}\)</span> is the number of loci genotyped at both individal <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, and <span class="math inline">\(F\)</span> the inbreeding coefficient taking the value of 0 for random mating population and 1 for inbred population. When <span class="math inline">\(F\)</span> is set as zero, it is assumed that the current population is the <code>base population</code>.</p>
 <div id="statistical-properties-of-mathbfg" class="section level3">
 <h3><span class="header-section-number">1.1.1</span> Statistical properties of <span class="math inline">\(\mathbf{G}\)</span></h3>
-<p>Given <span class="math inline">\(\mathbf{G}\)</span>, we can define two population parameters, <span class="math inline">\(n_e\)</span>, the <code>effective population size</code>, and <span class="math inline">\(m_e\)</span>, the <code>effective number of markers</code>.</p>
-<p>Let <span class="math inline">\(\mathbf{G}_o\)</span> denote the off diagonal elements of <span class="math inline">\(\mathbf{G}\)</span>, then we have</p>
+<p>Let <span class="math inline">\(\mathbf{G}_o\)</span> denote the off diagonal elements of <span class="math inline">\(\mathbf{G}\)</span>, then we can define two population parameters, <span class="math inline">\(n_e\)</span>, the <code>effective population size</code>, and <span class="math inline">\(m_e\)</span>, the <code>effective number of markers</code>.</p>
 <p><span class="math display" id="eq:Ne">\[\begin{equation}
-n_e=\frac{-1}{mean(\mathbf{G}_o)} \tag{1.2}
+n_e=\frac{-1}{mean(\mathbf{G}_o)} \tag{1.3}
 \end{equation}\]</span>
 <span class="math inline">\(n_e\)</span> reflects true relatedness between any pair of samples;</p>
 <p><span class="math display" id="eq:Me1">\[\begin{equation}
-m_e=\frac{1}{Var(\mathbf{G}_o)}  \tag{1.3}
+m_e=\frac{1}{Var(\mathbf{G}_o)}  \tag{1.4}
 \end{equation}\]</span>
 The ratio between <span class="math inline">\(\frac{m_e}{m}\)</span> reflects the average linkage disequilibrium between the any pair of markers, and alternatively <span class="math inline">\(m_e\)</span> can be expressed as</p>
 <p><span class="math display" id="eq:Me2">\[\begin{equation}
-m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 \tag{1.4}
+m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 \tag{1.5}
 \end{equation}\]</span></p>
 <p>in which <span class="math inline">\(\rho_{l_1l_2}\)</span> is Pearson’s correlation between a pair of SNPs, see Appendix <a href="app-1.html#app:ld">9.1</a>. It is an important parameter to describe the evolutionary process of a population of study.</p>
 </div>
 </div>
 <div id="eigengwas-linear-model" class="section level2">
 <h2><span class="header-section-number">1.2</span> EigenGWAS linear model</h2>
-<p>Given eigenanalysis (<a href="https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">see more its details in wikipedia</a>) of <span class="math inline">\(\mathbf{X}\)</span>, we have <span class="math inline">\(\mathbf{E}\)</span> and <span class="math inline">\(\mathbf{\Lambda}\)</span>, in which <span class="math inline">\(\mathbf{\Lambda}\)</span> is an <span class="math inline">\(n \times n\)</span> diagonal matrix for eigenvalues and <span class="math inline">\(\mathbf{E}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix for the eigenvectors. <span class="math inline">\(\mathbf{E}_k\)</span> is the <span class="math inline">\(k^{th}\)</span> eigenvector associated with the <span class="math inline">\(k^{th}\)</span> largest eigenvalue. Regressing <span class="math inline">\(\mathbf{E}_k\)</span> against the <span class="math inline">\(l^{th}\)</span> marker, we have the model below</p>
+<p>Given eigenanalysis (<a href="https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">see wikipedia for its more details</a>) of <span class="math inline">\(\mathbf{X}\)</span>, we have <span class="math inline">\(\mathbf{E}\)</span> and <span class="math inline">\(\mathbf{\Lambda}\)</span>, in which <span class="math inline">\(\mathbf{\Lambda}\)</span> is an <span class="math inline">\(n \times n\)</span> diagonal matrix for eigenvalues and <span class="math inline">\(\mathbf{E}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix for the eigenvectors. <span class="math inline">\(\mathbf{E}_k\)</span> is the <span class="math inline">\(k^{th}\)</span> eigenvector associated with the <span class="math inline">\(k^{th}\)</span> largest eigenvalue. Regressing <span class="math inline">\(\mathbf{E}_k\)</span> against the <span class="math inline">\(l^{th}\)</span> marker, we have the model below</p>
 <p><span class="math display" id="eq:EG-mod">\[\begin{equation}
-\mathbf{E}_k=a+\beta_l\mathbf{x}_l+e \tag{1.5}
+\mathbf{E}_k=a+\beta_l\mathbf{x}_l+e \tag{1.6}
 \end{equation}\]</span></p>
-<p>It consequently generates <span class="math inline">\(m\)</span> estimates of <span class="math inline">\(\hat{\beta}\)</span>, <span class="math inline">\(\hat{\sigma}_{\beta}\)</span>, and their corresponding <span class="math inline">\(p\)</span> values.</p>
-<p>In particular, the one-degree-of-freedom <span class="math inline">\(\chi^2_1\)</span> has approximation as</p>
+<p>It consequently generates <span class="math inline">\(m\)</span> estimates of <span class="math inline">\(\hat{\beta}\)</span>, <span class="math inline">\(\hat{\sigma}_{\beta}\)</span>, and their corresponding <span class="math inline">\(p\)</span> values. The <span class="math inline">\(p\)</span> value can be converted to one-degree-of-freedom <span class="math inline">\(\chi^2_1\)</span>. Under the context of <font color="navy"><code>EigenGWAS</code></font>, the <span class="math inline">\(\chi^2_1\)</span> can be intepreted as</p>
 <p><span class="math display" id="eq:EG-chi">\[\begin{equation}
-4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W \tag{1.6}
+4\frac{\color{red}{n_1}\color{blue}{n_2}}{n}\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}=4n\omega_1 \omega_2 F_{st}^N=nF_{st}^W \tag{1.7}
 \end{equation}\]</span></p>
-<p>in which <span class="math inline">\(\color{red}{n_1}\)</span> and <span class="math inline">\(\color{blue}{n_2}\)</span> are the numbers of samples at the left and right side of “0” on the eigenvector, see the figure below, and <span class="math inline">\(\omega_g=\frac{n_g}{n}\)</span> the proportion of a subgroup in the sample. <span class="math inline">\(g=2\)</span> in EigenGWAS analysis. <span class="math inline">\(\color{red}{p_{1,l}}\)</span> and <span class="math inline">\(\color{blue}{p_{2,l}}\)</span> are the frequencies of the reference allele in two subgroups, respectively. <span class="math inline">\(F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}\)</span> and <span class="math inline">\(F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-p_l)^2}{p_lq_l}\)</span>.</p>
+<p>in which <span class="math inline">\(\color{red}{n_1}\)</span> and <span class="math inline">\(\color{blue}{n_2}\)</span> are the numbers of samples at the left and right side of “0” on the eigenvector (see the figure below), and <span class="math inline">\(\omega_g=\frac{n_g}{n}\)</span> the proportion of a subgroup in the sample (<span class="math inline">\(g=2\)</span> in EigenGWAS analysis), and <span class="math inline">\(\color{red}{p_{1,l}}\)</span> and <span class="math inline">\(\color{blue}{p_{2,l}}\)</span> are the frequencies of the reference allele in two subgroups, respectively. <span class="math inline">\(F_{st}^N=\frac{(\color{red}{p_{1,l}}-\color{blue}{p_{2,l}})^2}{2p_lq_l}\)</span> and <span class="math inline">\(F_{st}^W=2\frac{\sum_{g=1}^2\omega_g(p_{g,l}-p_l)^2}{p_lq_l}\)</span>. It is obviously that when <span class="math inline">\(n_1=n_2=\frac{n}{2}\)</span> the test statistic reaches its maximum.</p>
 <pre><code>## [1]  100 1000
 ## [1] &quot;Ne= 100 Me= 1080.91076380488 given N= 100 and M= 1000&quot;</code></pre>
 <p><img src="EigenGWAS_files/figure-html/eigen-1.png" width="672" /></p>
 <div id="lambda_gc-correction" class="section level3">
 <h3><span class="header-section-number">1.2.1</span> <span class="math inline">\(\lambda_{GC}\)</span> correction</h3>
-<p>We can define <span class="math inline">\(\lambda_{GC}=\chi^2_{1,median(p)}/\chi^2_{1,0.5}\)</span>, in which <span class="math inline">\(\chi^2_{1,0.5}=0.455\)</span>. We further use subscript <span class="math inline">\(k\)</span> to denote <span class="math inline">\(\lambda_{GC_k}\)</span> the one that is estimated from the EigenGWAS analysis of <span class="math inline">\(\mathbf{E}_k\)</span>, as shown <a href="index.html#eq:EG-mod">(1.5)</a>.</p>
+<p>Given the median, denoted as <span class="math inline">\(\chi^2_{1,median(p)}\)</span>, of the <span class="math inline">\(m\)</span> <span class="math inline">\(\chi^2_1\)</span> values observed, we can define <span class="math inline">\(\lambda_{GC}=\chi^2_{1,median(p)}/\chi^2_{1,0.5}\)</span>, in which <span class="math inline">\(\chi^2_{1,0.5}=0.455\)</span>. We further use subscript <span class="math inline">\(k\)</span> to denote <span class="math inline">\(\lambda_{GC_k}\)</span> the one that is estimated from the EigenGWAS analysis of <span class="math inline">\(\mathbf{E}_k\)</span>, as shown <a href="index.html#eq:EG-mod">(1.6)</a>.</p>
 <p>After technical correction, correspondingly</p>
 <p><span class="math display" id="eq:EG-chi-adj">\[\begin{equation}
-\tilde\chi^2_1=\chi^2_1/\lambda_{GC_k} \tag{1.7}
+\tilde\chi^2_1=\chi^2_1/\lambda_{GC_k} \tag{1.8}
 \end{equation}\]</span></p>
 <p>a correction of the test statistic. Compared with its original form, the correction has several implications</p>
 <ul>
-<li><p>Statistically, as <a href="index.html#eq:EG-mod">(1.5)</a> has its response variable from <span class="math inline">\(\mathbf{X}\)</span>, the correction removes its overfitting.</p></li>
+<li><p>Statistically, as <a href="index.html#eq:EG-mod">(1.6)</a> has its response variable from <span class="math inline">\(\mathbf{X}\)</span>, the correction removes its overfitting.</p></li>
 <li><p>Genetically, it corrects for genetic drift such as soaked in <span class="math inline">\(\mathbf{E}_1\)</span>. Here the quantity of the genetic drift is measured by the median of the <span class="math inline">\(m\)</span> <span class="math inline">\(\chi^2_1\)</span> values observed.</p></li>
+<li><p><span class="math inline">\(\lambda_{GC}\)</span> parameter has long been proposed in controlling population structure in GWAS, but finds its best fit in <font color="navy"><code>EigenGWAS</code></font>.</p></li>
 </ul>
 <p><img src="EigenGWAS_files/figure-html/gc-1.png" width="672" /></p>
 </div>
+<div id="threshold-for-eigengwas" class="section level3">
+<h3><span class="header-section-number">1.2.2</span> Threshold for EigenGWAS</h3>
+<p>As shown above, <font color="navy"><code>EigenGWAS</code></font> is a linear model framework nearly identical to the conventional GWAS, and Bonferroni correction, such as <span class="math inline">\(\alpha/m\)</span>, can be used to set the threshold at the significance level <span class="math inline">\(\alpha\)</span>, such as <span class="math inline">\(\alpha=0.05\)</span>. The loci that exceeds the threshold are under selection.</p>
 </div>
-<div id="connection-to-svd" class="section level2">
-<h2><span class="header-section-number">1.3</span> Connection to SVD</h2>
-<p>Singular value decomposition, <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">see SVD wiki for more details</a>, can decompose the matrix <span class="math inline">\(\mathbf{X}\)</span> into
+</div>
+<div id="connection-to-singular-value-decomposition" class="section level2">
+<h2><span class="header-section-number">1.3</span> Connection to singular value decomposition</h2>
+<p>Singular value decomposition ((see wiki for more details](<a href="https://en.wikipedia.org/wiki/Singular_value_decomposition" class="uri">https://en.wikipedia.org/wiki/Singular_value_decomposition</a>)) can decompose the matrix <span class="math inline">\(\mathbf{X}\)</span> into
 <span class="math display" id="eq:SVD">\[\begin{equation}
-\mathbf{X}=\mathbf{U\Sigma V} \tag{1.8}
+\mathbf{X}=\mathbf{U\Sigma V} \tag{1.9}
 \end{equation}\]</span>
 in which</p>
 <ul>
-<li><p><span class="math inline">\(\mathbf{U}\)</span> is an <span class="math inline">\(n\times n\)</span> unitary matrix, corresponding to individual-level loading for each sample,</p></li>
+<li><p><span class="math inline">\(\mathbf{U}\)</span> is an <span class="math inline">\(n\times n\)</span> unitary matrix, corresponding to individual-level loading for each sample. <span class="math inline">\(\mathbf{U}\)</span> is also called left-singular vectors.</p></li>
 <li><p><span class="math inline">\(\mathbf{\Sigma}\)</span> an <span class="math inline">\(n\times m\)</span> diagonal matrix,</p></li>
-<li><p>and <span class="math inline">\(\mathbf{V}\)</span> an <span class="math inline">\(m\times m\)</span> unitary matrix, corresponding to SNP-level loading.</p></li>
+<li><p><span class="math inline">\(\mathbf{V}\)</span> an <span class="math inline">\(m\times m\)</span> unitary matrix, corresponding to SNP-level loading. <span class="math inline">\(\mathbf{U}\)</span> is also called right-singular vectors.</p></li>
 </ul>
 <p>Due to the transformation between <span class="math inline">\(\mathbf{U}\)</span> and <span class="math inline">\(\mathbf{V}\)</span>, it has
 <span class="math display" id="eq:svd">\[\begin{equation}
-\mathbf{U}=\mathbf{\tilde{X}V\Sigma}^{-1} \tag{1.9}
+\mathbf{U}=\mathbf{\tilde{X}V\Sigma}^{-1} \tag{1.10}
 \end{equation}\]</span>
-The right side can be unfolded as <span class="math inline">\(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k\)</span>, following <span class="math inline">\(N(0,1)\)</span>, and taking square of it leads to</p>
+The right side of <a href="index.html#eq:svd">(1.10)</a> can be unfolded as <span class="math inline">\(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k\)</span>, following <span class="math inline">\(N(0,1)\)</span>, and taking square of it leads to</p>
 <p><span class="math display" id="eq:chi-svd">\[\begin{equation}
-(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k)^2 \sim \chi^2_1 \tag{1.10}
+(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k)^2 \sim \tilde{\chi}^2_{1,svd} \tag{1.11}
 \end{equation}\]</span></p>
-<p>It brings out an interesting comparison between <a href="index.html#eq:EG-chi-adj">(1.7)</a> and <a href="index.html#eq:svd">(1.9)</a>.
-The subtle difference, for instance for <span class="math inline">\(E_1\)</span>, in their correction using <span class="math inline">\(\lambda_{GC}\)</span> and <span class="math inline">\(\Sigma_1\)</span>. When the population divergency is due to genetic drift and a small proportion of loci are under selection, <span class="math inline">\(\Sigma_1 \gt \lambda_{GC}\)</span>. It is because <span class="math inline">\(\Sigma_1\)</span> is the mean of the <span class="math inline">\(\chi^2_1\)</span> from <a href="index.html#eq:EG-chi">(1.6)</a>, but <span class="math inline">\(\lambda_{GC}\)</span> is the median of it. Given a population under selection, such as selection sweep, it does have <span class="math inline">\(\Sigma_1 \gt \lambda_{GC}\)</span>, as demonstrated in <a href="http://rpubs.com/gc5k/EigenGWAScore">simulation</a>.</p>
-<p>So, using linear model system such as <font color="navy"><code>EigenGWAS</code></font> gives more flexibility, as well as improved statistical power comparing with SVD transformation.</p>
-<p>However, in this transformation, eigenvalue is involved, as would be show. It will reduce the statistical power for <font color="navy"><code>EigenGWAS</code></font>.</p>
-<div id="threshold-for-eigengwas" class="section level3">
-<h3><span class="header-section-number">1.3.1</span> Threshold for EigenGWAS</h3>
-<p>As shown above, <font color="navy"><code>EigenGWAS</code></font> is a linear model framework nearly identical to the conventional GWAS, and Bonferroni correction, such as <span class="math inline">\(\alpha/m\)</span>, can be used to set the threshold at the significance level <span class="math inline">\(\alpha\)</span>, such as <span class="math inline">\(\alpha=0.05\)</span>.</p>
-</div>
+<p>It brings out an interesting comparison between <a href="index.html#eq:EG-chi-adj">(1.8)</a> and <a href="index.html#eq:svd">(1.10)</a>,
+and exists subtle difference, for instance <span class="math inline">\(E_1\)</span>, in their correction using <span class="math inline">\(\lambda_{GC}\)</span> and <span class="math inline">\(\Sigma_1\)</span>. When the population divergency is due to genetic drift and a small proportion of loci are under selection, <span class="math inline">\(\Sigma_1 \gt \lambda_{GC}\)</span>. It is because <span class="math inline">\(\Sigma_1\)</span> is the mean of the <span class="math inline">\(\chi^2_1\)</span> from <a href="index.html#eq:EG-chi">(1.7)</a>, but <span class="math inline">\(\lambda_{GC}\)</span> is the median of it. Given a population under selection, such as selection sweep, it does have <span class="math inline">\(\Sigma_1 \gt \lambda_{GC}\)</span>, as demonstrated in <a href="http://rpubs.com/gc5k/EigenGWAScore">simulation</a>.</p>
+<p>So, using linear model system such as <font color="navy"><code>EigenGWAS</code></font> brings more flexibility, as well as improved statistical power comparing with direct <code>left-to-right singular vector</code> transformation in SVD <a href="index.html#eq:svd">(1.10)</a>.</p>
+<p>However, in this transformation, eigenvalue is involved, as would be show. It will reduce the statistical power for <font color="navy"><code>EigenGWAS</code></font>. In theory and practice, with type-I error rate well-controlled, <span class="math inline">\(\tilde{\chi}^2_1\)</span> <a href="index.html#eq:EG-chi-adj">(1.8)</a> is greater than <span class="math inline">\(\tilde{\chi}^2_{1.svd}\)</span> <a href="index.html#eq:svd">(1.10)</a>.</p>
 </div>
 <div id="intepretation" class="section level2">
 <h2><span class="header-section-number">1.4</span> Intepretation</h2>
 <div id="f_st" class="section level3">
 <h3><span class="header-section-number">1.4.1</span> <span class="math inline">\(F_{st}\)</span></h3>
-<p><code>EigenGWAS</code> provides an unsupervised implementation for conventional <span class="math inline">\(F_{st}\)</span> that assumes the underlying subgroups are known. In practice, however, it is often unclear how the possible subgroups can be defined. So, <code>EigenGWAS</code> continuously partitions the data on each eigenvector by splitting the data into two subgroups. There is no guarantee that this strategy is optimal, but it seems a reasonable try when the group information is missing.</p>
+<p><code>EigenGWAS</code> provides an unsupervised realization for <span class="math inline">\(F_{st}\)</span> the conventional implementation of that assumes the underlying subgroups are known. In practice, however, it is often unclear how the possible subgroups should be defined. In contrast, <code>EigenGWAS</code> implicitly partitions the samples into two subgroups at each eigenvector at zero point on the coordinate. No guarantee that this strategy optimal, it seems a sound attempt when the group information is missing.</p>
 </div>
 <div id="classic-mechanic-intepretation" class="section level3">
 <h3><span class="header-section-number">1.4.2</span> Classic mechanic intepretation</h3>
-<p>The <font color="navy"><code>EigenGWAS</code></font> model resembles the Newtown’s first and the second <a href="https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion">laws for classical mechanics</a>. The first law states</p>
+<p>The early framework of population genetics indebts a lot for theoretical physics (<a href="https://en.wikipedia.org/wiki/Ronald_Fisher">Ronald Fisher</a> studied astronomy). As a linear model system, <font color="navy"><code>EigenGWAS</code></font> also finds its analogue in Newtown’s first and the second <a href="https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion">laws for classical mechanics</a>. The first law states</p>
 <blockquote>
 <p>“In an inertial frame of reference, an object either remains at rest or continues to move at a constant velocity, unless acted upon by a force.”</p>
 </blockquote>
-<p>Analogously, in population genetics, it can be seemed as genetic drift that is constantly driving the a pair of population apart from each other, and its velocity can be quantified by a binomial distribution as <span class="math inline">\(\frac{pq}{\tilde{n}_e}\)</span>.</p>
+<p>In population genetics, it can be seemed as genetic drift that is constantly driving the a pair of population apart from each other, and its velocity can be quantified by a binomial distribution as <span class="math inline">\(\frac{pq}{\tilde{n}_e}\)</span>.</p>
 <p>The second law stats</p>
 <blockquote>
 <p>“In an inertial frame of reference, the vector sum of the forces <span class="math inline">\(F\)</span> on an object is equal to the mass m of that object multiplied by the acceleration a of the object: <span class="math inline">\(F = ma\)</span>.”</p>
 </blockquote>
-<p>Analogously, the selection can drive a genomic region run against its reference population at a velocity greater than <span class="math inline">\(\frac{pq}{\tilde{n}_e}\)</span>.</p>
+<p>The selection can drive a genomic region run against its reference population at a velocity greater than <span class="math inline">\(\frac{pq}{\tilde{n}_e}\)</span>.</p>
 <p>Although, this interpretation works even for domesticated populations, its proportion of the markers divergent by genetic drift and selection would be very different.</p>
 
 </div>
