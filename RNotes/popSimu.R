@@ -1,19 +1,52 @@
-N=c(100, 100, 100, 100, 100) #N
-COL=rep(c(1,2,3,4,5), N)
+N=c(100, 100, 100, 100, 100, 100, 100, 100, 100) #N
+COL=rep(rep(1:length(N)), N)
 
-M=5000 #M
+M=10000 #M
 fst=c(0.05, 0.02) #Fst
 
 FP=matrix(0, length(N), M)
 
-P0=runif(M, 0.1, 0.9) #ancestry p0
-FP[1,]=rbeta(M, P0*(1-fst[1])/fst[1], (1-P0)*(1-fst[1])/fst[1])
-FP[2,]=rbeta(M, P0*(1-fst[1])/fst[1], (1-P0)*(1-fst[1])/fst[1])
+D1=matrix(c(1, 0,
+            0.3, 0.7,
+            0.3, 0.7,
+            0.5, 0.5,
+            0.5, 0.5, 
+            0.5, 0.5,
+            0.7, 0.3,
+            0.7, 0.3,
+            0, 1),
+          length(N), 2, byrow = T)
 
-P1=(FP[1,]+FP[2,])*0.5
-FP[3,]=P1
-FP[4,]=rbeta(M, P1*(1-fst[2])/fst[2], (1-P1)*(1-fst[2])/fst[2])
-FP[5,]=rbeta(M, P1*(1-fst[2])/fst[2], (1-P1)*(1-fst[2])/fst[2])
+D2=matrix(c(0, 0,
+            0.42, 0.18,
+            0.18, 0.42,
+            1, 0,
+            0, 0,
+            0, 1,
+            0.42, 0.18,
+            0.18, 0.42,
+            0, 0),
+          length(N), 2, byrow = T)
+
+P0=runif(M, 0.1, 0.9) #ancestry p0
+z1_A=rbeta(M, P0*(1-fst[1])/fst[1], (1-P0)*(1-fst[1])/fst[1])
+z1_B=rbeta(M, P0*(1-fst[1])/fst[1], (1-P0)*(1-fst[1])/fst[1])
+Z1=rbind(z1_A, z1_B)
+
+P1=(z1_A+z1_B)*0.5
+z2_A=rbeta(M, P1*(1-fst[2])/fst[2], (1-P1)*(1-fst[2])/fst[2]) - P1
+z2_B=rbeta(M, P1*(1-fst[2])/fst[2], (1-P1)*(1-fst[2])/fst[2]) - P1
+Z2=rbind(z2_A, z2_B)
+
+FP=D1 %*% Z1 + D2 %*% Z2
+for(i in 1:nrow(FP)) {
+  if (length(which(FP[i,]<0)>0)) {
+    FP[i, FP[i,]<0]=abs(FP[i,FP[i,]<0])
+  }
+  if (length(which(FP[i,]>1)>0)) {
+    FP[i, FP[i,]>1]=2-(FP[i,FP[i,]>1])
+  }
+}
 
 G=matrix(0, sum(N), M)
 cnt=1
