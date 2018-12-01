@@ -1,22 +1,9 @@
 N=c(100, 100, 100) #N
 COL=rep(rep(1:length(N)), N)
-
 M=10000 #M
 fst=c(0.05, 0.02) #Fst
 
-FP=matrix(0, length(N), M)
-
-D1=matrix(c(1, 0,
-            0, 1,
-            0, 1),
-          length(N), 2, byrow = T)
-print(D1)
-
-D2=matrix(c(0, 0,
-            1, 0,
-            0, 1),
-          length(N), 2, byrow = T)
-print(D2)
+FP=matrix(0, sum(N), M)
 
 P0=runif(M, 0.1, 0.9) #ancestry p0
 z1_A=rbeta(M, P0*(1-fst[1])/fst[1], (1-P0)*(1-fst[1])/fst[1])
@@ -28,7 +15,26 @@ z2_A=rbeta(M, P1*(1-fst[2])/fst[2], (1-P1)*(1-fst[2])/fst[2]) - P1
 z2_B=rbeta(M, P1*(1-fst[2])/fst[2], (1-P1)*(1-fst[2])/fst[2]) - P1
 Z2=rbind(z2_A, z2_B)
 
-FP=D1 %*% Z1 + D2 %*% Z2
+for(i in 1:N[1]) {
+  FP[i,]=z1_A
+}
+
+for(i in (N[1]+1):(N[1]+N[2])) {
+  w1 = rbeta(1, 5, 2)
+#  w1=0.5
+  w2 = 1 - w1
+  FP[i,] = w1*z1_A + w2*z1_B 
+  if(rbinom(1, 1, 0.5)>0) {
+    FP[i,] = FP[i,] + w1*z2_A 
+  } else {
+    FP[i,] = FP[i,] + w1*z2_B
+  }
+}
+
+for(i in (N[1]+N[2]+1):sum(N)) {
+  FP[i,]=z1_B
+}
+
 for(i in 1:nrow(FP)) {
   if (length(which(FP[i,]<0)>0)) {
     FP[i, FP[i,]<0]=abs(FP[i,FP[i,]<0])
@@ -40,11 +46,8 @@ for(i in 1:nrow(FP)) {
 
 G=matrix(0, sum(N), M)
 cnt=1
-for(i in 1:length(N)) {
-  for(j in 1:N[i]) {
-    G[cnt,]=rbinom(M, 2, FP[i,])
-    cnt=cnt+1
-  }
+for(i in 1:sum(N)) {
+    G[i,]=rbinom(M, 2, FP[i,])
 }
 sprintf("Fst1=%f, Fst2=%f", fst[1], fst[2])
 sprintf("%d ind, %d marker",dim(G)[1], dim(G)[2])
@@ -54,3 +57,4 @@ EigenG=eigen(GG)
 layout(matrix(1:2, 1, 2))
 barplot(EigenG$values[1:10], border = F)
 plot(EigenG$vectors[,1], EigenG$vectors[,2], bty='n', col=COL, pch=16, cex=0.5, xlab="E1", ylab="E2")
+
