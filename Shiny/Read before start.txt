@@ -1,0 +1,7 @@
+Mac用户:图片保存默认路径为/Users/Shared
+For Mac user, default file download path is /Users/Shared
+
+文件上传功能尚未完善
+The upload-files function has not been finished yet
+
+若想要尝试不同的绘图效果,可更改helper.R文件中参数FN所指定的路径值,同时取消RunEigenGWAS函数的注释状态
