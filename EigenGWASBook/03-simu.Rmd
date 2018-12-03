@@ -31,11 +31,11 @@ Algorithm
 
 - Generate frequency $f$ from the uniform distribution $(0.05, 0.95)$.
 
-- Given $F_{st1}$, generating $z_{1|1}$ and $z_{2|1}$ from $Beta(f\frac{1-F_{st1}}{F_{st1}}, (1-f)\frac{1-F_{st1}}{F_{st1}})$, respectively. The mean of them will be $f$, and their sampling variance will be $F_{st}$. Similarly, generate $z_{1|1}$ and $z_{2|1}$.
+- Given $F_{st1}$, generating $z_{1|1}$ and $z_{2|1}$ from $Beta(f\frac{1-F_{st1}}{F_{st1}}, (1-f)\frac{1-F_{st1}}{F_{st1}})$, respectively. The mean of them will be $f$, and their sampling variance will be $F_{st}$. Similarly, generate $z_{1|2}$ and $z_{2|2}$.
 
 - Set $D_1$ and $D_2$, the realized frequencies of the two populations. 
 
-For example the three populations
+For the three-population simulation
 \begin{equation}
 F= \left (
     \begin{array}{cc}
@@ -71,7 +71,8 @@ Below are three simulations generated from 3, 5, and 9 populations, each of whic
 
 For the five-population simulation, 
 
-$$D_1=\left ( \begin{array}{cc}
+\begin{equation}
+F=\left ( \begin{array}{cc}
   1 & 0 \\
   0.5 & 0.5 \\
   0.5 & 0.5 \\
@@ -79,11 +80,15 @@ $$D_1=\left ( \begin{array}{cc}
   0 & 1\\
 \end{array}
 \right )
-$$
+\left (
+ \begin{array}{c}
+  z_{1|1}\\
+  z_{2|1}\\
+ \end{array}
+\right )
 
- and 
-$$D_2=
-\left ( \begin{array}{cc}
++
+\left (\begin{array}{cc}
   0 & 0 \\
   1 & 0 \\
   0 & 0 \\
@@ -91,10 +96,17 @@ $$D_2=
   0 & 0\\
   \end{array}
 \right)
-$$
+\left(
+ \begin{array}{c}
+  z_{1|2}\\
+  z_{2|2}\\
+ \end{array}
+\right)
+\end{equation}
 
 For the nine-population simulation
-$$D_1=\left ( \begin{array}{cc}
+\begin{equation}
+D_1=\left ( \begin{array}{cc}
 1 & 0 \\
   0.3 & 0.7 \\
             0.3 & 0.7 \\
@@ -105,23 +117,35 @@ $$D_1=\left ( \begin{array}{cc}
             0.7 & 0.3 \\
             0 & 1 \\
 \end{array}
-\right )
-$$
-
-and 
-$$D_2=\left ( \begin{array}{cc}
-0 & 0 \\
-            0.42 & 0.18 \\
-            0.18 & 0.42 \\
-            1 & 0 \\
-            0 & 0 \\
-            0 & 1 \\
-            0.42 & 0.18 \\
-            0.18 & 0.42 \\
-            0 & 0 \\
+\right)
+\left(
+ \begin{array}{c}
+  z_{1|1}\\
+  z_{2|1}\\
+ \end{array}
+\right)
++
+\left ( 
+\begin{array}{cc}
+  0 & 0 \\
+  0.42 & 0.18 \\
+  0.18 & 0.42 \\
+  1 & 0 \\
+  0 & 0 \\
+  0 & 1 \\
+  0.42 & 0.18 \\
+  0.18 & 0.42 \\
+  0 & 0 \\
 \end{array}
 \right )
-$$
+
+\left (
+ \begin{array}{c}
+  z_{1|2}\\
+  z_{2|2}\\
+ \end{array}
+\right )
+\end{equation}
 
 ```{r, discrete pop, echo=FALSE, tidy=TRUE}
 layout(matrix(1:6, 2, 3, byrow = F))
