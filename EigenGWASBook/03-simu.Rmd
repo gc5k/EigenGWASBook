@@ -106,7 +106,7 @@ F=\left ( \begin{array}{cc}
 
 For the nine-population simulation
 \begin{equation}
-D_1=\left ( \begin{array}{cc}
+F=\left ( \begin{array}{cc}
 1 & 0 \\
   0.3 & 0.7 \\
             0.3 & 0.7 \\

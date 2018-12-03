@@ -243,10 +243,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Algorithm</p>
 <ul>
 <li><p>Generate frequency <span class="math inline">\(f\)</span> from the uniform distribution <span class="math inline">\((0.05, 0.95)\)</span>.</p></li>
-<li><p>Given <span class="math inline">\(F_{st1}\)</span>, generating <span class="math inline">\(z_{1|1}\)</span> and <span class="math inline">\(z_{2|1}\)</span> from <span class="math inline">\(Beta(f\frac{1-F_{st1}}{F_{st1}}, (1-f)\frac{1-F_{st1}}{F_{st1}})\)</span>, respectively. The mean of them will be <span class="math inline">\(f\)</span>, and their sampling variance will be <span class="math inline">\(F_{st}\)</span>. Similarly, generate <span class="math inline">\(z_{1|1}\)</span> and <span class="math inline">\(z_{2|1}\)</span>.</p></li>
+<li><p>Given <span class="math inline">\(F_{st1}\)</span>, generating <span class="math inline">\(z_{1|1}\)</span> and <span class="math inline">\(z_{2|1}\)</span> from <span class="math inline">\(Beta(f\frac{1-F_{st1}}{F_{st1}}, (1-f)\frac{1-F_{st1}}{F_{st1}})\)</span>, respectively. The mean of them will be <span class="math inline">\(f\)</span>, and their sampling variance will be <span class="math inline">\(F_{st}\)</span>. Similarly, generate <span class="math inline">\(z_{1|2}\)</span> and <span class="math inline">\(z_{2|2}\)</span>.</p></li>
 <li><p>Set <span class="math inline">\(D_1\)</span> and <span class="math inline">\(D_2\)</span>, the realized frequencies of the two populations.</p></li>
 </ul>
-<p>For example the three populations
+<p>For the three-population simulation
 <span class="math display">\[\begin{equation}
 F= \left (
     \begin{array}{cc}
@@ -313,7 +313,7 @@ F=\left ( \begin{array}{cc}
 \end{equation}\]</span></p>
 <p>For the nine-population simulation
 <span class="math display">\[\begin{equation}
-D_1=\left ( \begin{array}{cc}
+F=\left ( \begin{array}{cc}
 1 &amp; 0 \\
   0.3 &amp; 0.7 \\
             0.3 &amp; 0.7 \\
