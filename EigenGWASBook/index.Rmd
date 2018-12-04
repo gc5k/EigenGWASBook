@@ -14,7 +14,7 @@ description: "EigenGWAS Project."
 
 This project is dedicated to <font color="navy">`EigenGWAS`</font>, a linear model analysis approach for genomic data.
 
-<font color="navy">`EigenGWAS`</font> can be seamlessly applied to the steps after `STRUCTRURE` and `principal component analysis`. **In a nutshell**, **<font color="navy">it regresses the eigenvector agaist each SNP</font>**, an analysis that finds the loci under selection. It analysis pipeline may be found at [pipeline](http://rpubs.com/gc5k/EigenGWASpipeline).
+<font color="navy">`EigenGWAS`</font> can be seamlessly applied to the steps after `STRUCTRURE` and `principal component analysis`. **In a nutshell**, **<font color="navy">it regresses the eigenvector agaist each SNP</font>**, an analysis that finds the loci under selection. Its analysis pipeline may be found at [RPub](http://rpubs.com/gc5k/EigenGWASpipeline).
 
 ## Genetic relatedness matrix $\mathbf{G}$
 
