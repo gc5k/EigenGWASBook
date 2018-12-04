@@ -14,7 +14,7 @@ description: "EigenGWAS Project."
 
 This project is dedicated to <font color="navy">`EigenGWAS`</font>, a linear model analysis approach for genomic data.
 
-<font color="navy">`EigenGWAS`</font> can be seamlessly applied to the steps after `STRUCTRURE` and `principal component analysis`. **In a nutshell**, **<font color="navy">it regresses the eigenvector agaist each SNP</font>**, an analysis that finds the loci under selection. Its analysis pipeline may be found at [RPub](http://rpubs.com/gc5k/EigenGWASpipeline).
+<font color="navy">`EigenGWAS`</font> can be seamlessly integrated to the steps population genetic routines such as `STRUCTRURE` and `principal component analysis`. **In a nutshell**, **<font color="navy">it regresses the eigenvector agaist each SNP</font>**, an analysis that detects the loci under selection. Its analysis pipeline may be found at [RPub](http://rpubs.com/gc5k/EigenGWASpipeline).
 
 ## Genetic relatedness matrix $\mathbf{G}$
 
@@ -27,9 +27,9 @@ In general, given $\mathbf{X}$ we can construct the $n\times n$ genetic relatedn
 \end{equation}
 
 in which $\tilde{\mathbf{X}}$ is the scaled form of $\mathbf{X}$ (slighlty different from standardization, which will be $\frac{x_l-2p_l}{\sqrt{2(1+F_l)p_lq_l}}$).
-However, upon the mating type of the species, $\mathbf{G}$ should be constructed accordingly. For a random mating population, $x_l$ is scaled as $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}$, assuming the current population as the base population, whereas for inbred population, $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}$, and  $q_l=1-p_l$ the frequency for the alternative allele.
+However, upon the mating type of the species, $\mathbf{G}$ should be constructed accordingly. For a random mating population, $x_l$ is scaled as $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{2p_lq_l}}$, assuming the current population as the base population, whereas for an inbred population, $\tilde{x}_l=\frac{x_l-2p_l}{\sqrt{4p_lq_l}}$, and  $q_l=1-p_l$ the frequency for the alternative allele.
 
-Due to missing data, in practice for individual $i$ and $j$, their pairwise relatedness is
+Due to missing data, in practice for a pair of individuals $i$ and $j$, their pairwise relatedness is
 
 \begin{equation}
 G_{ij}=\frac{1}{\tilde{m}}\sum_l^{\tilde{m}}\frac{(x_{il}-2p_l)(x_{jl}-2p_l)}{2(1+F)p_lq_l} (\#eq:G)
@@ -39,7 +39,7 @@ in which $\tilde{m}$ is the number of loci genotyped at both individal $i$ and $
 
 ### Statistical properties of $\mathbf{G}$
 
-Let $\mathbf{G}_o$ denote the off diagonal elements of $\mathbf{G}$, then we can define two population parameters, $n_e$, the `effective population size`, and $m_e$, the `effective number of markers`.
+Let $\mathbf{G}_o$ denote the off-diagonal elements of $\mathbf{G}$, then we can define two population parameters, $n_e$, the `effective population size`, and $m_e$, the `effective number of markers`.
 
 \begin{equation}
 n_e=\frac{-1}{mean(\mathbf{G}_o)} (\#eq:Ne)
@@ -55,7 +55,7 @@ The ratio between $\frac{m_e}{m}$ reflects the average linkage disequilibrium be
 m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 (\#eq:Me2)
 \end{equation}
 
-in which $\rho_{l_1l_2}$ is Pearson's correlation between a pair of SNPs, see Appendix \@ref(app:ld). It is an important parameter to describe the evolutionary process of a population of study.
+in which $\rho_{l_1l_2}$ is Pearson's correlation between a pair of SNPs, see Appendix \@ref(app:ld). It is an important parameter to characterize the evolutionary process of a population.
 
 ## EigenGWAS linear model
 Given eigenanalysis ([see wikipedia for its more details](https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors)) of $\mathbf{X}$, we have $\mathbf{E}$ and $\mathbf{\Lambda}$, in which $\mathbf{\Lambda}$ is an $n \times n$ diagonal matrix for eigenvalues and $\mathbf{E}$ is an $n \times n$  matrix for the eigenvectors. $\mathbf{E}_k$ is the $k^{th}$ eigenvector associated with the $k^{th}$ largest eigenvalue. Regressing $\mathbf{E}_k$ against the $l^{th}$ marker, we have the model below
