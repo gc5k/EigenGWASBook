@@ -11,7 +11,7 @@ ui <- fluidPage(
   #Gobal parameters
   navbarMenu(
     title = "",
-    fileInput('file_input', 'Genotype files', multiple = TRUE),
+    fileInput('file_input', 'Genotype files', multiple = TRUE, accept = c("bed", "fam", "bim")),
     numericInput(
       'espace',
       'Eigen space',
@@ -122,11 +122,12 @@ ui <- fluidPage(
 server <- function(input, output) {
   #Plot on the web
   observeEvent(input$run, {
-    cat("Showing", input$file_input$name)
-    fn = input$file_input$name
+    cat(getwd())
+    cat("\nShowing", input$file_input$name, " ", input$file_input$datapath)
+    fn = input$file_input$name[1]
     froot = substr(fn, 1, nchar(fn) - 4)
     RunEigenGWAS(froot, input$espace, inbred = ifelse(input$bred == 'inbred', T, F))
-
+    cat("\ndone EigenGWAS")
     #GRM-plotOutput
     output$grm <- renderPlot({
       layout(matrix(1:2, 1, 2))

@@ -1,14 +1,10 @@
 # Applications
 
-## Analysis pipeline
-
-### Commandline protocol
-
-### Web interactive tools
-
 ## Examples
 
 ### Arabdiopsis
+
+### 3K rice
 
 ### ALS
 
@@ -18,8 +14,6 @@
 
 ### Darwin's finches
 
-### Maize (Li HH)
+### Maize
 
-### 3K rice
-
-## Sea volumn data (NEO)
+## Public data

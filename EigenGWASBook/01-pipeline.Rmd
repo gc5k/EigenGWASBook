@@ -11,7 +11,8 @@ and $F=1$ for inbred lines. Please refer to Chapter \@ref(ch:basis).
 
 ## Protocal for EigenGWAS
 
-A simple analysis pipeline written in Rscript may be found at my [Rpub](http://rpubs.com/gc5k/EigenGWASpipeline).
+A simple analysis pipeline written in Rscripts may be found at [Rpub](http://rpubs.com/gc5k/EigenGWASpipeline) and its
+[Shiny demo](https://gc5k.shinyapps.io/eigengwas/).
 
 ## Protocol for predicted eigenvectors
 The prediction accuracy can be written as

@@ -1,0 +1,13 @@
+name: eigengwas
+title: EigenGWAS
+username:
+account: gc5k
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 604363
+bundleId: 1741324
+url: https://gc5k.shinyapps.io/eigengwas/
+when: 1543981723.4952
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: app.R|arab.1.egwas|arab.2.egwas|arab.3.egwas|arab.4.egwas|arab.5.egwas|arab.crm|arab.eigenval|arab.eigenvec|arab.grm.gz|arab.grm.id|arab.log|gear.log|Read before start.txt
