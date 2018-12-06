@@ -598,9 +598,9 @@ for(i in (N[1]+1):(N[1]+N[2])) {
   w2 = 1 - w1
   FP[i,] = w1*z1_A + w2*z1_B 
   if(rbinom(1, 1, 0.5)>0) {
-    FP[i,] = FP[i,] + w1*z2_A 
+    FP[i,] = FP[i,] + w2*z2_B 
   } else {
-    FP[i,] = FP[i,] + w1*z2_B
+    FP[i,] = FP[i,] + w2*z2_A
   }
 }
 
