@@ -131,7 +131,7 @@ abline(a=0, b=1, col="red", lty=2)
 As shown above, <font color="navy">`EigenGWAS`</font> is a linear model framework nearly identical to the conventional GWAS, and Bonferroni correction, such as $\alpha/m$, can be used to set the threshold at the significance level $\alpha$, such as $\alpha=0.05$. The loci that exceeds the threshold are under selection.
 
 ## Connection to singular value decomposition
-Singular value decomposition ((see wiki for more details](https://en.wikipedia.org/wiki/Singular_value_decomposition)) can decompose the matrix $\mathbf{X}$ into
+Singular value decomposition (SVD, [see wiki for more details](https://en.wikipedia.org/wiki/Singular_value_decomposition)) can decompose the matrix $\mathbf{X}$ into
 \begin{equation}
 \mathbf{X}=\mathbf{U\Sigma V} (\#eq:SVD)
 \end{equation}
