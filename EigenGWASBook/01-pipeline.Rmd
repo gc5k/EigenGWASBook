@@ -14,6 +14,11 @@ and $F=1$ for inbred lines. Please refer to Chapter \@ref(ch:basis).
 A simple analysis pipeline written in Rscripts may be found at [Rpub](http://rpubs.com/gc5k/EigenGWASpipeline) and its
 [Shiny demo](https://gc5k.shinyapps.io/eigengwas/).
 
+Or, try it as below in `RStudio`
+
+`runGitHub("Rshiny", "gc5k")`
+
+
 ## Protocol for predicted eigenvectors
 The prediction accuracy can be written as
 $$R^2 \approx \frac{1}{1+\frac{n_e}{m}}$$
