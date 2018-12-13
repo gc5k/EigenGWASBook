@@ -453,7 +453,7 @@ plot(EigenG$vectors[,1], EigenG$vectors[,2], bty='n', col=COL, pch=16, cex=0.5, 
 
 ```
 
-## Admixture population
+## Admixture populations
 ```{r, admixture, echo=FALSE, tidy=F}
 layout(matrix(1:6, 2, 3, byrow = F))
 N=c(100, 100, 100) #N
@@ -633,7 +633,9 @@ plot(EigenG$vectors[,1], EigenG$vectors[,2], bty='n', col=COL, pch=16, cex=0.5, 
 
 ```
 
-## Wishart distribution simulation
+## Homo & Heteogeneous $F_{st}$
+
+## Wishart distribution
 R function `rWishart` can generate Wishart distribution easiliy.
 ```{r, rWishart}
 ## Artificial
@@ -643,17 +645,9 @@ R <- rWishart(1000, 20, S)
 dim(R)  #  10 10  1000
 ```
 
-
-## Distribution of the Wishart diagonal elements
-
-## Homo cohort
-
-## Heterogeneous cohort
-
 ## Tracy-Widom distribution
 R package `RMTstat` can help study Tracy-Widom distribution.
 ```{r, TW}
 library(RMTstat)
 plot(density(rtw(1000)), main="TW distribbtion", bty='n')
 ```
-
