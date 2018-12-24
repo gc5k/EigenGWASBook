@@ -52,7 +52,7 @@ m_e=\frac{1}{Var(\mathbf{G}_o)}  (\#eq:Me1)
 The ratio between $\frac{m_e}{m}$ reflects the average linkage disequilibrium between the any pair of markers, and alternatively $m_e$ can be expressed as
 
 \begin{equation}
-m_e=\frac{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}{m^2}=\bar{\rho}^2 (\#eq:Me2)
+m_e=\frac{m^2}{\sum_{l_1=1}^m\sum_{l_2=1}^m\rho_{l_1l_2}^2}=\frac{1}{\bar{\rho}^2} (\#eq:Me2)
 \end{equation}
 
 in which $\rho_{l_1l_2}$ is Pearson's correlation between a pair of SNPs, see Appendix \@ref(app:ld). It is an important parameter to characterize the evolutionary process of a population.
