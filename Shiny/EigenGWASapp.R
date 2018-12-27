@@ -12,6 +12,9 @@ if(length(grep("linux",sessionInfo()$platform, ignore.case = TRUE))>0) {
 } else if(length(grep("apple",sessionInfo()$platform, ignore.case = TRUE))>0) {
   print("apple")
   plink2 = "./plink_mac"
+} else {
+  print("windows")
+  plink2 = "./plink.exe"
 }
 
 # Define UI for EigenGWAS Application
