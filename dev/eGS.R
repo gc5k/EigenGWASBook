@@ -54,7 +54,7 @@ for(k in 1:pc) {
     eRes[k, l, 4]=pchisq(eRes[k, l, 3], 1, lower.tail = F)
   }
   GC[1,k]=median(eRes[k, ,3])/qchisq(0.5, 1, lower.tail = TRUE)
-  eRes[k,,5]=eRes[k,,3]/GC[k]
+  eRes[k,,5]=eRes[k,,3]/GC[1,k]
   eRes[k,,6]=pchisq(eRes[k,,5], 1, lower.tail = TRUE)
 }
 GC[2,]=Eg$values[1:pc]
