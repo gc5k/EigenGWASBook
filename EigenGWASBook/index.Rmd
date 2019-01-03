@@ -141,7 +141,7 @@ in which
 
 - $\mathbf{U}$ is an $n\times n$ unitary matrix, corresponding to individual-level loading for each sample. $\mathbf{U}$ is also called left-singular vectors.
 
-- $\mathbf{\Sigma}$ an $n\times m$ diagonal matrix, 
+- $\mathbf{\Sigma}$ an $n\times m$ diagonal matrix for singular values which are square roots of the eigenvalue ($\lambda_k$) of GRM matrix.
 
 - $\mathbf{V}$ an $m\times m$ unitary matrix, corresponding to SNP-level loading. $\mathbf{U}$ is also called right-singular vectors.
 
@@ -149,14 +149,14 @@ Due to the transformation between $\mathbf{U}$ and $\mathbf{V}$, it has
 \begin{equation}
 \mathbf{U}=\mathbf{\tilde{X}V\Sigma}^{-1} (\#eq:svd)
 \end{equation}
-The right side of \@ref(eq:svd) can be unfolded as $\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k$, following $N(0,1)$, and taking square of it leads to 
+The right side of \@ref(eq:svd) can be unfolded as $\frac{\sqrt{m}}{\Sigma_k}\mathbf{\tilde{x}}_l\mathbf{v}_k$, following $N(0,1)$, and taking square of it leads to 
 
 \begin{equation}
-(\frac{\sqrt{m}}{\sqrt{\Sigma_k}}\mathbf{\tilde{x}}_l\mathbf{v}_k)^2 \sim \tilde{\chi}^2_{1,svd} (\#eq:chi-svd)
+(\frac{\sqrt{m}}{\Sigma_k}\mathbf{\tilde{x}}_l\mathbf{v}_k)^2 \sim \tilde{\chi}^2_{1,svd} (\#eq:chi-svd)
 \end{equation}
 
 It brings out an interesting comparison between \@ref(eq:EG-chi-adj) and \@ref(eq:svd),
-and exists subtle difference, for instance $E_1$, in their correction using $\lambda_{GC}$ and $\Sigma_1$. When the population divergency is due to genetic drift and a small proportion of loci are under selection,  $\Sigma_1 \gt \lambda_{GC}$. It is because $\Sigma_1$ is the mean of the $\chi^2_1$ from \@ref(eq:EG-chi), but $\lambda_{GC}$ is the median of it. Given a population under selection, such as selection sweep, it does have $\Sigma_1 \gt \lambda_{GC}$, as demonstrated in [simulation](http://rpubs.com/gc5k/EigenGWAScore).
+and exists subtle difference, for instance $E_1$, in their correction using $\lambda_{GC}$ and $\lambda_1$. When the population divergency is due to genetic drift and a small proportion of loci are under selection,  $\lambda_1 \gt \lambda_{GC}$. It is because $\lambda_1$ is the mean of the $\chi^2_1$ from \@ref(eq:EG-chi), but $\lambda_{GC}$ is the median of it. Given a population under selection, such as selection sweep, it does have $\lambda_1 \gt \lambda_{GC}$, as demonstrated in [simulation](http://rpubs.com/gc5k/EigenGWAScore).
 
 So, using linear model system such as <font color="navy">`EigenGWAS`</font> brings more flexibility, as well as improved statistical power comparing with direct `left-to-right singular vector` transformation in SVD \@ref(eq:svd).
 
