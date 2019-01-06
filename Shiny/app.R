@@ -5,8 +5,6 @@ library(shiny)
 # Source helpers ----
 source('helper.R')
 
-options(shiny.maxRequestSize=conf[1,2]*1024^2, shiny.launch.browser=T)
-
 plink2 = "./plink_mac"
 if(length(grep("linux",sessionInfo()$platform, ignore.case = TRUE))>0) {
   print("linux")
@@ -14,26 +12,36 @@ if(length(grep("linux",sessionInfo()$platform, ignore.case = TRUE))>0) {
 } else if(length(grep("apple",sessionInfo()$platform, ignore.case = TRUE))>0) {
   print("apple")
   plink2 = "./plink_mac"
+
+  system("git rev-list head --max-count 1 > gitTag.txt")
+  gTag=read.table("gitTag.txt")
 } else {
   print("windows")
   plink2 = "./plink.exe"
 }
 
+options(shiny.maxRequestSize=conf[1,2]*1024^2, shiny.launch.browser=T)
+
 # Define UI for EigenGWAS Application
 ui <- fluidPage(
   #Title
   titlePanel("EigenGWAS"),
+  h6(paste("Git version:", gTag[1,1])),
   hr(),
   #Gobal parameters
   fluidRow(
-    column(4,
+    column(6,
       fileInput('file_input', 
-        paste0('3 source files (*.bim, *.bed, *.fam) [< ', conf[1,2],' MB]'), 
+        paste0('3 source files (.bim, .bed, .fam) [< ', conf[1,2],' MB]'), 
         multiple = TRUE,
         accept = c("bed", "fam", "bim")
       )
-    )
-  ),
+    ),
+    column(6,
+           numericInput('autosome', "Autosome number", value=22)
+           )
+    ),
+
   hr(),
   fluidRow(
     column(2,
@@ -173,7 +181,7 @@ server <- function(input, output) {
       frootMAF=froot
     } else {
       frootMAF=paste0(froot, "_t") 
-      frqMAF=paste(plink2, "--allow-no-sex --bfile ", froot, " --autosome-num ", conf[2,2], "--maf ", input$maf_cut, " --make-bed --out", frootMAF)
+      frqMAF=paste(plink2, "--allow-no-sex --bfile ", froot, " --autosome-num ", input$autosome, "--maf ", input$maf_cut, " --make-bed --out", frootMAF)
       system(frqMAF)
     }
     return (frootMAF)
@@ -187,11 +195,11 @@ server <- function(input, output) {
 
       n = 5+PC
       incProgress(1/n, detail = paste0(" estimating freq ..."))
-      frqCmd=paste(plink2, "--bfile ", froot, " --autosome-num ", conf[2,2], "--freq --out", froot)
+      frqCmd=paste(plink2, "--bfile ", froot, " --autosome-num ", input$autosome, "--freq --out", froot)
       system(frqCmd)
 
       incProgress(3/n, detail = paste0(" making grm ..."))
-      grmCmd=paste(plink2, "--allow-no-sex --bfile", froot, " --autosome-num ", conf[2,2], "--make-grm-gz --out", froot)
+      grmCmd=paste(plink2, "--allow-no-sex --bfile", froot, " --autosome-num ", input$autosome, "--make-grm-gz --out", froot)
       system(grmCmd)
 
       gz=gzfile(paste0(froot, ".grm.gz"))
@@ -202,14 +210,14 @@ server <- function(input, output) {
       if(input$espace < 20) {
         pcRun = 20
       }
-      pcaCmd=paste(plink2, "--allow-no-sex --bfile", froot, " --autosome-num ", conf[2,2], "--pca", pcRun, "--out", froot)
+      pcaCmd=paste(plink2, "--allow-no-sex --bfile", froot, " --autosome-num ", input$autosome, "--pca", pcRun, "--out", froot)
       system(pcaCmd)
 
       #EigenGWAS
       for(i in 1:PC) {
         incProgress(1/n, detail = paste0(" scanning eSpace ", i))
         outRoot=paste0(froot, ".", i)
-        liCmd=paste0(plink2, " --allow-no-sex --linear --bfile ", froot, " --autosome-num ", conf[2,2], " --pheno ", froot, ".eigenvec --mpheno ", i," --out ", outRoot)
+        liCmd=paste0(plink2, " --allow-no-sex --linear --bfile ", froot, " --autosome-num ", input$autosome, " --pheno ", froot, ".eigenvec --mpheno ", i," --out ", outRoot)
         system(liCmd)
       }
       incProgress(1/n, detail = paste0(" finishing EigenGWAS."))
@@ -305,31 +313,7 @@ server <- function(input, output) {
       })
     })
   })
-  
-  # output$eigengwas <- renderPlot({
-  #   froot = currentFile()
-  #   pcIdx=input$EigenGWASPlot_espace
-  #   if(pcIdx > input$espace) {
-  #     showNotification(paste0("eSpace ", pcIdx, " hasn't been scanned."), duration = 5, type = "message")
-  #     return()
-  #   }
-  # 
-  #   layout(matrix(1:2, 1, 2))
-  #   EigenRes=read.table(paste0(froot, ".",pcIdx, ".assoc.linear"), as.is = T, header = T)
-  #   EigenRes$Praw=EigenRes$P
-  #   gc=qchisq(median(EigenRes$P), 1, lower.tail = F)/qchisq(0.5, 1, lower.tail = F)
-  #   print(paste("GC = ", format(gc, digits = 4)))
-  #   EigenRes$P=pchisq(qchisq(EigenRes$Praw, 1, lower.tail = F)/gc, 1, lower.tail = F)
-  #   manhattan(EigenRes, genomewideline = -log10(as.numeric(input$threshold)/nrow(EigenRes)), title=paste("eSpace ", pcIdx), pch=16, cex=0.3, bty='n')
-  # 
-  #   #QQplot
-  #   chiseq=qchisq(seq(1/nrow(EigenRes), 1-1/nrow(EigenRes), length.out = nrow(EigenRes)), 1)
-  #   qqplot(chiseq, qchisq(EigenRes$Praw, 1, lower.tail = F), xlab=expression(paste("Theoretical ", chi[1]^2)), ylab=expression(paste("Observed ", chi[1]^2)), bty="n", col="grey", pch=16, cex=0.5)
-  #   points(sort(chiseq), sort(qchisq(EigenRes$P, 1, lower.tail = F)), col="black", pch=16, cex=0.5)
-  #   legend("topleft", legend = c("Raw", "GC correction"), pch=16, cex=0.5, col=c("grey", "black"), bty='n')
-  #   abline(a=0, b=1, col="red", lty=2)
-  # })
-  
+
   output$eReport <- downloadHandler(
     # For PDF output, change this to "report.pdf"
     
