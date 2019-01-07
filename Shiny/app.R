@@ -14,13 +14,13 @@ if(length(grep("linux",sessionInfo()$platform, ignore.case = TRUE))>0) {
   plink2 = "./plink_mac"
 
   system("git rev-list head --max-count 1 > gitTag.txt")
-  gTag=read.table("gitTag.txt")
 } else {
   print("windows")
   plink2 = "./plink.exe"
 }
 
 options(shiny.maxRequestSize=conf[1,2]*1024^2, shiny.launch.browser=T)
+gTag=read.table("gitTag.txt")
 
 # Define UI for EigenGWAS Application
 ui <- fluidPage(
