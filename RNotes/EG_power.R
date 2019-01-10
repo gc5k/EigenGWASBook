@@ -1,13 +1,3 @@
-# Conclusion
-
-## Statistical power
-The NCP for the additive model is 
-$$4n\omega_1\omega_2\frac{(p_1-p_2)^2}{2p(1-p)}$$
-in which $p=\omega_1p_1+\omega_2p_2$, and $\omega_1=\frac{n_1}{n_1+n_2}$ and $\omega_2=\frac{n_2}{n_1+n_2}$;
-for the dominance model is 
-$$(n-1)\omega_1\omega_2\frac{[2p_1(1-p_1)-2p_2(1-p_2)]^2}{2p_1(1-p_1)\omega_1+2p_2(1-p_2)\omega_2}$$
-
-```{r, stat-power}
 m=1000000
 alpha=0.05
 pcut=alpha/m
@@ -39,7 +29,3 @@ colnames(PW)=n
 barplot(PW, beside = T, border = F)
 abline(h=0.85, lty=2, col="grey")
 legend("topleft", legend=c("Add", "Dom"), pch=15, col=c("black", "grey"), bty='n')
-
-```
-
-## Selection pattern

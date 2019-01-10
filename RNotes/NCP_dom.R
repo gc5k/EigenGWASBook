@@ -41,4 +41,3 @@ ncpA=4*N*n1/N*n2/N*(mean(g1)/2-mean(g2)/2)^2/(2*mean(Ga)/2*(1-mean(Ga)/2))
 qqplot(main="Add", rchisq(RP,1, ncp = ncpA), paraA[,5], pch=16, cex=0.5, bty='n',
        xlab=expression(paste("Theoretical ", chi[1]^2)), ylab=expression(paste("Obs ",chi[1]^2)))
 abline(a=0, b=1)
-

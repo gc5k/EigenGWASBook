@@ -25,7 +25,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
 
 
-<meta name="date" content="2018-12-24">
+<meta name="date" content="2019-01-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -216,6 +216,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 6</span> Conclusion</h1>
 <div id="statistical-power" class="section level2">
 <h2><span class="header-section-number">6.1</span> Statistical power</h2>
+<p>The NCP for the additive model is
+<span class="math display">\[4n\omega_1\omega_2\frac{(p_1-p_2)^2}{2p(1-p)}\]</span>
+in which <span class="math inline">\(p=\omega_1p_1+\omega_2p_2\)</span>, and <span class="math inline">\(\omega_1=\frac{n_1}{n_1+n_2}\)</span> and <span class="math inline">\(\omega_2=\frac{n_2}{n_1+n_2}\)</span>;
+for the dominance model is
+<span class="math display">\[(n-1)\omega_1\omega_2\frac{[2p_1(1-p_1)-2p_2(1-p_2)]^2}{2p_1(1-p_1)\omega_1+2p_2(1-p_2)\omega_2}\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">m=<span class="dv">1000000</span>
+alpha=<span class="fl">0.05</span>
+pcut=alpha<span class="op">/</span>m
+chiT=<span class="kw">qchisq</span>(pcut, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)
+
+n=<span class="kw">c</span>(<span class="dv">100</span>,  <span class="dv">200</span>,  <span class="dv">500</span>,   <span class="dv">1000</span>,  <span class="dv">1500</span>,  <span class="dv">2000</span>,
+    <span class="dv">5000</span>, <span class="dv">7500</span>, <span class="dv">10000</span>, <span class="dv">15000</span>, <span class="dv">20000</span>, <span class="dv">50000</span>)
+PW=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="kw">length</span>(n))
+
+w1=<span class="fl">0.3</span>
+w2=<span class="dv">1</span><span class="op">-</span>w1
+
+p1=<span class="fl">0.35</span>
+h1=<span class="dv">2</span><span class="op">*</span>p1<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p1)
+p2=<span class="fl">0.5</span>
+h2=<span class="dv">2</span><span class="op">*</span>p2<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p2)
+
+p=w1<span class="op">*</span>p1<span class="op">+</span>w2<span class="op">*</span>p2
+H=w1<span class="op">*</span>h1<span class="op">+</span>w2<span class="op">*</span>h2
+
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(n)) {
+  ncpA=<span class="dv">4</span><span class="op">*</span>n[i]<span class="op">*</span>w1<span class="op">*</span>w2<span class="op">*</span>(p1<span class="op">-</span>p2)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>p<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p))
+  ncpD=n[i]<span class="op">*</span>w1<span class="op">*</span>w2<span class="op">*</span>(h1<span class="op">-</span>h2)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>H
+
+  PW[<span class="dv">1</span>,i]=<span class="kw">pchisq</span>(chiT, <span class="dv">1</span>, <span class="dt">ncp=</span>ncpA, <span class="dt">lower.tail =</span> F)
+  PW[<span class="dv">2</span>,i]=<span class="kw">pchisq</span>(chiT, <span class="dv">1</span>, <span class="dt">ncp=</span>ncpD, <span class="dt">lower.tail =</span> F)
+}
+<span class="kw">colnames</span>(PW)=n
+<span class="kw">barplot</span>(PW, <span class="dt">beside =</span> T, <span class="dt">border =</span> F)
+<span class="kw">abline</span>(<span class="dt">h=</span><span class="fl">0.85</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="dt">legend=</span><span class="kw">c</span>(<span class="st">&quot;Add&quot;</span>, <span class="st">&quot;Dom&quot;</span>), <span class="dt">pch=</span><span class="dv">15</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;grey&quot;</span>), <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/stat-power-1.png" width="672" /></p>
 </div>
 <div id="selection-pattern" class="section level2">
 <h2><span class="header-section-number">6.2</span> Selection pattern</h2>
