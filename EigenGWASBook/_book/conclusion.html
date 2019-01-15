@@ -25,7 +25,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
 
 
-<meta name="date" content="2019-01-10">
+<meta name="date" content="2019-01-15">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -216,11 +216,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 6</span> Conclusion</h1>
 <div id="statistical-power" class="section level2">
 <h2><span class="header-section-number">6.1</span> Statistical power</h2>
+<p>The key parameters are below.</p>
 <p>The NCP for the additive model is
 <span class="math display">\[4n\omega_1\omega_2\frac{(p_1-p_2)^2}{2p(1-p)}\]</span>
 in which <span class="math inline">\(p=\omega_1p_1+\omega_2p_2\)</span>, and <span class="math inline">\(\omega_1=\frac{n_1}{n_1+n_2}\)</span> and <span class="math inline">\(\omega_2=\frac{n_2}{n_1+n_2}\)</span>;
 for the dominance model is
-<span class="math display">\[(n-1)\omega_1\omega_2\frac{[2p_1(1-p_1)-2p_2(1-p_2)]^2}{2p_1(1-p_1)\omega_1+2p_2(1-p_2)\omega_2}\]</span></p>
+<span class="math display">\[(n-1)\omega_1\omega_2\frac{[2p_1(1-p_1)-2p_2(1-p_2)]^2}{2p_1(1-p_1)\omega_1+2p_2(1-p_2)\omega_2}\]</span>
+<a href="https://gc5k.shinyapps.io/eigengwaspowercal/">A shiny power calculator may be found here</a>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">m=<span class="dv">1000000</span>
 alpha=<span class="fl">0.05</span>
 pcut=alpha<span class="op">/</span>m
