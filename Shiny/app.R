@@ -184,6 +184,7 @@ server <- function(input, output) {
       frqMAF=paste(plink2, "--allow-no-sex --bfile ", froot, " --autosome-num ", input$autosome, "--maf ", input$maf_cut, " --make-bed --out", frootMAF)
       system(frqMAF)
     }
+
     return (frootMAF)
   })
 
@@ -275,9 +276,9 @@ server <- function(input, output) {
         GC=array(0, dim=PC)
         for(i in 1:PC) {
           eg = read.table(paste0(froot, ".", i, ".assoc.linear"), as.is = T, header = T)
-          GC[i] = qchisq(median(eg$P), 1, lower.tail = F)/qchisq(0.5, 1)
+          GC[i] = qchisq(median(eg$P, na.rm = T), 1, lower.tail = F)/qchisq(0.5, 1)
         }
-        
+
         egc=matrix(c(Evev[1:PC,1]/sc, GC), PC, 2, byrow = F)
         rownames(egc)=seq(1, PC)
         barplot(t(egc), beside = T, border = F, xlab="eSpace", ylim=c(0,max(egc)+2))
@@ -289,7 +290,7 @@ server <- function(input, output) {
       output$eigengwas <- renderPlot({
         froot = currentFile()
         pcIdx=input$EigenGWASPlot_espace[1]
-        print(paste("ePC ", pcIdx))
+        print(paste0("ePC ", pcIdx))
         if (pcIdx > input$espace) {
           showNotification(paste0("eSpace ", pcIdx, " hasn't been scanned yet."), type = "warning")
           return()
@@ -298,9 +299,10 @@ server <- function(input, output) {
         egResF=paste0(froot, ".",pcIdx, ".assoc.linear")
         layout(matrix(1:2, 1, 2))
         EigenRes=read.table(egResF, as.is = T, header = T)
+        EigenRes=EigenRes[which(!is.na(EigenRes$P)),]
         EigenRes$Praw=EigenRes$P
-        gc=qchisq(median(EigenRes$P), 1, lower.tail = F)/qchisq(0.5, 1, lower.tail = F)
-        print(paste("GC = ", format(gc, digits = 4)))
+        gc=qchisq(median(EigenRes$P, na.rm = T), 1, lower.tail = F)/qchisq(0.5, 1, lower.tail = F)
+        print(paste0("GC = ", format(gc, digits = 4)))
         EigenRes$P=pchisq(qchisq(EigenRes$Praw, 1, lower.tail = F)/gc, 1, lower.tail = F)
         manhattan(EigenRes, genomewideline = -log10(as.numeric(input$threshold)/nrow(EigenRes)), title=paste("eSpace ", pcIdx), pch=16, cex=0.3, bty='n')
         
@@ -322,7 +324,9 @@ server <- function(input, output) {
       
       isRunable = TRUE
       if ( !is.null(input$file_input$datapath)) {
-        frt = substr(input$file_input$datapath[1], 1, nchar(input$file_input$datapath[1])-4)
+        frt=currentFile()
+#        frt = substr(input$file_input$datapath[1], 1, nchar(input$file_input$datapath[1])-4)
+        print(frt)
         if ( !file.exists(paste0(frt, ".eigenval"))) {
           isRunable = FALSE
         } else if (!file.exists(paste0(frt, ".frq"))) {
