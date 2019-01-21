@@ -13,7 +13,7 @@ if(length(grep("linux",sessionInfo()$platform, ignore.case = TRUE))>0) {
   print("apple")
   plink2 = "./plink_mac"
 
-  system("git rev-list head --max-count 1 > gitTag.txt")
+#  system("git rev-list head --max-count 1 > gitTag.txt")
 } else {
   print("windows")
   plink2 = "./plink.exe"
@@ -354,7 +354,7 @@ server <- function(input, output) {
       
       
       # Set up parameters to pass to Rmd document
-      params <- list(froot = substr(input$file_input$datapath[1], 1, nchar(input$file_input$datapath[1])-4),
+      params <- list(froot = frt,
                      espace = input$espace, 
                      sc = ifelse(input$bred == 'inbred', 2, 1),
                      pcut = as.numeric(input$threshold))
