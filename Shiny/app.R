@@ -55,7 +55,7 @@ ui <- fluidPage(
     column(4,
       sliderInput('maf_cut',
         'MAF threshold',
-        value = 0, min = 0, max = 0.4, step = 0.05
+        value = 0.01, min = 0, max = 0.4, step = 0.05
       )
     ),
     column(6,
