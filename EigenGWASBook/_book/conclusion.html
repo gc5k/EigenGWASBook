@@ -25,7 +25,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
 
 
-<meta name="date" content="2019-01-21">
+<meta name="date" content="2019-02-19">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -217,12 +217,85 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="statistical-power" class="section level2">
 <h2><span class="header-section-number">6.1</span> Statistical power</h2>
 <p>The key parameters are below.</p>
-<p>The NCP for the additive model is
+<p>The validation for NCP for inbred populations
+<span class="math display">\[n\omega_1\omega_2\frac{(p_1-p_2)^2}{p(1-p)}\]</span>
+Simulation validation for NCP</p>
+<pre class="sourceCode r"><code class="sourceCode r">RP=<span class="dv">1000</span>
+n1=<span class="dv">500</span>
+n2=<span class="dv">500</span>
+N=n1<span class="op">+</span>n2
+f1=<span class="fl">0.4</span>
+f2=<span class="fl">0.6</span>
+paraA=<span class="kw">matrix</span>(<span class="dv">0</span>, RP, <span class="dv">1</span>)
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>RP) {
+  g1=<span class="kw">rbinom</span>(n1, <span class="dv">1</span>, f1)<span class="op">*</span><span class="dv">2</span>
+  g2=<span class="kw">rbinom</span>(n2, <span class="dv">1</span>, f2)<span class="op">*</span><span class="dv">2</span>
+  y=<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,n1), <span class="kw">rep</span>(<span class="dv">0</span>, n2))
+  ys=<span class="kw">scale</span>(y)
+  G=<span class="kw">c</span>(g1, g2)
+  Ga=<span class="kw">c</span>(g1, g2)
+
+  modA=<span class="kw">lm</span>(ys<span class="op">~</span>Ga)
+  paraA[i,<span class="dv">1</span>]=<span class="kw">summary</span>(modA)<span class="op">$</span>coefficients[<span class="dv">2</span>,<span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span>
+}
+
+ncpA=N<span class="op">*</span>n1<span class="op">/</span>N<span class="op">*</span>n2<span class="op">/</span>N<span class="op">*</span>(<span class="kw">mean</span>(g1)<span class="op">/</span><span class="dv">2</span><span class="op">-</span><span class="kw">mean</span>(g2)<span class="op">/</span><span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span>))
+<span class="kw">qqplot</span>(<span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="kw">rchisq</span>(RP,<span class="dv">1</span>, <span class="dt">ncp =</span> ncpA), paraA[,<span class="dv">1</span>], <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>, <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>,
+       <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Theoretical &quot;</span>, chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">ylab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Observed &quot;</span>,chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)))
+<span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>, <span class="dt">b=</span><span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/inb-ncp-add-1.png" width="672" /></p>
+<p>For random mating population, the NCP for the additive model is approximately
 <span class="math display">\[4n\omega_1\omega_2\frac{(p_1-p_2)^2}{2p(1-p)}\]</span>
 in which <span class="math inline">\(p=\omega_1p_1+\omega_2p_2\)</span>, and <span class="math inline">\(\omega_1=\frac{n_1}{n_1+n_2}\)</span> and <span class="math inline">\(\omega_2=\frac{n_2}{n_1+n_2}\)</span>;
 for the dominance model is
-<span class="math display">\[(n-1)\omega_1\omega_2\frac{[2p_1(1-p_1)-2p_2(1-p_2)]^2}{2p_1(1-p_1)\omega_1+2p_2(1-p_2)\omega_2}\]</span>
+<span class="math display">\[n\omega_1\omega_2\frac{[2p_1(1-p_1)-2p_2(1-p_2)]^2}{2p_1(1-p_1)\omega_1+2p_2(1-p_2)\omega_2}\]</span>
 <a href="https://gc5k.shinyapps.io/eigengwaspowercal/">A shiny power calculator may be found here</a>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">RP =<span class="st"> </span><span class="dv">500</span>
+n1 =<span class="st"> </span><span class="dv">500</span>
+n2 =<span class="st"> </span><span class="dv">500</span>
+N =<span class="st"> </span>n1 <span class="op">+</span><span class="st"> </span>n2
+f1 =<span class="st"> </span><span class="fl">0.4</span>
+f2 =<span class="st"> </span><span class="fl">0.6</span>
+para =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, RP, <span class="dv">6</span>)
+paraA =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, RP, <span class="dv">6</span>)
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>RP) {
+    g1 =<span class="st"> </span><span class="kw">rbinom</span>(n1, <span class="dv">2</span>, f1)
+    g2 =<span class="st"> </span><span class="kw">rbinom</span>(n2, <span class="dv">2</span>, f2)
+    y =<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, n1), <span class="kw">rep</span>(<span class="dv">0</span>, n2))
+    ys =<span class="st"> </span><span class="kw">scale</span>(y)
+    G =<span class="st"> </span><span class="kw">c</span>(g1, g2)
+    Gd =<span class="st"> </span><span class="kw">ifelse</span>(G <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+    Ga =<span class="st"> </span><span class="kw">c</span>(g1, g2)
+    <span class="co"># Gd=scale(Gd)</span>
+    mod =<span class="st"> </span><span class="kw">lm</span>(ys <span class="op">~</span><span class="st"> </span>Gd)
+    Ecov =<span class="st"> </span><span class="kw">sqrt</span>(n1<span class="op">/</span>N <span class="op">*</span><span class="st"> </span>n2<span class="op">/</span>N) <span class="op">*</span><span class="st"> </span>(<span class="kw">length</span>(<span class="kw">which</span>(g1 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))<span class="op">/</span>n1 <span class="op">-</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">which</span>(g2 <span class="op">==</span><span class="st"> </span>
+<span class="st">        </span><span class="dv">1</span>))<span class="op">/</span>n2)
+    EV =<span class="st"> </span><span class="kw">mean</span>(Gd) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Gd))
+    Eb =<span class="st"> </span>Ecov<span class="op">/</span>EV
+    b =<span class="st"> </span>mod<span class="op">$</span>coefficients[<span class="dv">2</span>]
+    para[i, <span class="dv">1</span>] =<span class="st"> </span>Eb
+    para[i, <span class="dv">2</span>] =<span class="st"> </span>b
+    para[i, <span class="dv">3</span>] =<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>(N <span class="op">*</span><span class="st"> </span><span class="kw">var</span>(Gd)))
+    para[i, <span class="dv">4</span>] =<span class="st"> </span><span class="kw">summary</span>(mod)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]
+    para[i, <span class="dv">5</span>] =<span class="st"> </span><span class="kw">summary</span>(mod)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span>
+    para[i, <span class="dv">6</span>] =<span class="st"> </span><span class="kw">summary</span>(mod)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">4</span>]
+    
+    modA =<span class="st"> </span><span class="kw">lm</span>(ys <span class="op">~</span><span class="st"> </span>Ga)
+    paraA[i, <span class="dv">5</span>] =<span class="st"> </span><span class="kw">summary</span>(modA)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span>
+}
+<span class="co"># layout(matrix(1:2, 1, 2)) vF2=f1*(1-f1)*n1/N+f2*(1-f2)*n2/N ncpD=n1*n2/N *</span>
+<span class="co"># (2*f1*(1-f1)-2*f2*(1-f2))^2/vF2 qqplot(main=&#39;Dom&#39;, rchisq(RP,1, ncp =</span>
+<span class="co"># ncpD), para[,5], pch=16, cex=0.5, bty=&#39;n&#39;,</span>
+<span class="co"># xlab=expression(paste(&#39;Theoretical &#39;, chi[1]^2)),</span>
+<span class="co"># ylab=expression(paste(&#39;Obs &#39;,chi[1]^2))) abline(a=0, b=1)</span>
+
+ncpA =<span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>N <span class="op">*</span><span class="st"> </span>n1<span class="op">/</span>N <span class="op">*</span><span class="st"> </span>n2<span class="op">/</span>N <span class="op">*</span><span class="st"> </span>(<span class="kw">mean</span>(g1)<span class="op">/</span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(g2)<span class="op">/</span><span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span>))
+<span class="kw">qqplot</span>(<span class="dt">main =</span> <span class="st">&quot;&quot;</span>, <span class="kw">rchisq</span>(RP, <span class="dv">1</span>, <span class="dt">ncp =</span> ncpA), paraA[, <span class="dv">5</span>], <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>, 
+    <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Theoretical &quot;</span>, chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Observed &quot;</span>, 
+        chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)))
+<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</code></pre>
+<p><img src="EigenGWAS_files/figure-html/ram-ncp-1.png" width="672" /></p>
 <pre class="sourceCode r"><code class="sourceCode r">m=<span class="dv">1000000</span>
 alpha=<span class="fl">0.05</span>
 pcut=alpha<span class="op">/</span>m
