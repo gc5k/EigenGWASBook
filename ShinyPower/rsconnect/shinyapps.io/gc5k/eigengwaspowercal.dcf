@@ -5,8 +5,8 @@ account: gc5k
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 643099
-bundleId: 1814745
+bundleId: 1884434
 url: https://gc5k.shinyapps.io/eigengwaspowercal/
-when: 1547529628.14607
+when: 1550584085.80154
 asMultiple: FALSE
 asStatic: FALSE

@@ -20,6 +20,8 @@ ui <- fluidPage(
       sidebarPanel(
 #        numericInput("n", "Sample size",
 #                     value = 500, min=100),
+        selectInput("pop", "Population type",
+                     choices = c("Outbred", "Inbred"), selected="Outbred"),
         numericInput("m", "Marker number",
                      value = 10000, min=1),
         sliderInput("w1",
@@ -49,6 +51,7 @@ ui <- fluidPage(
 server <- function(input, output) {
 
    output$distPlot <- renderPlot({
+     popType=input$pop
      m=input$m
      alpha=as.numeric(input$alpha)
      pcut=alpha/m
@@ -70,8 +73,13 @@ server <- function(input, output) {
      H=w1*h1+w2*h2
      
      for(i in 1:length(n)) {
-       ncpA=4*n[i]*w1*w2*(p1-p2)^2/(2*p*(1-p))
-       ncpD=n[i]*w1*w2*(h1-h2)^2/H
+       if(popType == "Outbred") {
+         ncpA=4*n[i]*w1*w2*(p1-p2)^2/(2*p*(1-p))
+         ncpD=n[i]*w1*w2*(h1-h2)^2/H
+       } else {
+         ncpA=2*n[i]*w1*w2*(p1-p2)^2/(2*p*(1-p))
+         ncpD=0
+       }
 
        PW[1,i]=pchisq(chiT, 1, ncp=ncpA, lower.tail = F)
        PW[2,i]=pchisq(chiT, 1, ncp=ncpD, lower.tail = F)
