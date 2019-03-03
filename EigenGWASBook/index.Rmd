@@ -18,7 +18,7 @@ This project is dedicated to <font color="navy">`EigenGWAS`</font>, a linear mod
 
 ## Genetic relatedness matrix $\mathbf{G}$
 
-The genomic data can be represented as $\mathbf{X}$, an $n \times m$ matrix representing $n$ individuals and $m$ markers. Without loss of generality, $x_{jl}$ is the genotype code for the $i^{th}$ individual at the $l^{th}$ biallic locus. The data matrix $\mathbf{X}$ can be generated from chips, NGS, or GBS.
+The genomic data can be represented as $\mathbf{X}$, an $n \times m$ matrix representing $n$ individuals and $m$ markers. Without loss of generality, $x_{il}$ is the genotype code for the $i^{th}$ individual at the $l^{th}$ biallic locus. The data matrix $\mathbf{X}$ can be generated from chips, NGS, or GBS.
 
 In general, given $\mathbf{X}$ we can construct the $n\times n$ genetic relatedness matrix as
 
