@@ -24,7 +24,7 @@ Depending on the allele at locus 1, the probabilities of observing allele $B$ an
 
 Assuming $P_A \leq P_B \leq 0.5$, the maximal of $\rho_{l_1l_2}$ reaches when allele $A$ is $a$ subset of $B$ linage so that $P_{AB}=P_{A}$, because (see PLoS Genet 2(9): e142)
 $$\rho_{1,2}=\frac{P_{AB}-P_{A}P_{B}}{\sqrt{P_A P_a P_B P_b}}=\frac{P_A(1-P_B)}{\sqrt{P_A P_a P_B P_b}}=\sqrt{\frac{P_AP_b}{P_B P_a}} \leq 1$$
-
+The maxima of $D=min(P_AP_b, P_BP_a)$.
 
 ## LD and recombination fraction
 It is sometimes useful to simulate $F_2$ population given known LD between any pair of markers. Below is the procedure for doing that.
