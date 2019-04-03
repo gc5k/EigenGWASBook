@@ -10,7 +10,7 @@ For the haplotypes, as tabulated below, consisting of locus 1, which has alleles
 |$a$| $P_{aB}=P_a \times P_B - D$| $P_{ab}=P_a \times P_b + D$| $P_a$|
 | |$P_B$|$P_b$| |
 
-It is a typical $2\times2$ contingency table, once one of these four cell is fixed, other three are all known. Consequently, we can implement Fisher's Exact test for this table.
+It is a typical $2\times2$ contingency table, once one of these four cells is fixed, other three are all known. Consequently, we can implement Fisher's Exact test for this table.
 However, given the current biotechnology, $D$ is often unknown. But given the correlation, $\rho_{1,2}$, of a pair of markers, we know that
 $$\rho_{1,2}=\frac{D_{1,2}}{\sqrt{P_AP_aP_BP_b}}$$
 
