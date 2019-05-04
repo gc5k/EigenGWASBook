@@ -3,20 +3,32 @@
 ## On-site examples
 
 ### Arabdiopsis
+1,135 genomes reveal the global pattern of polymorphism in Arabidopsis thaliana, 2016, $Cell$, 166:481-91
+
+Reproduction and In-Depth Evaluation of Genome-Wide Association Studies and Genome-Wide Meta-analyses Using Summary Statistics, 2017, $G3$,  7:943-92
 
 ### 3K rice
+Genomic variation in 3,010 diverse accessions of Asian cultivated rice, 2018, $Nature$, 557:43-9
 
 ### ALS
+Genomic dissection of population substructure of Han Chinese and its implication in association studies, $AJHG$, 2009, 85:762-74
+
+Genomic analyses from non-invasive prenatal testing reveal genetic associations, patterns of viral infections, and Chinese population history, $Cell$, 2018, 175:347-59
+
+Darwinian Positive Selection on the Pleiotropic Effects of KITLG Explain Skin Pigmentation and Winter Temperature Adaptation in Eurasians, $MBE$, 2018, 35:2272-2283
 
 ### GF
 
 ### UK birds
+Recent natural selection causes adaptive evolution of an avian polygenic trait, $Science$, 2017, 358:365-8
 
 ### Darwin's finches
+Evolution of Darwin's finches and their beaks revealed by genome sequencing, $Nature$, 2015, 518, 371-5
 
 ### GBS Maize
 
 ### UK Biobank
+The UK Biobank resource with deep phenotyping and genomic data, $Nature$, 2018, 562:203-9
 
 ## Public datahub (NEO)
 

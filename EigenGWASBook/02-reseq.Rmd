@@ -3,6 +3,7 @@
 This is a technical review for resequencing studies.
 
 ## Technical review
+selscan: An Efficient Multithreaded Program to Perform EHH-Based Scans for Positive Selection, 2014, $MBE$, 31:2824-7, [selcan's github](https://github.com/szpiech/selscan)
 
 ### NGS
 
