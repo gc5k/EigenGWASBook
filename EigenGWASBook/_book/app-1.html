@@ -25,7 +25,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
 
 
-<meta name="date" content="2019-04-03">
+<meta name="date" content="2019-05-09">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -190,6 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.1" data-path="app-1.html"><a href="app-1.html#app:ld"><i class="fa fa-check"></i><b>7.1</b> Notes on linkage disequilibrium</a></li>
 <li class="chapter" data-level="7.2" data-path="app-1.html"><a href="app-1.html#the-maximal-value-rho_ab"><i class="fa fa-check"></i><b>7.2</b> The maximal value <span class="math inline">\(\rho_{AB}\)</span></a></li>
 <li class="chapter" data-level="7.3" data-path="app-1.html"><a href="app-1.html#ld-and-recombination-fraction"><i class="fa fa-check"></i><b>7.3</b> LD and recombination fraction</a></li>
+<li class="chapter" data-level="7.4" data-path="app-1.html"><a href="app-1.html#f_st-1"><i class="fa fa-check"></i><b>7.4</b> <span class="math inline">\(F_{st}\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -289,6 +290,24 @@ M =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</s
     }
 }</code></pre>
 <p><img src="EigenGWAS_files/figure-html/ld-1.png" width="672" /></p>
+</div>
+<div id="f_st-1" class="section level2">
+<h2><span class="header-section-number">7.4</span> <span class="math inline">\(F_{st}\)</span></h2>
+<p>There are three commonly used <span class="math inline">\(F_{st}\)</span> (see method section in Bhatia, Genome Res, 2013, 23:1514-21),</p>
+<p><strong>1 Weir &amp; Cockerham’s</strong> <span class="math inline">\(F_{st}^{WC}\)</span></p>
+<p>Citation: Weir &amp; Cockerham, <span class="math inline">\(Evolution\)</span>, 1984, 38:1358-1370</p>
+<p>The estimator is</p>
+<p><span class="math inline">\(\hat{F}_{st}^{WC}=1-\frac{2\frac{n_1n_2}{n_1+n_2}\frac{1}{n_1+n_2}[n_1\tilde{p}_1(1-\tilde{p}_1)+n_2\tilde{p}_2(1-\tilde{p}_2))]}{\frac{n_1n_2}{n_1+n_2}(\tilde{p_1}+\tilde{p_2})^2+(2\frac{n_1n_2}{n_1+n_2}-1)\frac{1}{n_1+n_2-2}[n_1\tilde{p}_1(1-\tilde{p}_1)+n_2\tilde{p}_2(1-\tilde{p}_2)]}\)</span></p>
+<p><strong>2 Nei’s</strong> <span class="math inline">\(F_{st}^{Nei}\)</span></p>
+<p>Citation: Nei M. 1986. Definition and estimation of fixation indices. <span class="math inline">\(Evolution\)</span>, 40: 643???645.</p>
+<p>The estimator is</p>
+<p><span class="math inline">\(\hat{F}_{st}^{Nei}=\frac{\tilde{p}_1+\tilde{p}_2}{2\tilde{p}(1-\tilde{p})}\)</span></p>
+<p>in which <span class="math inline">\(\tilde{p}=\frac{\tilde{p}_1+\tilde{p}_2}{2}\)</span>.</p>
+<p><strong>3 Hudson’s</strong> <span class="math inline">\(F_{st}^{Hudson}\)</span></p>
+<p>Citation: Hudson et al, Estimating of levels of gene flow from DNA sequence data. <span class="math inline">\(Genetics\)</span>, 132:207-11</p>
+<p><span class="math inline">\(F_{st}^{Hudson} = 1-\frac{H_w}{H_b}\)</span></p>
+<p>and its estimator is</p>
+<p><span class="math inline">\(F_{st}^{Hudson} = \frac{(\tilde{p}_1-\tilde{p}_2)^2-\frac{\tilde{p}_1(1-\tilde{p}_1)}{n_1-1}-\frac{\tilde{p}_2(1-\tilde{p}_2)}{n_2-1}}{\tilde{p}_1(1-\tilde{p}_1)+\tilde{p}_2(1-\tilde{p}_2)}\)</span></p>
 
 </div>
 </div>

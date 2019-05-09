@@ -61,3 +61,34 @@ for(i in 1:length(A)) {
 
 ```
 
+## $F_{st}$
+There are three commonly used $F_{st}$ (see method section in Bhatia, Genome Res, 2013, 23:1514-21),
+
+**1 Weir & Cockerham's** $F_{st}^{WC}$
+
+Citation: Weir & Cockerham, $Evolution$, 1984, 38:1358-1370 
+
+The estimator is
+
+$\hat{F}_{st}^{WC}=1-\frac{2\frac{n_1n_2}{n_1+n_2}\frac{1}{n_1+n_2}[n_1\tilde{p}_1(1-\tilde{p}_1)+n_2\tilde{p}_2(1-\tilde{p}_2))]}{\frac{n_1n_2}{n_1+n_2}(\tilde{p_1}+\tilde{p_2})^2+(2\frac{n_1n_2}{n_1+n_2}-1)\frac{1}{n_1+n_2-2}[n_1\tilde{p}_1(1-\tilde{p}_1)+n_2\tilde{p}_2(1-\tilde{p}_2)]}$
+
+**2 Nei's** $F_{st}^{Nei}$
+
+Citation: Nei M. 1986. Definition and estimation of fixation indices. $Evolution$, 40: 643???645.
+
+The estimator is 
+
+$\hat{F}_{st}^{Nei}=\frac{\tilde{p}_1+\tilde{p}_2}{2\tilde{p}(1-\tilde{p})}$
+
+in which $\tilde{p}=\frac{\tilde{p}_1+\tilde{p}_2}{2}$.
+
+**3 Hudson's** $F_{st}^{Hudson}$ 
+
+Citation: Hudson et al, Estimating of levels of gene flow from DNA sequence data. $Genetics$, 132:207-11
+
+$F_{st}^{Hudson} = 1-\frac{H_w}{H_b}$
+
+and its estimator is
+
+$F_{st}^{Hudson} = \frac{(\tilde{p}_1-\tilde{p}_2)^2-\frac{\tilde{p}_1(1-\tilde{p}_1)}{n_1-1}-\frac{\tilde{p}_2(1-\tilde{p}_2)}{n_2-1}}{\tilde{p}_1(1-\tilde{p}_1)+\tilde{p}_2(1-\tilde{p}_2)}$
+
