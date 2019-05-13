@@ -85,13 +85,15 @@
 <li class="chapter" data-level="2.1" data-path="protocols.html"><a href="protocols.html#protocols-for-selection"><i class="fa fa-check"></i><b>2.1</b> Protocols for selection</a></li>
 <li class="chapter" data-level="2.2" data-path="protocols.html"><a href="protocols.html#protocal-for-eigengwas"><i class="fa fa-check"></i><b>2.2</b> Protocal for EigenGWAS</a></li>
 <li class="chapter" data-level="2.3" data-path="protocols.html"><a href="protocols.html#protocol-for-predicted-eigenvectors"><i class="fa fa-check"></i><b>2.3</b> Protocol for predicted eigenvectors</a></li>
-<li class="chapter" data-level="2.4" data-path="protocols.html"><a href="protocols.html#other-test-statistics-for-selection"><i class="fa fa-check"></i><b>2.4</b> Other test statistics for selection</a></li>
+<li class="chapter" data-level="2.4" data-path="protocols.html"><a href="protocols.html#nucleotide-diversity"><i class="fa fa-check"></i><b>2.4</b> Nucleotide diversity</a></li>
+<li class="chapter" data-level="2.5" data-path="protocols.html"><a href="protocols.html#other-test-statistics-for-selection"><i class="fa fa-check"></i><b>2.5</b> Other test statistics for selection</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="resequencing-studies.html"><a href="resequencing-studies.html"><i class="fa fa-check"></i><b>3</b> Resequencing studies</a><ul>
 <li class="chapter" data-level="3.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#technical-review"><i class="fa fa-check"></i><b>3.1</b> Technical review</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#ngs"><i class="fa fa-check"></i><b>3.1.1</b> NGS</a></li>
-<li class="chapter" data-level="3.1.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#chip-data"><i class="fa fa-check"></i><b>3.1.2</b> Chip data</a></li>
-<li class="chapter" data-level="3.1.3" data-path="resequencing-studies.html"><a href="resequencing-studies.html#gbs"><i class="fa fa-check"></i><b>3.1.3</b> GBS</a></li>
+<li class="chapter" data-level="3.1.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#simulation"><i class="fa fa-check"></i><b>3.1.1</b> Simulation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#ngs"><i class="fa fa-check"></i><b>3.1.2</b> NGS</a></li>
+<li class="chapter" data-level="3.1.3" data-path="resequencing-studies.html"><a href="resequencing-studies.html#chip-data"><i class="fa fa-check"></i><b>3.1.3</b> Chip data</a></li>
+<li class="chapter" data-level="3.1.4" data-path="resequencing-studies.html"><a href="resequencing-studies.html#gbs"><i class="fa fa-check"></i><b>3.1.4</b> GBS</a></li>
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#drop-hwe-test"><i class="fa fa-check"></i><b>3.2</b> Drop HWE test</a></li>
 </ul></li>
@@ -173,8 +175,10 @@ and <span class="math inline">\(F=1\)</span> for inbred lines. Please refer to C
 <div id="protocol-for-predicted-eigenvectors" class="section level2">
 <h2><span class="header-section-number">2.3</span> Protocol for predicted eigenvectors</h2>
 <p>The prediction accuracy can be written as
-<span class="math display">\[R^2 \approx \frac{1}{1+\frac{n_e}{m}}\]</span>
-## Nucleotide diversity</p>
+<span class="math display">\[R^2 \approx \frac{1}{1+\frac{n_e}{m}}\]</span></p>
+</div>
+<div id="nucleotide-diversity" class="section level2">
+<h2><span class="header-section-number">2.4</span> Nucleotide diversity</h2>
 <p><span class="math inline">\(\theta\)</span>, the normalized observed number of variants sites</p>
 <p><span class="math inline">\(\pi\)</span>, the observed heterozygosity per base pair</p>
 <blockquote>
@@ -185,14 +189,15 @@ and <span class="math inline">\(F=1\)</span> for inbred lines. Please refer to C
 </blockquote>
 </div>
 <div id="other-test-statistics-for-selection" class="section level2">
-<h2><span class="header-section-number">2.4</span> Other test statistics for selection</h2>
+<h2><span class="header-section-number">2.5</span> Other test statistics for selection</h2>
 <p><strong>1 Tajima’s</strong> <span class="math inline">\(D\)</span>, Statistical method for testing the neutral mutation hypothesis by DNA polymorphism, 1989, <span class="math inline">\(Genetics\)</span>, 123:585-95</p>
 <p><strong>2 Fu &amp; Li’s</strong> <span class="math inline">\(D\)</span>, Statistical tests of neutrality of mutations, 1993, <span class="math inline">\(Genetics\)</span>, 133:693-709</p>
 <p><strong>3 Fay &amp; Wu’s</strong> <span class="math inline">\(H\)</span>, Hitchhiking under positive Darwinian selection, 2000, <span class="math inline">\(Genetics\)</span>, 155:1405-13</p>
 <p><strong>4 McDonald and Kreitman test</strong>, Adaptive protein evolution at the Adh locus in Drosophila, 1991, <span class="math inline">\(Nature\)</span>, 335:167-70</p>
 <p><strong>5 HKA test</strong>, Hudson, Kreitman, Aguade, A test of neutral molecular evolution based on nucleotide data, 1987, <span class="math inline">\(Genetics\)</span>, 166:153-9)</p>
 <p><strong>6 Extended haplotype homozygosity (EHH)</strong>
-See Voight et al <span class="math inline">\(PLoS Biology, 2006, 4, e72\)</span></p>
+The biological ground please refer to <span class="math inline">\(Nature\)</span>, 419:832-7
+and the definition of the test statistic please refer to Voight et al <span class="math inline">\(PLoS Biology, 2006, 4, e72\)</span></p>
 <blockquote>
 <p>Unstandardized
 <span class="math inline">\(iHS=ln\frac{iHH_A}{iHH_D}\)</span></p>
@@ -201,6 +206,7 @@ See Voight et al <span class="math inline">\(PLoS Biology, 2006, 4, e72\)</span>
 <p>and standardized
 <span class="math inline">\(iHS=\frac{ln[\frac{iHH_A}{iHH_D}]-E_p[ln(\frac{iHH_A}{iHH_D})]}{SD_P[ln(\frac{iHH_A}{iHH_D})]}\)</span></p>
 </blockquote>
+<p>It has been realized in</p>
 <p>rehh: an R package to detect footprints of selection in genome-wide SNP data from haplotype structure, <span class="math inline">\(Bioinformatics\)</span>, 2012, 8:1176-7</p>
 <p>selscan: An Efficient Multithreaded Program to Perform EHH-Based Scans for Positive Selection, 2014, <span class="math inline">\(MBE\)</span>, 31:2824-7, <a href="https://github.com/szpiech/selscan">selcan’s github</a></p>
 

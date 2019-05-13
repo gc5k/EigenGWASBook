@@ -22,6 +22,7 @@ Or, try it as below in `RStudio`
 ## Protocol for predicted eigenvectors
 The prediction accuracy can be written as
 $$R^2 \approx \frac{1}{1+\frac{n_e}{m}}$$
+
 ## Nucleotide diversity
 
 $\theta$, the normalized observed number of variants sites
