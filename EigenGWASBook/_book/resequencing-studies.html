@@ -25,7 +25,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
 
 
-<meta name="date" content="2019-05-04">
+<meta name="date" content="2019-05-13">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -85,12 +85,15 @@
 <li class="chapter" data-level="2.1" data-path="protocols.html"><a href="protocols.html#protocols-for-selection"><i class="fa fa-check"></i><b>2.1</b> Protocols for selection</a></li>
 <li class="chapter" data-level="2.2" data-path="protocols.html"><a href="protocols.html#protocal-for-eigengwas"><i class="fa fa-check"></i><b>2.2</b> Protocal for EigenGWAS</a></li>
 <li class="chapter" data-level="2.3" data-path="protocols.html"><a href="protocols.html#protocol-for-predicted-eigenvectors"><i class="fa fa-check"></i><b>2.3</b> Protocol for predicted eigenvectors</a></li>
+<li class="chapter" data-level="2.4" data-path="protocols.html"><a href="protocols.html#nucleotide-diversity"><i class="fa fa-check"></i><b>2.4</b> Nucleotide diversity</a></li>
+<li class="chapter" data-level="2.5" data-path="protocols.html"><a href="protocols.html#other-test-statistics-for-selection"><i class="fa fa-check"></i><b>2.5</b> Other test statistics for selection</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="resequencing-studies.html"><a href="resequencing-studies.html"><i class="fa fa-check"></i><b>3</b> Resequencing studies</a><ul>
 <li class="chapter" data-level="3.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#technical-review"><i class="fa fa-check"></i><b>3.1</b> Technical review</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#ngs"><i class="fa fa-check"></i><b>3.1.1</b> NGS</a></li>
-<li class="chapter" data-level="3.1.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#chip-data"><i class="fa fa-check"></i><b>3.1.2</b> Chip data</a></li>
-<li class="chapter" data-level="3.1.3" data-path="resequencing-studies.html"><a href="resequencing-studies.html#gbs"><i class="fa fa-check"></i><b>3.1.3</b> GBS</a></li>
+<li class="chapter" data-level="3.1.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#simulation"><i class="fa fa-check"></i><b>3.1.1</b> Simulation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#ngs"><i class="fa fa-check"></i><b>3.1.2</b> NGS</a></li>
+<li class="chapter" data-level="3.1.3" data-path="resequencing-studies.html"><a href="resequencing-studies.html#chip-data"><i class="fa fa-check"></i><b>3.1.3</b> Chip data</a></li>
+<li class="chapter" data-level="3.1.4" data-path="resequencing-studies.html"><a href="resequencing-studies.html#gbs"><i class="fa fa-check"></i><b>3.1.4</b> GBS</a></li>
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#drop-hwe-test"><i class="fa fa-check"></i><b>3.2</b> Drop HWE test</a></li>
 </ul></li>
@@ -127,6 +130,7 @@
 <li class="chapter" data-level="7.1" data-path="app-1.html"><a href="app-1.html#app:ld"><i class="fa fa-check"></i><b>7.1</b> Notes on linkage disequilibrium</a></li>
 <li class="chapter" data-level="7.2" data-path="app-1.html"><a href="app-1.html#the-maximal-value-rho_ab"><i class="fa fa-check"></i><b>7.2</b> The maximal value <span class="math inline">\(\rho_{AB}\)</span></a></li>
 <li class="chapter" data-level="7.3" data-path="app-1.html"><a href="app-1.html#ld-and-recombination-fraction"><i class="fa fa-check"></i><b>7.3</b> LD and recombination fraction</a></li>
+<li class="chapter" data-level="7.4" data-path="app-1.html"><a href="app-1.html#f_st-1"><i class="fa fa-check"></i><b>7.4</b> <span class="math inline">\(F_{st}\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -154,15 +158,20 @@
 <p>This is a technical review for resequencing studies.</p>
 <div id="technical-review" class="section level2">
 <h2><span class="header-section-number">3.1</span> Technical review</h2>
-<p>selscan: An Efficient Multithreaded Program to Perform EHH-Based Scans for Positive Selection, 2014, Molecular Biology and Evolution, 31:2824-7, <a href="https://github.com/szpiech/selscan">selcan’s github</a></p>
+<div id="simulation" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Simulation</h3>
+<p>Bifurcating genealogy using Hudson’s coalescent theory (for a mini review please see
+Richard Hudson and Norman Kaplan on the Coalescent Process, <span class="math inline">\(Genetics\)</span>, 2016, 202, 865-6)</p>
+<p>Kelleher, Etheridge, and Mcvean, Efficient Coalescent Simulation and Genealogical Analysis for Large Sample Sizes, <span class="math inline">\(PLoS Computational Biology\)</span>, 2016, 12:e1004842</p>
+</div>
 <div id="ngs" class="section level3">
-<h3><span class="header-section-number">3.1.1</span> NGS</h3>
+<h3><span class="header-section-number">3.1.2</span> NGS</h3>
 </div>
 <div id="chip-data" class="section level3">
-<h3><span class="header-section-number">3.1.2</span> Chip data</h3>
+<h3><span class="header-section-number">3.1.3</span> Chip data</h3>
 </div>
 <div id="gbs" class="section level3">
-<h3><span class="header-section-number">3.1.3</span> GBS</h3>
+<h3><span class="header-section-number">3.1.4</span> GBS</h3>
 </div>
 </div>
 <div id="drop-hwe-test" class="section level2">

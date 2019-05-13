@@ -3,7 +3,12 @@
 This is a technical review for resequencing studies.
 
 ## Technical review
-selscan: An Efficient Multithreaded Program to Perform EHH-Based Scans for Positive Selection, 2014, $MBE$, 31:2824-7, [selcan's github](https://github.com/szpiech/selscan)
+
+### Simulation
+Bifurcating genealogy using Hudson's coalescent theory (for a mini review please see
+Richard Hudson and Norman Kaplan on the Coalescent Process, $Genetics$, 2016, 202, 865-6)
+
+Kelleher, Etheridge, and Mcvean, Efficient Coalescent Simulation and Genealogical Analysis for Large Sample Sizes, $PLoS Computational Biology$, 2016, 12:e1004842
 
 ### NGS
 
@@ -12,3 +17,4 @@ selscan: An Efficient Multithreaded Program to Perform EHH-Based Scans for Posit
 ### GBS
 
 ## Drop HWE test
+
