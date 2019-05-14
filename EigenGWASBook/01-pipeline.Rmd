@@ -56,6 +56,9 @@ $iHS=\frac{ln[\frac{iHH_A}{iHH_D}]-E_p[ln(\frac{iHH_A}{iHH_D})]}{SD_P[ln(\frac{i
 
 It has been realized in 
 
-rehh: an R package to detect footprints of selection in genome-wide SNP data from haplotype structure, $Bioinformatics$, 2012, 8:1176-7
+**rehh**: an R package to detect footprints of selection in genome-wide SNP data from haplotype structure, $Bioinformatics$, 2012, 8:1176-7
 
-selscan: An Efficient Multithreaded Program to Perform EHH-Based Scans for Positive Selection, 2014, $MBE$, 31:2824-7, [selcan's github](https://github.com/szpiech/selscan)
+**selscan**: An Efficient Multithreaded Program to Perform EHH-Based Scans for Positive Selection, 2014, $MBE$, 31:2824-7, [selcan's github](https://github.com/szpiech/selscan)
+
+
+**PopGenome**, [R package:](https://cran.r-project.org/web/packages/PopGenome/index.html), Pfeifer, B. et al. (2014) PopGenome: An Efficient Swiss Army Knife for Population Genomic Analyses in R. Mol Biol Evol 31(7): 1929-1936.
