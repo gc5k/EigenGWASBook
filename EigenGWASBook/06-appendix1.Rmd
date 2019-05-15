@@ -26,6 +26,16 @@ Assuming $P_A \leq P_B \leq 0.5$, the maximal of $\rho_{l_1l_2}$ reaches when al
 $$\rho_{1,2}=\frac{P_{AB}-P_{A}P_{B}}{\sqrt{P_A P_a P_B P_b}}=\frac{P_A(1-P_B)}{\sqrt{P_A P_a P_B P_b}}=\sqrt{\frac{P_AP_b}{P_B P_a}} \leq 1$$
 The maxima of $D=min(P_AP_b, P_BP_a)$.
 
+The conditional probability for a pair of biallelic loci
+
+| | $a_l$ | $A_l$ | |
+|:-:|:--:|:--:|:-:|
+|$a_k$| $r_{kl}=q_l + \frac{D_{kl}}{q_k}$ | 1-$r_{kl}=p_l - \frac{D_{kl}}{q_k}$ | $q_k$|
+|$A_k$| 1-$R_{kl}=q_l - \frac{D_{kl}}{p_k}$ | $R_{kl}=p_l +\frac{D_{kl}}{p_k}$| $p_k$|
+| |$q_l$ |$p_l$| |
+
+
+
 ## LD and recombination fraction
 It is sometimes useful to simulate $F_2$ population given known LD between any pair of markers. Below is the procedure for doing that.
 

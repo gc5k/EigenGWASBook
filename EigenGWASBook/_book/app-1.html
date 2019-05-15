@@ -25,7 +25,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
 
 
-<meta name="date" content="2019-05-09">
+<meta name="date" content="2019-05-15">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -148,12 +148,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1" data-path="protocols.html"><a href="protocols.html#protocols-for-selection"><i class="fa fa-check"></i><b>2.1</b> Protocols for selection</a></li>
 <li class="chapter" data-level="2.2" data-path="protocols.html"><a href="protocols.html#protocal-for-eigengwas"><i class="fa fa-check"></i><b>2.2</b> Protocal for EigenGWAS</a></li>
 <li class="chapter" data-level="2.3" data-path="protocols.html"><a href="protocols.html#protocol-for-predicted-eigenvectors"><i class="fa fa-check"></i><b>2.3</b> Protocol for predicted eigenvectors</a></li>
+<li class="chapter" data-level="2.4" data-path="protocols.html"><a href="protocols.html#nucleotide-diversity"><i class="fa fa-check"></i><b>2.4</b> Nucleotide diversity</a></li>
+<li class="chapter" data-level="2.5" data-path="protocols.html"><a href="protocols.html#other-test-statistics-for-selection"><i class="fa fa-check"></i><b>2.5</b> Other test statistics for selection</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="resequencing-studies.html"><a href="resequencing-studies.html"><i class="fa fa-check"></i><b>3</b> Resequencing studies</a><ul>
 <li class="chapter" data-level="3.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#technical-review"><i class="fa fa-check"></i><b>3.1</b> Technical review</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#ngs"><i class="fa fa-check"></i><b>3.1.1</b> NGS</a></li>
-<li class="chapter" data-level="3.1.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#chip-data"><i class="fa fa-check"></i><b>3.1.2</b> Chip data</a></li>
-<li class="chapter" data-level="3.1.3" data-path="resequencing-studies.html"><a href="resequencing-studies.html#gbs"><i class="fa fa-check"></i><b>3.1.3</b> GBS</a></li>
+<li class="chapter" data-level="3.1.1" data-path="resequencing-studies.html"><a href="resequencing-studies.html#simulation"><i class="fa fa-check"></i><b>3.1.1</b> Simulation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#ngs"><i class="fa fa-check"></i><b>3.1.2</b> NGS</a></li>
+<li class="chapter" data-level="3.1.3" data-path="resequencing-studies.html"><a href="resequencing-studies.html#chip-data"><i class="fa fa-check"></i><b>3.1.3</b> Chip data</a></li>
+<li class="chapter" data-level="3.1.4" data-path="resequencing-studies.html"><a href="resequencing-studies.html#gbs"><i class="fa fa-check"></i><b>3.1.4</b> GBS</a></li>
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="resequencing-studies.html"><a href="resequencing-studies.html#drop-hwe-test"><i class="fa fa-check"></i><b>3.2</b> Drop HWE test</a></li>
 </ul></li>
@@ -260,6 +263,37 @@ However, given the current biotechnology, <span class="math inline">\(D\)</span>
 <p>Assuming <span class="math inline">\(P_A \leq P_B \leq 0.5\)</span>, the maximal of <span class="math inline">\(\rho_{l_1l_2}\)</span> reaches when allele <span class="math inline">\(A\)</span> is <span class="math inline">\(a\)</span> subset of <span class="math inline">\(B\)</span> linage so that <span class="math inline">\(P_{AB}=P_{A}\)</span>, because (see PLoS Genet 2(9): e142)
 <span class="math display">\[\rho_{1,2}=\frac{P_{AB}-P_{A}P_{B}}{\sqrt{P_A P_a P_B P_b}}=\frac{P_A(1-P_B)}{\sqrt{P_A P_a P_B P_b}}=\sqrt{\frac{P_AP_b}{P_B P_a}} \leq 1\]</span>
 The maxima of <span class="math inline">\(D=min(P_AP_b, P_BP_a)\)</span>.</p>
+<p>The conditional probability for a pair of biallelic loci</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"><span class="math inline">\(a_l\)</span></th>
+<th align="center"><span class="math inline">\(A_l\)</span></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(a_k\)</span></td>
+<td align="center"><span class="math inline">\(r_{kl}=q_l + \frac{D_{kl}}{q_k}\)</span></td>
+<td align="center">1-<span class="math inline">\(r_{kl}=p_l - \frac{D_{kl}}{q_k}\)</span></td>
+<td align="center"><span class="math inline">\(q_k\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(A_k\)</span></td>
+<td align="center">1-<span class="math inline">\(R_{kl}=q_l - \frac{D_{kl}}{p_k}\)</span></td>
+<td align="center"><span class="math inline">\(R_{kl}=p_l +\frac{D_{kl}}{p_k}\)</span></td>
+<td align="center"><span class="math inline">\(p_k\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"><span class="math inline">\(q_l\)</span></td>
+<td align="center"><span class="math inline">\(p_l\)</span></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="ld-and-recombination-fraction" class="section level2">
 <h2><span class="header-section-number">7.3</span> LD and recombination fraction</h2>
