@@ -1,0 +1,96 @@
+# Notes {#notes-1}
+
+## APY
+
+Citation: Misztal, I, 2016, Inexpensive computation of the inverse of the genomic relationship matrix in populations with small effective population size, $Genetics$, 202:401-409
+
+$G^{-1}=
+\left[
+\begin{matrix} I& -P_{cn}\\
+0&I
+\end{matrix}
+\right]
+\left[
+\begin{matrix} G_{cc}^{-1}& 0\\
+0&M_{nn}^{-1}
+\end{matrix}
+\right]
+\left[
+\begin{matrix} I& 0\\
+-P_{nc}&I
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}G_{cc}^{-1}&-P_{cn}M_{nn}^{-1}\\
+0&M^{-1}_{nn} \end{matrix}
+\right]
+\left[
+\begin{matrix}I&0\\
+-P_{nc}&I \end{matrix}
+\right]$
+
+in which $G$ is the numerical relationship matrix, and  $P_{cn}=G_{cc}^{-1}G_{cn}$ and $P_{nc}=G_{cn}G_{cc}^{-1}$. $G_{cc}$, $G_{cn}$, and $G_{nc}$ are, "core" to "core", "core" to "non-core", and "non-core" to "core" relationship matrix.
+
+$M_{nn}=diag(G_{nn})-diag(P_{cn}^TG_{cn})$
+
+### A numerical example
+
+$G=\left[ \begin{matrix}
+0.81 & 0 & 0 & 0.80 & -0.80\\
+ &0.81 & 0 & 0.80 &-0.80\\
+ & & 0.01& 0 & 0\\
+ & & & 1.61 & -1.60\\
+ symm. & & & & 1.61
+\end{matrix} \right]$
+
+and $G_{cc}^{-1}=\left[ \begin{matrix} 1.235 & 0\\
+0 & 1.235
+\end{matrix} \right]$
+
+$G_{cn}=G_{nc}^T=\left [
+\begin{matrix}
+0 & 0.80 & -0.80\\
+0 & 0.80 & -0.80
+\end{matrix} \right]$
+
+and
+
+$P_{cn}=G_{cc}^{-1}G_{cn}=\left [ \begin{matrix}
+0.00 & 0.988 & -0.988\\
+0.00 & 0.988 & -0.988
+\end{matrix} \right ]$
+
+$M_{nn}=diag(G_{nn})-diag(P_{cn}^TG_{cn}) = \left [ \begin{matrix}0.01 & &\\
+& 1.61 & \\
+& & 1.61
+\end{matrix} \right]
+-
+\left [ \begin{matrix}0.00 & &\\
+& 1.58 & \\
+& & 1.58
+\end{matrix} \right]=\left [ \begin{matrix}0.01 & &\\
+& 0.03 & \\
+& & 0.03
+\end{matrix} \right]$
+
+and 
+
+$G^{-1}=\left[ \begin{matrix}
+66.8 & 65.5 & 0 & -33.1 & 33.1\\
+ &66.804 & 0 & -33.1 & 33.1\\
+ & & 100& 0 & 0\\
+ & & & 33.6 & 0\\
+ symm. & & & & 33.6
+\end{matrix} \right]$
+
+This is APY inversed $G$, and for a comparison, a regular inverse of $G$ is quit different
+$G^{-1}_{reg}=\left[ \begin{matrix}
+40.6 & 39.4 & 0 & -19.9 & 19.9\\
+ &40.6 & 0 & -19.9 & 19.9\\
+ & & 100& 0 & 0\\
+ & & & 60.0 & 39.9\\
+ symm. & & & & 60.0
+\end{matrix} \right]$
+
+## LD score regression
