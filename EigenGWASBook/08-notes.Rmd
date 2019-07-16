@@ -94,3 +94,88 @@ $G^{-1}_{reg}=\left[ \begin{matrix}
 \end{matrix} \right]$
 
 ## LD score regression
+```{r, eval=FALSE, tidy=TRUE}
+source("~/R/MyLib/shotgun.R")
+REP=50
+N = 500
+M = 1000
+h2 = 0.5
+
+h2E=array(0, dim=c(2,REP))
+
+for(rep in 1:REP) {
+  fq = runif(M, 0.05, 0.95)
+  Dl = array(0, dim=M)
+  Dl = runif(M, 0.8, 0.9)
+  Dl[seq(10, M, 10)] = 0
+  
+  G = GenerateGenoDprime(fq, Dl[1:(length(Dl)-1)], N)
+  b = rnorm(M, 0, sqrt(h2/M))
+  bv= G%*%b
+  Y = bv + rnorm(N, 0, 1)
+  chi = array(0, dim=M)
+  for(i in 1:M) {
+    sm = summary(lm(Y~G[,i]))
+    chi[i] = sm$coefficients[2,3]^2
+  }
+  plot(chi, b^2*fq*(1-fq), pch=16)
+  lds = array(0, dim=M)
+  for(i in 1:(M/10)) {
+    cg = cor(G[,((i-1)*10+1):(i*10)])
+    for(j in 1:10) {
+      lds[(i-1)*10+j] = sum(cg[,j]^2)
+    }
+  }
+  ldSc=lm(chi~lds)
+  h2E[1,rep]=ldSc$coefficients[2]*M/N
+  h2E[2,rep]=var(bv)/var(Y)
+}
+plot(h2E[1,], h2E[2,])
+
+```
+
+
+## Matrix inversion [wiki](https://en.wikipedia.org/wiki/Invertible_matrix#Inversion_of_2_%C3%97_2_matrices)
+### 2 X 2
+The cofactor equation listed above yields the following result for 2 ?? 2 matrices. Inversion of these matrices can be done as follows
+
+$$\text{A}^{-1}=\left[ \begin{matrix} 
+a & b\\
+c & d
+\end{matrix} \right] ^{-1}
+=\frac{1}{det (\text{A})}\left[ \begin{matrix} 
+A & B\\
+C & D
+\end{matrix} \right]
+=\frac{1}{ad-bc}\left[ \begin{matrix} 
+d & -b\\
+-c & a
+\end{matrix} \right]
+$$
+Where the scalar $A$ is not to be confused with the matrix A.
+
+### 3 X 3
+$$\text{A}^{-1}=\left[ \begin{matrix} 
+a & b & c\\
+d & e & f\\
+g & h & i
+\end{matrix} \right] ^{-1}
+=\frac{1}{det (\text{A})}\left[ \begin{matrix} 
+A & B & C\\
+D & E & F\\
+G & H & I
+\end{matrix} \right] ^{T}
+=\frac{1}{det (\text{A})}\left[ \begin{matrix} 
+A & D & G\\
+B & E & H\\
+C & F & I
+\end{matrix} \right]
+$$
+
+in which 
+$$\begin{matrix}
+A=(ei-fh), & D=-(bi-ch), & G = -(bf-ce), \\
+B=-(di-fg), & E=(ai-cg), & H = -(af-cd), \\
+C=(dh-eg), & F=-(ah-bg), & I = (ae-bd).
+\end{matrix}
+$$
