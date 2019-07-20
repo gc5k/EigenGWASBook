@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="references.html">
-<link rel="next" href="IBD-fam.html">
+<link rel="prev" href="notes-1.html">
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,69 +50,6 @@
 
 
 
-<style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -206,7 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.2" data-path="notes-1.html"><a href="notes-1.html#x-3"><i class="fa fa-check"></i><b>8.3.2</b> 3 X 3</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="IBD-fam.html"><a href="IBD-fam.html"><i class="fa fa-check"></i><b>9</b> Notes</a><ul>
+<li class="chapter" data-level="9" data-path="IBD-fam.html"><a href="IBD-fam.html"><i class="fa fa-check"></i><b>9</b> IBD notes</a><ul>
 <li class="chapter" data-level="9.1" data-path="IBD-fam.html"><a href="IBD-fam.html#ibd-table"><i class="fa fa-check"></i><b>9.1</b> IBD table</a></li>
 </ul></li>
 <li class="divider"></li>
@@ -229,114 +166,179 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="notes-1" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Notes</h1>
-<div id="apy" class="section level2">
-<h2><span class="header-section-number">8.1</span> APY</h2>
-<p>Citation: Misztal, I, 2016, Inexpensive computation of the inverse of the genomic relationship matrix in populations with small effective population size, <span class="math inline">\(Genetics\)</span>, 202:401-409</p>
-<p><span class="math inline">\(G^{-1}= \left[ \begin{matrix} I&amp; -P_{cn}\\ 0&amp;I \end{matrix} \right] \left[ \begin{matrix} G_{cc}^{-1}&amp; 0\\ 0&amp;M_{nn}^{-1} \end{matrix} \right] \left[ \begin{matrix} I&amp; 0\\ -P_{nc}&amp;I \end{matrix} \right] = \left[ \begin{matrix}G_{cc}^{-1}&amp;-P_{cn}M_{nn}^{-1}\\ 0&amp;M^{-1}_{nn} \end{matrix} \right] \left[ \begin{matrix}I&amp;0\\ -P_{nc}&amp;I \end{matrix} \right]\)</span></p>
-<p>in which <span class="math inline">\(G\)</span> is the numerical relationship matrix, and <span class="math inline">\(P_{cn}=G_{cc}^{-1}G_{cn}\)</span> and <span class="math inline">\(P_{nc}=G_{cn}G_{cc}^{-1}\)</span>. <span class="math inline">\(G_{cc}\)</span>, <span class="math inline">\(G_{cn}\)</span>, and <span class="math inline">\(G_{nc}\)</span> are, “core” to “core”, “core” to “non-core”, and “non-core” to “core” relationship matrix.</p>
-<p><span class="math inline">\(M_{nn}=diag(G_{nn})-diag(P_{cn}^TG_{cn})\)</span></p>
-<div id="a-numerical-example" class="section level3">
-<h3><span class="header-section-number">8.1.1</span> A numerical example</h3>
-<p><span class="math inline">\(G=\left[ \begin{matrix} 0.81 &amp; 0 &amp; 0 &amp; 0.80 &amp; -0.80\\  &amp;0.81 &amp; 0 &amp; 0.80 &amp;-0.80\\  &amp; &amp; 0.01&amp; 0 &amp; 0\\  &amp; &amp; &amp; 1.61 &amp; -1.60\\  symm. &amp; &amp; &amp; &amp; 1.61 \end{matrix} \right]\)</span></p>
-<p>and <span class="math inline">\(G_{cc}^{-1}=\left[ \begin{matrix} 1.235 &amp; 0\\ 0 &amp; 1.235 \end{matrix} \right]\)</span></p>
-<p><span class="math inline">\(G_{cn}=G_{nc}^T=\left [ \begin{matrix} 0 &amp; 0.80 &amp; -0.80\\ 0 &amp; 0.80 &amp; -0.80 \end{matrix} \right]\)</span></p>
-<p>and</p>
-<p><span class="math inline">\(P_{cn}=G_{cc}^{-1}G_{cn}=\left [ \begin{matrix} 0.00 &amp; 0.988 &amp; -0.988\\ 0.00 &amp; 0.988 &amp; -0.988 \end{matrix} \right ]\)</span></p>
-<p><span class="math inline">\(M_{nn}=diag(G_{nn})-diag(P_{cn}^TG_{cn}) = \left [ \begin{matrix}0.01 &amp; &amp;\\ &amp; 1.61 &amp; \\ &amp; &amp; 1.61 \end{matrix} \right] - \left [ \begin{matrix}0.00 &amp; &amp;\\ &amp; 1.58 &amp; \\ &amp; &amp; 1.58 \end{matrix} \right]=\left [ \begin{matrix}0.01 &amp; &amp;\\ &amp; 0.03 &amp; \\ &amp; &amp; 0.03 \end{matrix} \right]\)</span></p>
-<p>and</p>
-<p><span class="math inline">\(G^{-1}=\left[ \begin{matrix} 66.8 &amp; 65.5 &amp; 0 &amp; -33.1 &amp; 33.1\\  &amp;66.804 &amp; 0 &amp; -33.1 &amp; 33.1\\  &amp; &amp; 100&amp; 0 &amp; 0\\  &amp; &amp; &amp; 33.6 &amp; 0\\  symm. &amp; &amp; &amp; &amp; 33.6 \end{matrix} \right]\)</span></p>
-<p>This is APY inversed <span class="math inline">\(G\)</span>, and for a comparison, a regular inverse of <span class="math inline">\(G\)</span> is quit different
-<span class="math inline">\(G^{-1}_{reg}=\left[ \begin{matrix} 40.6 &amp; 39.4 &amp; 0 &amp; -19.9 &amp; 19.9\\  &amp;40.6 &amp; 0 &amp; -19.9 &amp; 19.9\\  &amp; &amp; 100&amp; 0 &amp; 0\\  &amp; &amp; &amp; 60.0 &amp; 39.9\\  symm. &amp; &amp; &amp; &amp; 60.0 \end{matrix} \right]\)</span></p>
-</div>
-</div>
-<div id="ld-score-regression" class="section level2">
-<h2><span class="header-section-number">8.2</span> LD score regression</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;~/R/MyLib/shotgun.R&quot;</span>)
-REP =<span class="st"> </span><span class="dv">50</span>
-N =<span class="st"> </span><span class="dv">500</span>
-M =<span class="st"> </span><span class="dv">1000</span>
-h2 =<span class="st"> </span><span class="fl">0.5</span>
+<div id="IBD-fam" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> IBD notes</h1>
+<div id="ibd-table" class="section level2">
+<h2><span class="header-section-number">9.1</span> IBD table</h2>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center">IBD <span class="math inline">\((freq)\)</span></th>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Mating type (<span class="math inline">\(freq\)</span>)</td>
+<td align="center">Sib pair (<span class="math inline">\(freq\)</span>)</td>
+<td align="center"><span class="math inline">\(\Omega\)</span></td>
+<td align="center">IBD=2</td>
+<td align="center">IBD=1</td>
+<td align="center">IBD=0</td>
+<td align="center"><span class="math inline">\(E(IBD)\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(AA , AA\)</span> (<span class="math inline">\(p^4\)</span>)</td>
+<td align="center"><span class="math inline">\(\{AA, AA\}\)</span> (1)</td>
+<td align="center"><span class="math inline">\(\frac{4q^2}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{4}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{4}\)</span></td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(AA , Aa\)</span> (<span class="math inline">\(4p^3q\)</span>)</td>
+<td align="center"><span class="math inline">\(\{AA, AA\}\)</span> (<span class="math inline">\(\frac{1}{4}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{4q^2}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\{AA, Aa\}\)</span> (<span class="math inline">\(\frac{1}{2}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{2q(q-p)}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\{Aa, Aa\}\)</span> (<span class="math inline">\(\frac{1}{4}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{(q-p)^2}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(1.5\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(AA , aa\)</span> (<span class="math inline">\(p^2q^2\)</span>)</td>
+<td align="center"><span class="math inline">\(\{Aa, Aa\}\)</span> (1)</td>
+<td align="center"><span class="math inline">\(\frac{(q-p)^2}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{4}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{4}\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(Aa , Aa\)</span> (<span class="math inline">\(4p^2q^2\)</span>)</td>
+<td align="center"><span class="math inline">\(\{AA, AA \}\)</span> (<span class="math inline">\(\frac{1}{16}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{4q^2}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(2\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\{AA, Aa \}\)</span> (<span class="math inline">\(\frac{1}{4}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{2q(q-p)}{2pq}\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\{AA, aa \}\)</span> (<span class="math inline">\(\frac{1}{8}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{-4pq}{2pq}\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+<td align="center"><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\{Aa, Aa \}\)</span> (<span class="math inline">\(\frac{1}{4}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{(q-p)^2}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\{Aa, aa \}\)</span> (<span class="math inline">\(\frac{1}{4}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{-2p(q-p)}{2pq}\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\{aa, aa \}\)</span> (<span class="math inline">\(\frac{1}{16}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{4p^2}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(2\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(Aa, aa\)</span> (<span class="math inline">\(4pq^3\)</span>)</td>
+<td align="center"><span class="math inline">\(\{AA, Aa\}\)</span> (<span class="math inline">\(\frac{1}{4}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{2q(q-p)}{2pq}\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\{Aa, aa\}\)</span> (<span class="math inline">\(\frac{1}{2}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{-2p(q-p)}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"><span class="math inline">\(\{aa, aa\}\)</span> (<span class="math inline">\(\frac{1}{4}\)</span>)</td>
+<td align="center"><span class="math inline">\(\frac{4p^2}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(aa , aa\)</span> (<span class="math inline">\(q^4\)</span>)</td>
+<td align="center"><span class="math inline">\(\{aa, aa\}\)</span> (1)</td>
+<td align="center"><span class="math inline">\(\frac{4p^2}{2pq}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{4}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{4}\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+</tr>
+</tbody>
+</table>
 
-h2E =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">2</span>, REP))
-
-<span class="cf">for</span> (rep <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>REP) {
-    fq =<span class="st"> </span><span class="kw">runif</span>(M, <span class="fl">0.05</span>, <span class="fl">0.95</span>)
-    Dl =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> M)
-    Dl =<span class="st"> </span><span class="kw">runif</span>(M, <span class="fl">0.8</span>, <span class="fl">0.9</span>)
-    Dl[<span class="kw">seq</span>(<span class="dv">10</span>, M, <span class="dv">10</span>)] =<span class="st"> </span><span class="dv">0</span>
-    
-    G =<span class="st"> </span><span class="kw">GenerateGenoDprime</span>(fq, Dl[<span class="dv">1</span><span class="op">:</span>(<span class="kw">length</span>(Dl) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)], N)
-    b =<span class="st"> </span><span class="kw">rnorm</span>(M, <span class="dv">0</span>, <span class="kw">sqrt</span>(h2<span class="op">/</span>M))
-    bv =<span class="st"> </span>G <span class="op">%*%</span><span class="st"> </span>b
-    Y =<span class="st"> </span>bv <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">0</span>, <span class="dv">1</span>)
-    chi =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> M)
-    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M) {
-        sm =<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>G[, i]))
-        chi[i] =<span class="st"> </span>sm<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span>
-    }
-    <span class="kw">plot</span>(chi, b<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>fq <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>fq), <span class="dt">pch =</span> <span class="dv">16</span>)
-    lds =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> M)
-    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(M<span class="op">/</span><span class="dv">10</span>)) {
-        cg =<span class="st"> </span><span class="kw">cor</span>(G[, ((i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(i <span class="op">*</span><span class="st"> </span><span class="dv">10</span>)])
-        <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {
-            lds[(i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span>j] =<span class="st"> </span><span class="kw">sum</span>(cg[, j]<span class="op">^</span><span class="dv">2</span>)
-        }
-    }
-    ldSc =<span class="st"> </span><span class="kw">lm</span>(chi <span class="op">~</span><span class="st"> </span>lds)
-    h2E[<span class="dv">1</span>, rep] =<span class="st"> </span>ldSc<span class="op">$</span>coefficients[<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>M<span class="op">/</span>N
-    h2E[<span class="dv">2</span>, rep] =<span class="st"> </span><span class="kw">var</span>(bv)<span class="op">/</span><span class="kw">var</span>(Y)
-}
-<span class="kw">plot</span>(h2E[<span class="dv">1</span>, ], h2E[<span class="dv">2</span>, ])</code></pre>
-</div>
-<div id="matrix-inversion-wiki" class="section level2">
-<h2><span class="header-section-number">8.3</span> Matrix inversion <a href="https://en.wikipedia.org/wiki/Invertible_matrix#Inversion_of_2_%C3%97_2_matrices">wiki</a></h2>
-<div id="x-2" class="section level3">
-<h3><span class="header-section-number">8.3.1</span> 2 X 2</h3>
-<p>The cofactor equation listed above yields the following result for 2 ?? 2 matrices. Inversion of these matrices can be done as follows</p>
-<p><span class="math display">\[\text{A}^{-1}=\left[ \begin{matrix} 
-a &amp; b\\
-c &amp; d
-\end{matrix} \right] ^{-1}
-=\frac{1}{det (\text{A})}\left[ \begin{matrix} 
-A &amp; B\\
-C &amp; D
-\end{matrix} \right]
-=\frac{1}{ad-bc}\left[ \begin{matrix} 
-d &amp; -b\\
--c &amp; a
-\end{matrix} \right]
-\]</span>
-Where the scalar <span class="math inline">\(A\)</span> is not to be confused with the matrix A.</p>
-</div>
-<div id="x-3" class="section level3">
-<h3><span class="header-section-number">8.3.2</span> 3 X 3</h3>
-<p><span class="math display">\[\text{A}^{-1}=\left[ \begin{matrix} 
-a &amp; b &amp; c\\
-d &amp; e &amp; f\\
-g &amp; h &amp; i
-\end{matrix} \right] ^{-1}
-=\frac{1}{det (\text{A})}\left[ \begin{matrix} 
-A &amp; B &amp; C\\
-D &amp; E &amp; F\\
-G &amp; H &amp; I
-\end{matrix} \right] ^{T}
-=\frac{1}{det (\text{A})}\left[ \begin{matrix} 
-A &amp; D &amp; G\\
-B &amp; E &amp; H\\
-C &amp; F &amp; I
-\end{matrix} \right]
-\]</span></p>
-<p>in which
-<span class="math display">\[\begin{matrix}
-A=(ei-fh), &amp; D=-(bi-ch), &amp; G = -(bf-ce), \\
-B=-(di-fg), &amp; E=(ai-cg), &amp; H = -(af-cd), \\
-C=(dh-eg), &amp; F=-(ah-bg), &amp; I = (ae-bd).
-\end{matrix}
-\]</span></p>
-
-</div>
 </div>
 </div>
             </section>
@@ -344,8 +346,8 @@ C=(dh-eg), &amp; F=-(ah-bg), &amp; I = (ae-bd).
           </div>
         </div>
       </div>
-<a href="references.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="IBD-fam.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="notes-1.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
