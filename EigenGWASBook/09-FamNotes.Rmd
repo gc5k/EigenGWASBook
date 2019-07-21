@@ -4,19 +4,60 @@
 
 | |  | | | IBD $(freq)$ | | |
 |:--:|:--:|:--:|:--:|:-:|:-:|:-:|
-|Mating type ($freq$) | Sib pair ($freq$) |$\Omega$ | IBD=2 | IBD=1 | IBD=0 | $E(IBD)$ | $IBS$|
-| $AA , AA$ ($p^4$)| $\{AA, AA\}$ (1) |$\frac{4q^2}{2pq}$ | $\frac{1}{4}$ | $\frac{1}{2}$ |$\frac{1}{4}$ | 1 |
-| $AA , Aa$ ($4p^3q$)| $\{AA, AA\}$ ($\frac{1}{4}$) | $\frac{4q^2}{2pq}$ | $\frac{1}{2}$   | $\frac{1}{2}$ |  | $\frac{1}{2}$  |
-| | $\{AA, Aa\}$ ($\frac{1}{2}$) | $\frac{2q(q-p)}{2pq}$ |$\frac{1}{2}$ | | $\frac{1}{2}$ | $\frac{1}{2}$ | $1.5$  |
-| | $\{Aa, Aa\}$ ($\frac{1}{4}$) |$\frac{(q-p)^2}{2pq}$ |$\frac{1}{2}$ | $\frac{1}{2}$ | | $1.5$ |
-| $AA , aa$ ($p^2q^2$)| $\{Aa, Aa\}$ (1) | $\frac{(q-p)^2}{2pq}$ |$\frac{1}{4}$ | $\frac{1}{2}$  | $\frac{1}{4}$ | $1$ |
-| $Aa , Aa$ ($4p^2q^2$) | $\{AA, AA \}$  ($\frac{1}{16}$) |$\frac{4q^2}{2pq}$ | $1$| | | $2$|
-| | $\{AA, Aa \}$  ($\frac{1}{4}$) |$\frac{2q(q-p)}{2pq}$ |  | $1$ | | $1$|
-| | $\{AA, aa \}$  ($\frac{1}{8}$) |$\frac{-4pq}{2pq}$ | | | $1$| $0$ |
-| | $\{Aa, Aa \}$  ($\frac{1}{4}$) |$\frac{(q-p)^2}{2pq}$ | $\frac{1}{2}$| | $\frac{1}{2}$|
-| | $\{Aa, aa \}$  ($\frac{1}{4}$) |$\frac{-2p(q-p)}{2pq}$ | |$1$ | | $1$|
-| | $\{aa, aa \}$  ($\frac{1}{16}$) | $\frac{4p^2}{2pq}$ |$1$| | | $2$|
-| $Aa, aa$ ($4pq^3$)| $\{AA, Aa\}$ ($\frac{1}{4}$) |$\frac{2q(q-p)}{2pq}$ | | $\frac{1}{2}$ | $\frac{1}{2}$ |  | $1.5$|
-| | $\{Aa, aa\}$ ($\frac{1}{2}$) |$\frac{-2p(q-p)}{2pq}$  | $1$ |  | $1$|
-| | $\{aa, aa\}$ ($\frac{1}{4}$) |$\frac{4p^2}{2pq}$ | $\frac{1}{2}$ | $\frac{1}{2}$ |  |
-| $aa , aa$ ($q^4$)| $\{aa, aa\}$ (1) | $\frac{4p^2}{2pq}$   |$\frac{1}{4}$ |  $\frac{1}{2}$ | $\frac{1}{4}$ | $1$ |
+|Mating type ($freq$) | Sib pair ($freq$) |$\Omega$ | IBD=1 | IBD=$\frac{1}{2}$ | IBD=0 | $E(IBD)$ | $IBS$|
+| $AA , AA$ ($p^4$)| $\color{red}{\{AA, AA\}}$ (1) |$\color{red}{\frac{4q^2}{2pq}}$ | $\color{red}{\frac{1}{4}}$ | $\color{red}{\frac{1}{2}}$ |$\color{red}{\frac{1}{4}}$ | $\color{red}{\frac{1}{2}}$ |
+| $AA , Aa$ ($4p^3q$)| $\color{red}{\{AA, AA\}}$ ($\frac{1}{4}$) | $\color{red}{\frac{4q^2}{2pq}}$ | $\color{red}{\frac{1}{2}}$ | $\color{red}{\frac{1}{2}}$ | |$\color{red}{\frac{3}{4}}$ |
+| | $\{AA, Aa\}$ ($\frac{1}{2}$) | $\frac{2q(q-p)}{2pq}$ | | $\frac{1}{2}$ | $\frac{1}{2}$ | $\frac{1}{4}$ |
+| | $\color{green}{\{Aa, Aa\}}$ ($\frac{1}{4}$) |$\color{green}{\frac{(q-p)^2}{2pq}}$ |$\color{green}{\frac{1}{2}}$ | $\color{green}{\frac{1}{2}}$ | | $\color{green}{\frac{3}{4}}$ |
+| $AA , aa$ ($p^2q^2$)| $\color{green}{\{Aa, Aa\}}$ (1) | $\color{green}{\frac{(q-p)^2}{2pq}}$ |$\color{green}{\frac{1}{4}}$ | $\color{green}{\frac{1}{2}}$ | $\color{green}{\frac{1}{4}}$ | $\color{green}{\frac{1}{2}}$ |
+| $Aa , Aa$ ($4p^2q^2$) | $\color{red}{\{AA, AA \}}$ ($\frac{1}{16}$) |$\color{red}{\frac{4q^2}{2pq}}$ | $\color{red}{1}$| | | $\color{red}{1}$|
+| | $\{AA, Aa \}$ ($\frac{1}{4}$) |$\frac{2q(q-p)}{2pq}$ |  | $1$ | | $\frac{1}{2}$|
+| | $\color{grey}{\{AA, aa\}}$  ($\frac{1}{8}$) |$\color{grey}{\frac{-4pq}{2pq}}$ | | | $\color{grey}{1}$| $\color{grey}{0}$|
+| | $\color{green}{\{Aa, Aa\}}$  ($\frac{1}{4}$) |$\color{green}{\frac{(q-p)^2}{2pq}}$ | $\color{green}{\frac{1}{2}}$| | $\color{green}{\frac{1}{2}}$| $\color{green}{\frac{1}{2}}$|
+| | $\color{gold}{\{Aa, aa \}}$  ($\frac{1}{4}$) |$\color{gold}{\frac{-2p(q-p)}{2pq}}$ | |$\color{gold}{1}$ | | $\color{gold}{\frac{1}{2}}$|
+| | $\color{blue}{\{aa, aa\}}$  ($\frac{1}{16}$) | $\color{blue}{\frac{4p^2}{2pq}}$ |$\color{blue}{1}$| | | $\color{blue}{1}$|
+| $Aa, aa$ ($4pq^3$)| $\color{green}{\{Aa, Aa\}}$ ($\frac{1}{4}$) |$\color{green}{\frac{(q-p)^2}{2pq}}$  | $\color{green}{\frac{1}{2}}$ | $\color{green}{\frac{1}{2}}$ |  | $\color{green}{\frac{3}{4}}$|
+| | $\color{gold}{\{Aa, aa\}}$ ($\frac{1}{2}$) |$\color{gold}{\frac{-2p(q-p)}{2pq}}$ | | $\color{gold}{\frac{1}{2}}$ |  $\color{gold}{\frac{1}{2}}$ | $\color{gold}{\frac{1}{4}}$|
+| | $\color{blue}{\{aa, aa\}}$ ($\frac{1}{4}$) |$\color{blue}{\frac{4p^2}{2pq}}$ | $\color{blue}{\frac{1}{2}}$ | $\color{blue}{\frac{1}{2}}$ |  | $\color{blue}{\frac{3}{4}}$ |
+| $aa, aa$ ($q^4$)| $\color{blue}{\{aa, aa\}}$ (1) | $\color{blue}{\frac{4p^2}{2pq}}$   |$\color{blue}{\frac{1}{4}}$ |  $\color{blue}{\frac{1}{2}}$ | $\color{blue}{\frac{1}{4}}$ | $\color{blue}{\frac{1}{2}}$ |
+
+$E(IBD)=\begin{matrix}
+p^4&\\
++(\frac{3}{2}\frac{1}{4}+\frac{1}{2}\frac{1}{2}+\frac{3}{2}\frac{1}{4})4p^3q&\\
++p^2q^2&\\
++(1\frac{1}{16}+\frac{1}{2}\frac{1}{4}+0\cdot \frac{1}{8}+\frac{1}{2}\frac{1}{4}+\frac{1}{2}\frac{1}{4}+1\cdot \frac{1}{16})4p^2q^2&\\
++(\frac{3}{4}\frac{1}{4}+\frac{1}{4}\frac{1}{2}+\frac{3}{4}\frac{1}{4})4pq^3&\\
++(\frac{3}{4}\frac{1}{4}+\frac{1}{4}\frac{1}{2}+\frac{3}{4}\frac{1}{4})4pq^3&\\
++q^4
+\end{matrix}
+=\frac{1}{2}$
+
+The variance is
+$var(IBD)=\begin{matrix}
+(0-\frac{1}{2})^2 4p^2q^2 & \\
++(\frac{1}{4}-\frac{1}{2})^2  2p^3q & \\
++(\frac{3}{4}-\frac{1}{2})^2 (2p^3q+2pq^3) & \\
+(1-\frac{1}{2})^2 (\frac{p^2q^2}{2}+2p^2q^2)
+\end{matrix} 
+=\frac{9}{8}p^2q^2+\frac{1}{4}p^3q+\frac{5}{8}pq^3$
+
+$E(IBS) = \begin{matrix}
+2pq(p+\frac{q}{2})^2 & \\
+2pq(q-p)(1+p) & \\
+-p^2q^2 & \\
+\frac{(q-p)^2}{2} & \\
+-pq(q-p)(1+p) & \\
+2pq(\frac{p}{2}+q)^2 & \\
+-2p^2q^2+\frac{(q-p)^2}{2}
+\end{matrix}
+=\frac{1}{2}(1+3pq)$
+
+The $E(IBD\times IBS)$ is
+$E(IBD \times IBS)=\begin{matrix}
+[2pq]& \\
++[3p^2q^2+(q-p)p^2q+\frac{3}{4}p^2(q-p)^2]& \\
++[\frac{pq(q-p)^2}{2}]& \\
++[pq^3+pq^2(q-p)+\frac{pq(q-p)^2}{2}-(p-q)p^2q+p^3q]&\\
++[3p^2q^2-pq^2(q-p)+\frac{3}{4}q^2(p-1)^2]&\\
++[2pq]
+\end{matrix}$
