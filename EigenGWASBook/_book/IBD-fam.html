@@ -25,7 +25,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
 
 
-<meta name="date" content="2019-07-21">
+<meta name="date" content="2019-07-22">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -238,7 +238,7 @@
 <td align="center"><span class="math inline">\(\color{green}{\frac{3}{4}}\)</span></td>
 </tr>
 <tr class="even">
-<td align="center"><span class="math inline">\(AA , aa\)</span> (<span class="math inline">\(p^2q^2\)</span>)</td>
+<td align="center"><span class="math inline">\(AA , aa\)</span> (<span class="math inline">\(2p^2q^2\)</span>)</td>
 <td align="center"><span class="math inline">\(\color{green}{\{Aa, Aa\}}\)</span> (1)</td>
 <td align="center"><span class="math inline">\(\color{green}{\frac{(q-p)^2}{2pq}}\)</span></td>
 <td align="center"><span class="math inline">\(\color{green}{\frac{1}{4}}\)</span></td>
@@ -338,10 +338,10 @@
 </tr>
 </tbody>
 </table>
-<p><span class="math inline">\(E(IBD)=\begin{matrix} p^4&amp;\\ +(\frac{3}{2}\frac{1}{4}+\frac{1}{2}\frac{1}{2}+\frac{3}{2}\frac{1}{4})4p^3q&amp;\\ +p^2q^2&amp;\\ +(1\frac{1}{16}+\frac{1}{2}\frac{1}{4}+0\cdot \frac{1}{8}+\frac{1}{2}\frac{1}{4}+\frac{1}{2}\frac{1}{4}+1\cdot \frac{1}{16})4p^2q^2&amp;\\ +(\frac{3}{4}\frac{1}{4}+\frac{1}{4}\frac{1}{2}+\frac{3}{4}\frac{1}{4})4pq^3&amp;\\ +(\frac{3}{4}\frac{1}{4}+\frac{1}{4}\frac{1}{2}+\frac{3}{4}\frac{1}{4})4pq^3&amp;\\ +q^4 \end{matrix} =\frac{1}{2}\)</span></p>
-<p>The variance is
-<span class="math inline">\(var(IBD)=\begin{matrix} (0-\frac{1}{2})^2 4p^2q^2 &amp; \\ +(\frac{1}{4}-\frac{1}{2})^2 2p^3q &amp; \\ +(\frac{3}{4}-\frac{1}{2})^2 (2p^3q+2pq^3) &amp; \\ (1-\frac{1}{2})^2 (\frac{p^2q^2}{2}+2p^2q^2) \end{matrix} =\frac{9}{8}p^2q^2+\frac{1}{4}p^3q+\frac{5}{8}pq^3\)</span></p>
-<p><span class="math inline">\(E(IBS) = \begin{matrix} 2pq(p+\frac{q}{2})^2 &amp; \\ 2pq(q-p)(1+p) &amp; \\ -p^2q^2 &amp; \\ \frac{(q-p)^2}{2} &amp; \\ -pq(q-p)(1+p) &amp; \\ 2pq(\frac{p}{2}+q)^2 &amp; \\ -2p^2q^2+\frac{(q-p)^2}{2} \end{matrix} =\frac{1}{2}(1+3pq)\)</span></p>
+<p><span class="math inline">\(E(IBD)=\begin{matrix} \frac{1}{2}p^4&amp;\\ +(\frac{3}{4}\frac{1}{4}+\frac{1}{4}\frac{1}{2}+\frac{3}{4}\frac{1}{4})4p^3q&amp;\\ +\frac{1}{2}2p^2q^2&amp;\\ +(1\cdot \frac{1}{16}+\frac{1}{2}\frac{1}{4}+0\cdot \frac{1}{8}+\frac{1}{2}\frac{1}{4}+\frac{1}{2}\frac{1}{4}+1\cdot \frac{1}{16})4p^2q^2&amp;\\ +(\frac{3}{4}\frac{1}{4}+\frac{1}{4}\frac{1}{2}+\frac{3}{4}\frac{1}{4})4pq^3&amp;\\ +\frac{1}{2}q^4 \end{matrix} =\frac{1}{2}\)</span></p>
+<p>The variance of IBD is
+<span class="math inline">\(var(IBD)=\frac{p^4}{8} + \frac{p^3q}{2} + \frac{p^2q^2}{4} + \frac{3p^2q^2}{2} + \frac{pq^3}{2} + \frac{q^4}{8} =\frac{1}{8}+p^2q^2\)</span></p>
+<p>The expectation of <span class="math inline">\(\Omega\)</span> is <span class="math inline">\(E(IBS) = 2pq[(p+\frac{q}{2})^2+(\frac{p}{2}+q)^2]-pq(p-q)^2-p^2q^2+\frac{(q-p)^2}{2}(1+pq) =\frac{1}{2}\)</span></p>
 <p>The <span class="math inline">\(E(IBD\times IBS)\)</span> is
 <span class="math inline">\(E(IBD \times IBS)=\begin{matrix} [2pq]&amp; \\ +[3p^2q^2+(q-p)p^2q+\frac{3}{4}p^2(q-p)^2]&amp; \\ +[\frac{pq(q-p)^2}{2}]&amp; \\ +[pq^3+pq^2(q-p)+\frac{pq(q-p)^2}{2}-(p-q)p^2q+p^3q]&amp;\\ +[3p^2q^2-pq^2(q-p)+\frac{3}{4}q^2(p-1)^2]&amp;\\ +[2pq] \end{matrix}\)</span></p>
 
