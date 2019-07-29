@@ -1,7 +1,10 @@
 # IBD notes {#IBD-fam}
 
 ## HE association
+
 The classic $h^2=\beta HLH\beta$
+
+In population-based design, the relatedness is measured in IBS
 
 | | | |
 |:--:|:--:|:--:|
@@ -10,6 +13,10 @@ The classic $h^2=\beta HLH\beta$
 | | $\tilde{h}^2_{SNP.A}=\beta H\{\frac{ \sum_{k=1}^{m}w_k v_{k}^Tv_k }{w^TPw}\} H \beta$ | $\tilde{h}^2_{SNP.D}=d H_d\{\frac{ \sum_{k=1}^{m} w_{k,d}v_{k.d}^Tv_{k.d} }{w_{d}^TP_dw_{d}}\} H_d d$
 | | $h^2_{SNP.A}=\beta_1 H_1\{\frac{ \sum_{k=1}^{m} v_{k_1}^Tv_{k_2} }{1^TP1}\} H_2 \beta_2$ | $h^2_{SNP.D}=d_1 H_{d_1}\{\frac{ \sum_{k=1}^{m} v_{k,d_1}^Tv_{k,d_2} }{1^TP_d1}\} H_{d_2} d_2$
 | | $\tilde{h}^2_{SNP.A}=\beta_1 H_1\{\frac{ \sum_{k=1}^{m}w_k v_{k,1}^Tv_{k,2} }{w^TPw}\} H_2 \beta_2$ | $\tilde{h}^2_{SNP.D}=d_1 H_{d_1}\{\frac{ \sum_{k=1}^{m} w_{k,d}v_{k,d_1}^Tv_{k,d_2} }{w_{d}^TP_dw_{d}}\} H_{d_2} d_2$
+
+In sibpair design, using IBD $$h^2_{fam}=\beta H\{\frac{\sum_{k=1}^mz^T_kz_k}{\frac{1}{m^2}\sum_{k_1=1}^m\sum_{k_2=1}^m 1-2c_{k_1k_2}^2}\}H\beta$$
+
+$z_k=[(1-2c_{k,1}), (1-2c_{k,2}), (1-2c_{k,3}),...,(1-2c_{k,l})]$
 
 ## IBD table
 
