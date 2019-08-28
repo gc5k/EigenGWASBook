@@ -50,9 +50,9 @@ $E(IBD)=\begin{matrix}
 =\frac{1}{2}$
 
 The variance of IBD is
-$var(IBD)=\frac{p^4}{8} + \frac{p^3q}{2} + \frac{p^2q^2}{4} +
-\frac{3p^2q^2}{2} + \frac{pq^3}{2} + \frac{q^4}{8}
-=\frac{1}{8}+p^2q^2$
+$var(IBD)=\frac{p^4}{8} + \frac{p^3q}{2} + \frac{p^2q^2}{4} + \frac{3p^2q^2}{2} + \frac{pq^3}{2} + \frac{q^4}{8}=\frac{1}{8}+p^2q^2$. 
+
+However, if the IBD is known for sure, then $var(IBD)=\frac{1}{8}$.
 
 The expectation of $\Omega$ is $E(IBS) = 2pq[(p+\frac{q}{2})^2+(\frac{p}{2}+q)^2]-pq(p-q)^2-p^2q^2+\frac{(q-p)^2}{2}(1+pq)
 =\frac{1}{2}$
@@ -74,5 +74,5 @@ The variance of $\Omega$ is $var(IBS) = E(\Omega^2)-E(\Omega)^2= \frac{p^6+7p^5q
 The $cov(IBD,IBS)=E(IBD\times IBS) - E(IBD)E(IBS)=\frac{3}{8}-\frac{1}{2}\frac{1}{2}=\frac{1}{8}$, and
 $cor(IBD, IBS)=\frac{cov(IBS, IBD)}{\sqrt{var(IBD)var(IBS)}}=\frac{1}{\sqrt{8var(IBS)}}$.
 
-It indicates that for sibpairs, IBD and IBS were correlated for a locus.
+It indicates that for sibpairs IBD and IBS are correlated for a locus.
 
