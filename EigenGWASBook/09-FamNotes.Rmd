@@ -9,12 +9,12 @@ In population-based design, the relatedness is measured in IBS
 | | | |
 |:--:|:--:|:--:|
 | | $h^2=\beta HLH\beta$ | $h^2_d=d H_dL_dH_dd$|
-| | $h^2_{SNP.A}=\beta H\{\frac{ \sum_{k=1}^{m} v_k^Tv_k }{1^TP1}\} H \beta$ | $h^2_{SNP.D}=d H_d\{\frac{ \sum_{k=1}^{m} v_{k,d}^T v_{k,d} }{1^TP_d1}\} H_d d$
-| | $\tilde{h}^2_{SNP.A}=\beta H\{\frac{ \sum_{k=1}^{m}w_k v_{k}^Tv_k }{w^TPw}\} H \beta$ | $\tilde{h}^2_{SNP.D}=d H_d\{\frac{ \sum_{k=1}^{m} w_{k,d}v_{k.d}^Tv_{k.d} }{w_{d}^TP_dw_{d}}\} H_d d$
-| | $h^2_{SNP.A}=\beta_1 H_1\{\frac{ \sum_{k=1}^{m} v_{k_1}^Tv_{k_2} }{1^TP1}\} H_2 \beta_2$ | $h^2_{SNP.D}=d_1 H_{d_1}\{\frac{ \sum_{k=1}^{m} v_{k,d_1}^Tv_{k,d_2} }{1^TP_d1}\} H_{d_2} d_2$
-| | $\tilde{h}^2_{SNP.A}=\beta_1 H_1\{\frac{ \sum_{k=1}^{m}w_k v_{k,1}^Tv_{k,2} }{w^TPw}\} H_2 \beta_2$ | $\tilde{h}^2_{SNP.D}=d_1 H_{d_1}\{\frac{ \sum_{k=1}^{m} w_{k,d}v_{k,d_1}^Tv_{k,d_2} }{w_{d}^TP_dw_{d}}\} H_{d_2} d_2$
+| | $h^2_{SNP.A}=m\beta H\{\frac{ \sum_{k=1}^{m} v_k^Tv_k }{1^TP1}\} H \beta$ | $h^2_{SNP.D}=md H_d\{\frac{ \sum_{k=1}^{m} v_{k,d}^T v_{k,d} }{1^TP_d1}\} H_d d$
+| | $\tilde{h}^2_{SNP.A}=m\beta H\{\frac{ \sum_{k=1}^{m}w_k v_{k}^Tv_k }{w^TPw}\} H \beta$ | $\tilde{h}^2_{SNP.D}=md H_d\{\frac{ \sum_{k=1}^{m} w_{k,d}v_{k.d}^Tv_{k.d} }{w_{d}^TP_dw_{d}}\} H_d d$
+| | $h^2_{SNP.A_2}=m\beta_1 H_1\{\frac{ \sum_{k=1}^{m} v_{k_1}^Tv_{k_2} }{1^TP1}\} H_2 \beta_2$ | $h^2_{SNP.D_2}=md_1 H_{d_1}\{\frac{ \sum_{k=1}^{m} v_{k,d_1}^Tv_{k,d_2} }{1^TP_d1}\} H_{d_2} d_2$
+| | $\tilde{h}^2_{SNP.A_2}=m\beta_1 H_1\{\frac{ \sum_{k=1}^{m}w_k v_{k,1}^Tv_{k,2} }{w^TPw}\} H_2 \beta_2$ | $\tilde{h}^2_{SNP.D_2}=md_1 H_{d_1}\{\frac{ \sum_{k=1}^{m} w_{k,d}v_{k,d_1}^Tv_{k,d_2} }{w_{d}^TP_dw_{d}}\} H_{d_2} d_2$
 
-In sibpair design, using IBD $$h^2_{fam}=\beta H\{\frac{\sum_{k=1}^mz^T_kz_k}{\frac{1}{m^2}\sum_{k_1=1}^m\sum_{k_2=1}^m 1-2c_{k_1k_2}^2}\}H\beta$$
+In sibpair design, using IBD $$h^2_{fam}=m\beta H\{\frac{\sum_{k=1}^mz^T_kz_k}{\sum_{k_1=1}^m\sum_{k_2=1}^m (1-2c_{k_1k_2})^2}\}H\beta$$
 
 $z_k=[(1-2c_{k,1}), (1-2c_{k,2}), (1-2c_{k,3}),...,(1-2c_{k,l})]$
 
@@ -57,14 +57,22 @@ $var(IBD)=\frac{p^4}{8} + \frac{p^3q}{2} + \frac{p^2q^2}{4} +
 The expectation of $\Omega$ is $E(IBS) = 2pq[(p+\frac{q}{2})^2+(\frac{p}{2}+q)^2]-pq(p-q)^2-p^2q^2+\frac{(q-p)^2}{2}(1+pq)
 =\frac{1}{2}$
 
-The variance of $\Omega$ is $var(IBS) = E(\Omega^2)-E(\Omega)^2= [1+\frac{(p-q)^2}{2}]^2+2pq(1-2pq)+\frac{(p-q)^4}{4pq} - \frac{1}{4}$
+The variance of $\Omega$ is $var(IBS) = E(\Omega^2)-E(\Omega)^2= \frac{p^6+7p^5q+19p^4q^2+26p^3q^3+19p^2q^4+7pq^5+q^6}{4pq} - \frac{1}{4}$
 
-The $E(IBD\times IBS)$ is
-$E(IBD \times IBS)=\begin{matrix}
-[2pq]& \\
-+[3p^2q^2+(q-p)p^2q+\frac{3}{4}p^2(q-p)^2]& \\
-+[\frac{pq(q-p)^2}{2}]& \\
-+[pq^3+pq^2(q-p)+\frac{pq(q-p)^2}{2}-(p-q)p^2q+p^3q]&\\
-+[3p^2q^2-pq^2(q-p)+\frac{3}{4}q^2(p-1)^2]&\\
-+[2pq]
-\end{matrix}$
+
+| Mating type |Frequency | $IBD \times IBS$|
+|:--:|:--:|:--:|
+|$AA \times AA$ | $p^4$ | $\frac{1}{2}\frac{4q^2}{2pq}p^4$ |
+|$aa \times aa$ | $q^4$ | $\frac{1}{2}\frac{4p^2}{2pq}q^4$ |
+|$AA \times aa$ | $2p^2q^2$ | $\frac{1}{2}\frac{(q-p)^2}{2pq}p^4$ |
+|$AA \times Aa$ | $4p^3q$| $\{\frac{3}{16}\frac{4q^2}{2pq} + \frac{1}{8}\frac{2q(p-q)}{2pq} + \frac{3}{16}\frac{(q-p)^2}{2pq}\}4p^3q$|
+|$Aa \times aa$ | $4pq^3$| $\{\frac{3}{16}\frac{4q^2}{2pq} + \frac{1}{8}\frac{2p(p-q)}{2pq} + \frac{3}{16}\frac{(q-p)^2}{2pq}\}4pq^3$|
+|$Aa \times Aa$ | $4p^2q^2$| $\{\frac{1}{16}\frac{4q^2}{2pq} + \frac{1}{16}\frac{4p^2}{2pq}+ \frac{1}{8}\frac{2q(p-q)}{2pq}-\frac{1}{8}\frac{2p(p-q)}{2pq} + \frac{1}{8}\frac{(q-p)^2}{2pq}\}4p^2q^2$|
+
+
+
+The $cov(IBD,IBS)=E(IBD\times IBS) - E(IBD)E(IBS)=\frac{3}{8}-\frac{1}{2}\frac{1}{2}=\frac{1}{8}$, and
+$cor(IBD, IBS)=\frac{cov(IBS, IBD)}{\sqrt{var(IBD)var(IBS)}}=\frac{1}{\sqrt{8var(IBS)}}$.
+
+It indicates that for sibpairs, IBD and IBS were correlated for a locus.
+

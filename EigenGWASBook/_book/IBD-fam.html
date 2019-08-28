@@ -25,7 +25,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
 
 
-<meta name="date" content="2019-07-29">
+<meta name="date" content="2019-08-28">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -187,27 +187,27 @@
 </tr>
 <tr class="even">
 <td align="center"></td>
-<td align="center"><span class="math inline">\(h^2_{SNP.A}=\beta H\{\frac{ \sum_{k=1}^{m} v_k^Tv_k }{1^TP1}\} H \beta\)</span></td>
-<td align="center"><span class="math inline">\(h^2_{SNP.D}=d H_d\{\frac{ \sum_{k=1}^{m} v_{k,d}^T v_{k,d} }{1^TP_d1}\} H_d d\)</span></td>
+<td align="center"><span class="math inline">\(h^2_{SNP.A}=m\beta H\{\frac{ \sum_{k=1}^{m} v_k^Tv_k }{1^TP1}\} H \beta\)</span></td>
+<td align="center"><span class="math inline">\(h^2_{SNP.D}=md H_d\{\frac{ \sum_{k=1}^{m} v_{k,d}^T v_{k,d} }{1^TP_d1}\} H_d d\)</span></td>
 </tr>
 <tr class="odd">
 <td align="center"></td>
-<td align="center"><span class="math inline">\(\tilde{h}^2_{SNP.A}=\beta H\{\frac{ \sum_{k=1}^{m}w_k v_{k}^Tv_k }{w^TPw}\} H \beta\)</span></td>
-<td align="center"><span class="math inline">\(\tilde{h}^2_{SNP.D}=d H_d\{\frac{ \sum_{k=1}^{m} w_{k,d}v_{k.d}^Tv_{k.d} }{w_{d}^TP_dw_{d}}\} H_d d\)</span></td>
+<td align="center"><span class="math inline">\(\tilde{h}^2_{SNP.A}=m\beta H\{\frac{ \sum_{k=1}^{m}w_k v_{k}^Tv_k }{w^TPw}\} H \beta\)</span></td>
+<td align="center"><span class="math inline">\(\tilde{h}^2_{SNP.D}=md H_d\{\frac{ \sum_{k=1}^{m} w_{k,d}v_{k.d}^Tv_{k.d} }{w_{d}^TP_dw_{d}}\} H_d d\)</span></td>
 </tr>
 <tr class="even">
 <td align="center"></td>
-<td align="center"><span class="math inline">\(h^2_{SNP.A}=\beta_1 H_1\{\frac{ \sum_{k=1}^{m} v_{k_1}^Tv_{k_2} }{1^TP1}\} H_2 \beta_2\)</span></td>
-<td align="center"><span class="math inline">\(h^2_{SNP.D}=d_1 H_{d_1}\{\frac{ \sum_{k=1}^{m} v_{k,d_1}^Tv_{k,d_2} }{1^TP_d1}\} H_{d_2} d_2\)</span></td>
+<td align="center"><span class="math inline">\(h^2_{SNP.A_2}=m\beta_1 H_1\{\frac{ \sum_{k=1}^{m} v_{k_1}^Tv_{k_2} }{1^TP1}\} H_2 \beta_2\)</span></td>
+<td align="center"><span class="math inline">\(h^2_{SNP.D_2}=md_1 H_{d_1}\{\frac{ \sum_{k=1}^{m} v_{k,d_1}^Tv_{k,d_2} }{1^TP_d1}\} H_{d_2} d_2\)</span></td>
 </tr>
 <tr class="odd">
 <td align="center"></td>
-<td align="center"><span class="math inline">\(\tilde{h}^2_{SNP.A}=\beta_1 H_1\{\frac{ \sum_{k=1}^{m}w_k v_{k,1}^Tv_{k,2} }{w^TPw}\} H_2 \beta_2\)</span></td>
-<td align="center"><span class="math inline">\(\tilde{h}^2_{SNP.D}=d_1 H_{d_1}\{\frac{ \sum_{k=1}^{m} w_{k,d}v_{k,d_1}^Tv_{k,d_2} }{w_{d}^TP_dw_{d}}\} H_{d_2} d_2\)</span></td>
+<td align="center"><span class="math inline">\(\tilde{h}^2_{SNP.A_2}=m\beta_1 H_1\{\frac{ \sum_{k=1}^{m}w_k v_{k,1}^Tv_{k,2} }{w^TPw}\} H_2 \beta_2\)</span></td>
+<td align="center"><span class="math inline">\(\tilde{h}^2_{SNP.D_2}=md_1 H_{d_1}\{\frac{ \sum_{k=1}^{m} w_{k,d}v_{k,d_1}^Tv_{k,d_2} }{w_{d}^TP_dw_{d}}\} H_{d_2} d_2\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>In sibpair design, using IBD <span class="math display">\[h^2_{fam}=\beta H\{\frac{\sum_{k=1}^mz^T_kz_k}{\frac{1}{m^2}\sum_{k_1=1}^m\sum_{k_2=1}^m 1-2c_{k_1k_2}^2}\}H\beta\]</span></p>
+<p>In sibpair design, using IBD <span class="math display">\[h^2_{fam}=m\beta H\{\frac{\sum_{k=1}^mz^T_kz_k}{\sum_{k_1=1}^m\sum_{k_2=1}^m (1-2c_{k_1k_2})^2}\}H\beta\]</span></p>
 <p><span class="math inline">\(z_k=[(1-2c_{k,1}), (1-2c_{k,2}), (1-2c_{k,3}),...,(1-2c_{k,l})]\)</span></p>
 </div>
 <div id="ibd-table" class="section level2">
@@ -384,9 +384,56 @@
 <p>The variance of IBD is
 <span class="math inline">\(var(IBD)=\frac{p^4}{8} + \frac{p^3q}{2} + \frac{p^2q^2}{4} + \frac{3p^2q^2}{2} + \frac{pq^3}{2} + \frac{q^4}{8} =\frac{1}{8}+p^2q^2\)</span></p>
 <p>The expectation of <span class="math inline">\(\Omega\)</span> is <span class="math inline">\(E(IBS) = 2pq[(p+\frac{q}{2})^2+(\frac{p}{2}+q)^2]-pq(p-q)^2-p^2q^2+\frac{(q-p)^2}{2}(1+pq) =\frac{1}{2}\)</span></p>
-<p>The variance of <span class="math inline">\(\Omega\)</span> is <span class="math inline">\(var(IBS) = E(\Omega^2)-E(\Omega)^2= [1+\frac{(p-q)^2}{2}]^2+2pq(1-2pq)+\frac{(p-q)^4}{4pq} - \frac{1}{4}\)</span></p>
-<p>The <span class="math inline">\(E(IBD\times IBS)\)</span> is
-<span class="math inline">\(E(IBD \times IBS)=\begin{matrix} [2pq]&amp; \\ +[3p^2q^2+(q-p)p^2q+\frac{3}{4}p^2(q-p)^2]&amp; \\ +[\frac{pq(q-p)^2}{2}]&amp; \\ +[pq^3+pq^2(q-p)+\frac{pq(q-p)^2}{2}-(p-q)p^2q+p^3q]&amp;\\ +[3p^2q^2-pq^2(q-p)+\frac{3}{4}q^2(p-1)^2]&amp;\\ +[2pq] \end{matrix}\)</span></p>
+<p>The variance of <span class="math inline">\(\Omega\)</span> is <span class="math inline">\(var(IBS) = E(\Omega^2)-E(\Omega)^2= \frac{p^6+7p^5q+19p^4q^2+26p^3q^3+19p^2q^4+7pq^5+q^6}{4pq} - \frac{1}{4}\)</span></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Mating type</th>
+<th align="center">Frequency</th>
+<th align="center"><span class="math inline">\(IBD \times IBS\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(AA \times AA\)</span></td>
+<td align="center"><span class="math inline">\(p^4\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\frac{4q^2}{2pq}p^4\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(aa \times aa\)</span></td>
+<td align="center"><span class="math inline">\(q^4\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\frac{4p^2}{2pq}q^4\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(AA \times aa\)</span></td>
+<td align="center"><span class="math inline">\(2p^2q^2\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}\frac{(q-p)^2}{2pq}p^4\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(AA \times Aa\)</span></td>
+<td align="center"><span class="math inline">\(4p^3q\)</span></td>
+<td align="center"><span class="math inline">\(\{\frac{3}{16}\frac{4q^2}{2pq} + \frac{1}{8}\frac{2q(p-q)}{2pq} + \frac{3}{16}\frac{(q-p)^2}{2pq}\}4p^3q\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(Aa \times aa\)</span></td>
+<td align="center"><span class="math inline">\(4pq^3\)</span></td>
+<td align="center"><span class="math inline">\(\{\frac{3}{16}\frac{4q^2}{2pq} + \frac{1}{8}\frac{2p(p-q)}{2pq} + \frac{3}{16}\frac{(q-p)^2}{2pq}\}4pq^3\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(Aa \times Aa\)</span></td>
+<td align="center"><span class="math inline">\(4p^2q^2\)</span></td>
+<td align="center"><span class="math inline">\(\{\frac{1}{16}\frac{4q^2}{2pq} + \frac{1}{16}\frac{4p^2}{2pq}+ \frac{1}{8}\frac{2q(p-q)}{2pq}-\frac{1}{8}\frac{2p(p-q)}{2pq} + \frac{1}{8}\frac{(q-p)^2}{2pq}\}4p^2q^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The <span class="math inline">\(cov(IBD,IBS)=E(IBD\times IBS) - E(IBD)E(IBS)=\frac{3}{8}-\frac{1}{2}\frac{1}{2}=\frac{1}{8}\)</span>, and
+<span class="math inline">\(cor(IBD, IBS)=\frac{cov(IBS, IBD)}{\sqrt{var(IBD)var(IBS)}}=\frac{1}{\sqrt{8var(IBS)}}\)</span>.</p>
+<p>It indicates that for sibpairs, IBD and IBS were correlated for a locus.</p>
 
 </div>
 </div>
