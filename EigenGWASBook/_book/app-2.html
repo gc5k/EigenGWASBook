@@ -210,7 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.1" data-path="IBD-fam.html"><a href="IBD-fam.html#he-association"><i class="fa fa-check"></i><b>9.1</b> HE association</a></li>
 <li class="chapter" data-level="9.2" data-path="IBD-fam.html"><a href="IBD-fam.html#ibd-table"><i class="fa fa-check"></i><b>9.2</b> IBD table</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="app-1.html"><a href="app-1.html#app-1"><i class="fa fa-check"></i><b>10</b> Appendix quick pca</a></li>
+<li class="chapter" data-level="10" data-path="app-2.html"><a href="app-2.html"><i class="fa fa-check"></i><b>10</b> Appendix quick pca</a></li>
 <li class="divider"></li>
 <li><a href="https://gc5k.github.io" target="blank">Published with bookdown</a></li>
 
@@ -231,7 +231,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="app-1" class="section level1">
+<div id="app-2" class="section level1">
 <h1><span class="header-section-number">Chapter 10</span> Appendix quick pca</h1>
 <p>See PLoS ONE, 2014, 9:e93766</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MASS)</code></pre>
@@ -252,9 +252,10 @@ X=<span class="kw">matrix</span>(<span class="dv">0</span>, N, M) <span class="c
 sX=<span class="kw">scale</span>(X)
 G=sX<span class="op">%*%</span><span class="kw">t</span>(sX)
 Geg=<span class="kw">eigen</span>(G)
-<span class="kw">plot</span>(Geg<span class="op">$</span>vectors[,<span class="dv">1</span>], Geg<span class="op">$</span>vectors[,<span class="dv">2</span>])</code></pre>
-<p><img src="EigenGWAS_files/figure-html/quick-pca-1.png" width="672" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#quick pca</span>
+<span class="co">#plot(Geg$vectors[,1], Geg$vectors[,2])</span>
+
+
+<span class="co">#quick pca</span>
 dm=<span class="dv">30</span>
 sg=<span class="kw">matrix</span>(<span class="dv">0</span>,dm,dm)
 <span class="kw">diag</span>(sg)=<span class="dv">1</span>
@@ -291,7 +292,9 @@ P=U<span class="op">*</span>D
 <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(<span class="dt">main=</span><span class="st">&quot;PCA&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;eVec 1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;eVec 2&quot;</span>, Geg<span class="op">$</span>vectors[,<span class="dv">1</span>], Geg<span class="op">$</span>vectors[,<span class="dv">2</span>])
 <span class="kw">plot</span>(<span class="dt">main=</span><span class="st">&quot;Quick PCA&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;eVec 1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;eVec 2&quot;</span>, U[,<span class="dv">1</span>], U[,<span class="dv">2</span>])</code></pre>
-<p><img src="EigenGWAS_files/figure-html/quick-pca-2.png" width="672" /></p>
+<p><img src="EigenGWAS_files/figure-html/quick-pca-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(Geg<span class="op">$</span>vectors[,<span class="dv">1</span>], U[,<span class="dv">1</span>])</code></pre>
+<pre><code>## [1] 0.9875852</code></pre>
 
 </div>
             </section>
