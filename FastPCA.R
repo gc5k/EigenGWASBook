@@ -42,7 +42,7 @@ for(it in 1:maxiter) {
   }
 }
 
-QR=qr.default(Y1)
+QR=qr.default(Y)
 B=t(QR$qr)%*%sX
 S=B%*%t(B)
 
