@@ -1,5 +1,6 @@
 # Appendix quick pca {#app-2}
 
+## Quck PCA method for snp matrix
 See PLoS ONE, 2014, 9:e93766
 ```{r, quick-pca}
 library(MASS)

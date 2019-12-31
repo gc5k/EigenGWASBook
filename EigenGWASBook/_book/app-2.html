@@ -25,7 +25,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
 
 
-<meta name="date" content="2019-10-28">
+<meta name="date" content="2019-10-29">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -210,7 +210,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.1" data-path="IBD-fam.html"><a href="IBD-fam.html#he-association"><i class="fa fa-check"></i><b>9.1</b> HE association</a></li>
 <li class="chapter" data-level="9.2" data-path="IBD-fam.html"><a href="IBD-fam.html#ibd-table"><i class="fa fa-check"></i><b>9.2</b> IBD table</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="app-2.html"><a href="app-2.html"><i class="fa fa-check"></i><b>10</b> Appendix quick pca</a></li>
+<li class="chapter" data-level="10" data-path="app-2.html"><a href="app-2.html"><i class="fa fa-check"></i><b>10</b> Appendix quick pca</a><ul>
+<li class="chapter" data-level="10.1" data-path="app-2.html"><a href="app-2.html#quck-pca-method-for-snp-matrix"><i class="fa fa-check"></i><b>10.1</b> Quck PCA method for snp matrix</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://gc5k.github.io" target="blank">Published with bookdown</a></li>
 
@@ -233,6 +235,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="app-2" class="section level1">
 <h1><span class="header-section-number">Chapter 10</span> Appendix quick pca</h1>
+<div id="quck-pca-method-for-snp-matrix" class="section level2">
+<h2><span class="header-section-number">10.1</span> Quck PCA method for snp matrix</h2>
 <p>See PLoS ONE, 2014, 9:e93766</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MASS)</code></pre>
 <pre><code>## Warning: package &#39;MASS&#39; was built under R version 3.4.4</code></pre>
@@ -294,8 +298,9 @@ P=U<span class="op">*</span>D
 <span class="kw">plot</span>(<span class="dt">main=</span><span class="st">&quot;Quick PCA&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;eVec 1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;eVec 2&quot;</span>, U[,<span class="dv">1</span>], U[,<span class="dv">2</span>])</code></pre>
 <p><img src="EigenGWAS_files/figure-html/quick-pca-1.png" width="672" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(Geg<span class="op">$</span>vectors[,<span class="dv">1</span>], U[,<span class="dv">1</span>])</code></pre>
-<pre><code>## [1] 0.991082</code></pre>
+<pre><code>## [1] 0.9916157</code></pre>
 
+</div>
 </div>
             </section>
 
