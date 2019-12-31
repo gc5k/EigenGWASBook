@@ -1,11 +1,15 @@
+####mapfile
+mapInfoCur=mapInfo=read.table(file = "lr_10000.plk.map", as.is = T)
 
+####pedfile
 conn <- gzfile("lr_10000.plk.ped.gz", "rt") #repalce the filename with your own ped
 #conn <- gzfile("LRWithPosition_2691.plk.ped.gz", "rt") #repalce the filename with your own ped
-mapInfo=read.table(file = "lr_10000.plk.map", as.is = T)
 
-mapInfoCur=mapInfo
-ped=read.table(conn, as.is = T, sep = "\t")[,-c(1:6)]#remove the first 6 cols
+ped=read.table(conn, as.is = T, sep = "\t")#remove the first 6 cols
+pedInfoCur=pedInfo=ped[,c(1:6)]
+ped=ped[,-c(1:6)]
 hped=ped[,seq(1, ncol(ped), 2)] #inbred, one haploid is enough
+
 
 ##QC stats
 freq=colMeans(hped, na.rm = T) #freq
@@ -26,7 +30,7 @@ plot(main="Frequency", freq, pch=16, cex=0.5)
 plot(main="Individual missing rate", sMiss/ncol(hped), pch=16, cex=0.5)
 plot(main="Locus missing rate", lMiss/nrow(hped), pch=16, cex=0.5)
 
-#########clean
+#########QC steps
 #QC 1 for MAF
 QCcut=list("fqMin"=0.03, "fqMax"=0.97, "IndMiss"=0.4)
 fQC=which(freq > QCcut$fqMin & freq < QCcut$fqMax) #remove freq <0.03 and > 0.97
@@ -39,11 +43,12 @@ freqQC=colMeans(hpedQC, na.rm = T)
 vQC=freqQC*(1-freqQC)
 
 mapInfoCur=mapInfoCur[fQC,]
+pedInfoCur=pedInfo[iQC,]
 ##test sample size, the maxima of testInd=nrow(hpedQC)
 #testInd=100
 testInd=nrow(hpedQC)
 
-#make grm
+#########make grm
 G=matrix(0, nrow = testInd, ncol = testInd)
 for(i in 1:testInd) {
   print(paste0(i, "/", testInd))
@@ -63,8 +68,12 @@ for(i in 1:testInd) {
   }
 }
 rm(hpedQC_T)
+
+##save GRM
 write.table(G, "G.txt", row.names = F, col.names = F, quote = F)
 g1=read.table("G.txt", as.is = T)
+
+##eigen
 eG=eigen(g1)
 write.table(eG$values, "Gvalue.txt", row.names = F, col.names = F, quote = F)
 write.table(eG$vectors, "Gvec.txt", row.names = F, col.names = F, quote = F)
@@ -72,13 +81,13 @@ write.table(eG$vectors, "Gvec.txt", row.names = F, col.names = F, quote = F)
 eVec=read.table("Gvec.txt", as.is = T)
 eVal=read.table("Gvalue.txt", as.is = T)
 layout(matrix(1:2, 1, 2))
-barplot(eVal[1:5,1])
+barplot(eVal[1:5,1], main="Eigenvalues")
 plot(eVec$V1, eVec$V2, pch=16, cex=0.5)
 
 MOD=matrix(2, nrow=ncol(hpedQC), 7)
-
 for(i in 1:nrow(MOD)) {
-  mod=lm(eVec$V1~hpedQC[1:testInd,i])
+  #if you want to try another eigenvector 'x' try eVec$Vx below
+  mod=lm(eVec$V1~hpedQC[1:testInd,i]) 
   sm=summary(mod)
   if(nrow(sm$coefficients)>1) {
     MOD[i,1:4]=sm$coefficients[2,]
@@ -90,6 +99,7 @@ MOD1=MOD[goodSNP,]
 
 colnames(MOD1)=c(colnames(sm$coefficients), "Chisq", "PGC", "ChisqGC")
 gc=qchisq(median(MOD1[,4]), 1, lower.tail = F)/0.455
+print(paste("GC=", gc))
 MOD1[,5]=qchisq(MOD1[,4], 1, lower.tail = F)
 MOD1[,6]=pchisq(MOD1[,5]/gc, 1,lower.tail = F)
 MOD1[,7]=qchisq(MOD1[,6], 1, lower.tail = F)
@@ -99,4 +109,8 @@ hist(MOD1[,4], breaks = 25)
 hist(MOD1[,6], breaks = 25)
 
 Res=cbind(mapInfoCur[goodSNP,], MOD1)
-Res=Res[order(Res$V1, Res$V2),] #assuming V1=chr, V2=pos
+Res=Res[order(Res$V1, Res$V4),] #assuming V1=chr, V4=pos
+
+print(paste0(nrow(pedInfoCur), " samples and ", nrow(Res), " SNPs included in the analysis."))
+print(paste0("Removed ", nrow(pedInfo)-nrow(pedInfoCur), " samples"))
+print(paste0("Removed ", nrow(mapInfo)-nrow(mapInfoCur), " snps"))
