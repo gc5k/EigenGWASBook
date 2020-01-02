@@ -96,8 +96,8 @@ for(i in 1:nrow(MOD)) {
   if(nrow(sm$coefficients)>1) {
     MOD[i,1:4]=sm$coefficients[2,]
 
-    pcPos=which(eVec[,1] > 0 & !is.na(hpedQC[,i]))
-    pcNeg=which(eVec[,1] <= 0 & !is.na(hpedQC[,i]))
+    pcPos=which(pcY > 0 & !is.na(hpedQC[,i]))
+    pcNeg=which(pcY <= 0 & !is.na(hpedQC[,i]))
     fqP=mean(hpedQC[pcPos,i])
     fqN=mean(hpedQC[pcNeg,i])
     MOD[i,8]=(length(pcPos)/(length(pcPos)+length(pcNeg))*(fqP-fqAll[i])^2
