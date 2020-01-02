@@ -1,5 +1,6 @@
 ####mapfile
 mapInfoCur=mapInfo=read.table(file = "lr_10000.plk.map", as.is = T)
+colnames(mapInfoCur)=c("Chr", "SNP", "Gdis", "BP")
 
 ####pedfile
 conn <- gzfile("lr_10000.plk.ped.gz", "rt") #repalce the filename with your own ped
@@ -71,9 +72,9 @@ rm(hpedQC_T)
 
 ##save GRM
 write.table(G, "G.txt", row.names = F, col.names = F, quote = F)
-g1=read.table("G.txt", as.is = T)
 
 ##eigen
+g1=read.table("G.txt", as.is = T)
 eG=eigen(g1)
 write.table(eG$values, "Gvalue.txt", row.names = F, col.names = F, quote = F)
 write.table(eG$vectors, "Gvec.txt", row.names = F, col.names = F, quote = F)
@@ -84,33 +85,48 @@ layout(matrix(1:2, 1, 2))
 barplot(eVal[1:5,1], main="Eigenvalues")
 plot(eVec$V1, eVec$V2, pch=16, cex=0.5)
 
-MOD=matrix(2, nrow=ncol(hpedQC), 7)
+pcIdx=1 #if you want to try another eigenvector 'x' try eVec[,x]
+pcY=eVec[,pcIdx]   
+
+fqAll=colMeans(hpedQC, na.rm = T)
+MOD=matrix(2, nrow=ncol(hpedQC), 8)
 for(i in 1:nrow(MOD)) {
-  #if you want to try another eigenvector 'x' try eVec$Vx below
-  mod=lm(eVec$V1~hpedQC[1:testInd,i]) 
+  mod=lm(pcY~hpedQC[,i]) 
   sm=summary(mod)
   if(nrow(sm$coefficients)>1) {
     MOD[i,1:4]=sm$coefficients[2,]
+
+    pcPos=which(eVec[,1] > 0 & !is.na(hpedQC[,i]))
+    pcNeg=which(eVec[,1] <= 0 & !is.na(hpedQC[,i]))
+    fqP=mean(hpedQC[pcPos,i])
+    fqN=mean(hpedQC[pcNeg,i])
+    MOD[i,8]=(length(pcPos)/(length(pcPos)+length(pcNeg))*(fqP-fqAll[i])^2
+              +length(pcNeg)/(length(pcPos)+length(pcNeg))*(fqN-fqAll[i])^2)/(fqAll[i]*(1-fqAll[i]))
   }
 }
 
 goodSNP=which(MOD[,4]!=2)
 MOD1=MOD[goodSNP,]
 
-colnames(MOD1)=c(colnames(sm$coefficients), "Chisq", "PGC", "ChisqGC")
+colnames(MOD1)=c(colnames(sm$coefficients), "Chisq", "PGC", "ChisqGC", "Fst")
 gc=qchisq(median(MOD1[,4]), 1, lower.tail = F)/0.455
-print(paste("GC=", gc))
 MOD1[,5]=qchisq(MOD1[,4], 1, lower.tail = F)
-MOD1[,6]=pchisq(MOD1[,5]/gc, 1,lower.tail = F)
+MOD1[,6]=pchisq(MOD1[,5]/gc, 1, lower.tail = F)
 MOD1[,7]=qchisq(MOD1[,6], 1, lower.tail = F)
 
-layout(matrix(1:2, 1, 2))
-hist(MOD1[,4], breaks = 25)
-hist(MOD1[,6], breaks = 25)
 
 Res=cbind(mapInfoCur[goodSNP,], MOD1)
-Res=Res[order(Res$V1, Res$V4),] #assuming V1=chr, V4=pos
+Res=Res[order(Res$Chr, Res$BP),] #assuming V1=chr, V4=pos in map file
 
+layout(matrix(1:3, 1, 3))
+hist(Res$`Pr(>|t|)`, breaks = 25, main="p-value")
+hist(Res$PGC, breaks = 25, main="p-value after GC")
+plot(Res$Fst, Res$ChisqGC, xlab=expression(paste(F[st])), ylab=expression(paste(chi["1.GC"]^2)), 
+     bty='l', pch=16, cex=0.5)
+
+print("Summary:")
+print(QCcut)
 print(paste0(nrow(pedInfoCur), " samples and ", nrow(Res), " SNPs included in the analysis."))
 print(paste0("Removed ", nrow(pedInfo)-nrow(pedInfoCur), " samples"))
 print(paste0("Removed ", nrow(mapInfo)-nrow(mapInfoCur), " snps"))
+print(paste("GC=", gc, ", eigenvalue is ", eVal[pcIdx,1]))
