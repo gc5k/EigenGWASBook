@@ -110,17 +110,25 @@ MOD1=MOD[goodSNP,]
 
 colnames(MOD1)=c(colnames(sm$coefficients), "Chisq", "PGC", "ChisqGC", "Fst")
 gc=qchisq(median(MOD1[,4]), 1, lower.tail = F)/0.455
-MOD1[,5]=qchisq(MOD1[,4], 1, lower.tail = F)
-MOD1[,6]=pchisq(MOD1[,5]/gc, 1, lower.tail = F)
-MOD1[,7]=qchisq(MOD1[,6], 1, lower.tail = F)
-
+#using approximating that t^2=chi when df is large
+#MOD1[,5]=qchisq(MOD1[,4], 1, lower.tail = F)
+MOD1[,5]=MOD1[,3]^2
+#.Machine$double.xmin
+MOD1[,6]=-1*pchisq(MOD1[,5]/gc, 1, lower.tail = F, log.p = T)/log(10) #-log10(p)
+MOD1[,7]=MOD1[,5]/gc
 
 Res=cbind(mapInfoCur[goodSNP,], MOD1)
 Res=Res[order(Res$Chr, Res$BP),] #assuming V1=chr, V4=pos in map file
 
 layout(matrix(1:3, 1, 3))
-hist(Res$`Pr(>|t|)`, breaks = 25, main="p-value")
-hist(Res$PGC, breaks = 25, main="p-value after GC")
+qqplot(-log10(runif(nrow(Res))), -log10(Res$`Pr(>|t|)`), pch=16, cex=0.5,
+       main="p-value", bty='n', xlab="E(-log10(p))", ylab="-log10(p)",
+       bty='n')
+abline(a=0, b=1, col="red", lty=2)
+qqplot(-log10(runif(nrow(Res))), Res$PGC, pch=16, cex=0.5,
+       main="p-value after GC", xlab="E(-log10(p))", ylab="-log10(p)",
+       bty='n')
+abline(a=0, b=1, col="red", lty=2)
 plot(Res$Fst, Res$ChisqGC, xlab=expression(paste(F[st])), ylab=expression(paste(chi["1.GC"]^2)), 
      bty='l', pch=16, cex=0.5)
 
