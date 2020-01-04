@@ -1,12 +1,21 @@
+#1 QC parameters
+QCcut=list("fqMin"=0.03, "fqMax"=0.97, "IndMiss"=0.4)
+#2 files
+FList=list("mapFile"="lr_10000.plk.map", "pedgzF"="lr_10000.plk.ped.gz")
+#FList=list("mapFile"="2020LRWithPosition_2691.plk.map", "pedgzF"="2020LRWithPosition_2691.plk.ped.gz")
+
+library(Rcpp)
+sourceCpp("./lib/cormatrix.cpp")
+Tstart=proc.time()
+
+
 ####mapfile
-mapInfoCur=mapInfo=read.table(file = "lr_10000.plk.map", as.is = T)
+mapInfoCur=mapInfo=read.table(file = FList$mapFile, as.is = T)
 colnames(mapInfoCur)=c("Chr", "SNP", "Gdis", "BP")
-
 ####pedfile
-conn <- gzfile("lr_10000.plk.ped.gz", "rt") #repalce the filename with your own ped
-#conn <- gzfile("LRWithPosition_2691.plk.ped.gz", "rt") #repalce the filename with your own ped
-
+conn <- gzfile(FList$pedgzF, "r") #repalce the filename with your own ped
 ped=read.table(conn, as.is = T, sep = "\t")#remove the first 6 cols
+close(conn)
 pedInfoCur=pedInfo=ped[,c(1:6)]
 ped=ped[,-c(1:6)]
 hped=ped[,seq(1, ncol(ped), 2)] #inbred, one haploid is enough
@@ -33,49 +42,29 @@ plot(main="Locus missing rate", lMiss/nrow(hped), pch=16, cex=0.5)
 
 #########QC steps
 #QC 1 for MAF
-QCcut=list("fqMin"=0.03, "fqMax"=0.97, "IndMiss"=0.4)
 fQC=which(freq > QCcut$fqMin & freq < QCcut$fqMax) #remove freq <0.03 and > 0.97
 #QC 2 for ind miss
 iQC=which(sMiss/ncol(hped) < QCcut$IndMiss) #individual genotyping missing rate
 
 hpedQC=hped[iQC,fQC]
-hpedQC_T=t(hpedQC)
-freqQC=colMeans(hpedQC, na.rm = T)
-vQC=freqQC*(1-freqQC)
 
+freqQC=colMeans(hpedQC, na.rm = T)
+
+#update 
 mapInfoCur=mapInfoCur[fQC,]
 pedInfoCur=pedInfo[iQC,]
-##test sample size, the maxima of testInd=nrow(hpedQC)
-#testInd=100
-testInd=nrow(hpedQC)
 
-#########make grm
-G=matrix(0, nrow = testInd, ncol = testInd)
-for(i in 1:testInd) {
-  print(paste0(i, "/", testInd))
 
-##slow  x1=ifelse(!is.na(as.numeric(hpedQC[i,])), as.numeric(hpedQC[i,]), freqQC) 
-  ##fast
-  x1=ifelse(!is.na(as.numeric(hpedQC_T[,i])), as.numeric(hpedQC_T[,i]), freqQC)
-  s1=(x1-freqQC)/sqrt(vQC)
-  for(j in i:testInd) {
-##slow    x2=ifelse(!is.na(as.numeric(hpedQC[j,])), as.numeric(hpedQC[j,]), freqQC)
-    ##fast
-    x2=ifelse(!is.na(as.numeric(hpedQC_T[,j])), as.numeric(hpedQC_T[,j]), freqQC)
-    
-    s2=(x2-freqQC)/sqrt(vQC)
-    effM=length(freqQC)-length(which(x1==0 | x2==0))
-    G[j,i]=G[i,j]=sum(s1*s2)/effM
-  }
-}
-rm(hpedQC_T)
-
+##make grm
+ped_S=apply(hpedQC, 2, scale)
+ped_S[which(is.na(ped_S))]=0
+G=CorMatrix(ped_S)
 ##save GRM
 write.table(G, "G.txt", row.names = F, col.names = F, quote = F)
 
 ##eigen
-g1=read.table("G.txt", as.is = T)
-eG=eigen(g1)
+G=read.table("G.txt", as.is = T)
+eG=eigen(G)
 write.table(eG$values, "Gvalue.txt", row.names = F, col.names = F, quote = F)
 write.table(eG$vectors, "Gvec.txt", row.names = F, col.names = F, quote = F)
 
@@ -95,7 +84,7 @@ for(i in 1:nrow(MOD)) {
   sm=summary(mod)
   if(nrow(sm$coefficients)>1) {
     MOD[i,1:4]=sm$coefficients[2,]
-
+    
     pcPos=which(pcY > 0 & !is.na(hpedQC[,i]))
     pcNeg=which(pcY <= 0 & !is.na(hpedQC[,i]))
     fqP=mean(hpedQC[pcPos,i])
@@ -138,3 +127,8 @@ print(paste0(nrow(pedInfoCur), " samples and ", nrow(Res), " SNPs included in th
 print(paste0("Removed ", nrow(pedInfo)-nrow(pedInfoCur), " samples"))
 print(paste0("Removed ", nrow(mapInfo)-nrow(mapInfoCur), " snps"))
 print(paste("GC=", gc, ", eigenvalue is ", eVal[pcIdx,1]))
+write.table(Res, "eigen_res.txt", row.names = F, col.names = F, quote = F)
+
+Tend=proc.time()
+TIMER=Tend[3]-Tstart[3]
+print(paste0("It took ", format(TIMER,digits = 4), "s to finish the analysis"))
