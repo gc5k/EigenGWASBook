@@ -1,22 +1,21 @@
 ---
 title: "EigenGWAScore"
-author: "gc5k"
+author: "Chen Guo-Bo [chenguobo@gmail.com]"
 date: "`r Sys.Date()`"
 output:
  html_document:
     theme: united
     highlight: tango
     code_folding: hide
-
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#Table of contents {.tabset .tabset-fade .tabset-pills}
+# Table of contents {.tabset .tabset-fade .tabset-pills}
 
-##Sample distribution
+## Sample distribution
 As each locus follows binomial distribution, the **genetic drift** can be modelled $\frac{\sqrt{pq}}{2n_e}$, in which $n_e$ is the effective population size.
 ```{r, bino}
 f=0.5
@@ -37,9 +36,39 @@ for(p in 1:length(pop)) {
 }
 ```
 
-## Subgroups
+## 2 Subgroups
+```{r, 2pop}
+M=c(10000, 1000)
+fst1=0.05
+for(m in 1:length(M)) {
+  P=runif(M[m], 0.2, 0.8)
+  Sz=c(100, 100)
+  Fq=matrix(0, 2, M[m])
+  Fq[1,]=rbeta(M[m], P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+  Fq[2,]=rbeta(M[m], P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+
+  G=matrix(0, sum(Sz), M[m])
+  for(i in 1:Sz[1]) {
+    G[i,] = rbinom(M[m], 2, Fq[1,])
+  }
+
+  for(i in (Sz[1]+1):(Sz[1]+Sz[2])) {
+    G[i,] = rbinom(M[m], 2, Fq[2,])
+  }
+
+  Gs=apply(G, 2, scale)
+  GG=Gs %*% t(Gs)
+  EigenG=eigen(GG)
+  layout(matrix(1:2, 1, 2))
+  barplot(EigenG$values[1:20])
+  plot(main=paste(M[m], "markers"), EigenG$vectors[,1], EigenG$vectors[,2], bty='n', xlab="PC 1", ylab="PC 2", pch=16, col=c(rep("red", Sz[1]), rep("blue", Sz[2])))
+}
+```
+
+
+## 3 Subgroups
 ```{r, 3pop}
-M=c(100000, 10000)
+M=c(10000, 1000)
 fst1=0.05
 fst2=0.01
 for(m in 1:length(M)) {
@@ -72,7 +101,117 @@ for(m in 1:length(M)) {
 }
 ```
 
-## Three pop
+## Admixture population
+We set two founder populations, upon which an admixed population is generated. The $F_{st}$ is set apart the two founder populations -- have allele frequencies $p_1$ and $p_2$, respectively. The admixture population has is allele frequency $wp_1+(1-w)p_2$. $w$ is sampled from beta distribution with $a=20$ and $b=50$.
+```{r, admix}
+
+M=5000
+n1=50
+n2=50
+N=500
+fst1=0.05
+P=runif(M, 0.1, 0.9)
+Fq=matrix(0, 2, M)
+Fq[1,]=rbeta(M, P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+Fq[2,]=rbeta(M, P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+G1=matrix(0, n1, M)
+for(i in 1:n1) {
+  G1[i,]=rbinom(M, 2, Fq[1,])
+}
+G2=matrix(0, n1, M)
+for(i in 1:n1) {
+  G2[i,]=rbinom(M, 2, Fq[2,])
+}
+
+G=matrix(0, N, M)
+admix=rbeta(N, 20, 50) 
+for(i in 1:N) {
+  p=admix[i]*Fq[1,] + (1-admix[i])*Fq[2,]
+  G[i,] = rbinom(M, 2, p)
+}
+
+GT=rbind(G1, G2, G)
+
+sG=scale(GT)
+gg=sG%*%t(sG)/M
+eg=eigen(gg)
+layout(matrix(1:2, 1, 2))
+barplot(eg$values)
+plot(eg$vectors[,1], eg$vectors[,2], xlab="PC 1", ylab="PC 2", 
+     cex=0.5, pch=16, bty="l",
+     col=c(rep("black", n1), rep("red", n2), rep("green", N)))
+
+```
+
+## Admixture population [Triangle]
+
+```{r, admix3}
+
+M=10000
+n1=50
+n2=50
+n3=50
+n12=100
+n13=100
+n23=100
+fst1=0.05
+fst2=0.01
+P=runif(M, 0.1, 0.9)
+Fq=matrix(0, 3, M)
+Fq[1,]=rbeta(M, P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+Fq[2,]=rbeta(M, P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+Fq[3,]=rbeta(M, Fq[2,]*(1-fst2)/fst2, (1-Fq[2,])*(1-fst2)/fst2)
+G1=matrix(0, n1, M)
+for(i in 1:n1) {
+  G1[i,]=rbinom(M, 2, Fq[1,])
+}
+G2=matrix(0, n1, M)
+for(i in 1:n1) {
+  G2[i,]=rbinom(M, 2, Fq[2,])
+}
+
+G3=matrix(0, n3, M)
+for(i in 1:n1) {
+  G3[i,]=rbinom(M, 2, Fq[3,])
+}
+
+G12=matrix(0, n12, M)
+admix=rbeta(n12, 30, 50) 
+for(i in 1:n12) {
+  p=admix[i]*Fq[1,] + (1-admix[i])*Fq[2,]
+  G12[i,] = rbinom(M, 2, p)
+}
+
+G13=matrix(0, n13, M)
+admix=rbeta(n13, 30, 50) 
+for(i in 1:n13) {
+  p=admix[i]*Fq[1,] + (1-admix[i])*Fq[3,]
+  G13[i,] = rbinom(M, 2, p)
+}
+
+G23=matrix(0, n23, M)
+admix=rbeta(n23, 25, 50) 
+for(i in 1:n23) {
+  p=admix[i]*Fq[2,] + (1-admix[i])*Fq[3,]
+  G23[i,] = rbinom(M, 2, p)
+}
+
+GT=rbind(G1, G2, G3, G12, G13, G23)
+
+sG=scale(GT)
+gg=sG%*%t(sG)/M
+eg=eigen(gg)
+layout(matrix(1:2, 1, 2))
+barplot(eg$values)
+plot(eg$vectors[,1], eg$vectors[,2], xlab="PC 1", ylab="PC 2", 
+     cex=0.5, pch=16, bty="l",
+     col=c(rep("black", n1), rep("red", n2), rep("green", n3),
+           rep("orange", n12), rep("grey", n13), rep("brown", n23)))
+
+```
+
+
+## Six pop
 ```{r, 6pop}
 M=c(10000)
 fst1=0.05
@@ -155,7 +294,7 @@ vR <- apply(R, 1:2, var)
 stopifnot(all.equal(vR, Va, tolerance = 1/16))
 ```
 
-##Distribution of the Wishart diagonal elements
+## Distribution of the Wishart diagonal elements
 $G=\frac{1}{m}\tilde{X}^T\tilde{X}$, and the diagonal of $G$ follow $\frac{\chi^2_n}{n}$
 ```{r, diagW}
 N=1000
@@ -176,9 +315,9 @@ for(m in 1:length(M)) {
 
 ```
 
-##Homo cohort
+## Homo cohort
 
-```{r, homo-cohort}
+```{r, homo-cohort, eval=FALSE}
 rep=1
 EV=matrix(0, rep, 10)
 typeI=matrix(0, rep, 4)
@@ -235,8 +374,8 @@ legend("topleft", legend = c("Fst", "GC", "Eigenvalue"), pch=15, col=c("black", 
 
 ```
 
-##Heterogeneous cohort
-```{r, het-cohort}
+## Heterogeneous cohort
+```{r, het-cohort, eval=FALSE}
 rep=1
 EV=matrix(0, rep, 10)
 typeI=matrix(0, rep, 4)
@@ -300,17 +439,18 @@ legend("topleft", legend = c("Fst", "GC", "Eigenvalue"), pch=15, col=c("black", 
 ```
 
 
-##Tracy-Widom distribution
+## Tracy-Widom distribution
 ```{r, tw}
 library(RMTstat)
 plot(density(rtw(10000)))
 ```
 
-##TW
+## TW
 
 ```{r, TW}
-EG=matrix(0, 50, 1)
-for(rp in 1:50) {
+RP=5
+EG=matrix(0, RP, 1)
+for(rp in 1:RP) {
   N=500
   M=5000
   p=runif(M, 0.2, 0.8)
