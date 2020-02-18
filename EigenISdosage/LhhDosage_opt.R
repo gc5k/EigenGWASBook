@@ -6,7 +6,11 @@ FList=list("mapFile"="lr_10000.plk.map", "pedgzF"="lr_10000.plk.ped.gz")
 EGList=list("pcIdx"=c(1,2))
 #FList=list("mapFile"="2020LRWithPosition_2691.plk.map", "pedgzF"="2020LRWithPosition_2691.plk.ped.gz")
 
-library(Rcpp)
+##After updating to Catalina, it needs to add lines to .R/Makevars
+#Another solution that does not require forced installation of headers in their old location is to tell R their new location by setting the following variables in ~/.R/Makevars:
+#CFLAGS=isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+#CCFLAGS=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+#CXXFLAGS=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdklibrary(Rcpp)
 sourceCpp("./lib/cormatrix.cpp")
 Tstart=proc.time()
 
@@ -28,22 +32,14 @@ hped=ped[,seq(1, ncol(ped), 2)] #inbred, one haploid is enough
 
 ##QC stats
 freq=colMeans(hped, na.rm = T) #freq
-sMiss=array(0, dim=nrow(hped)) #sample-level missing
-lMiss=array(0, dim=ncol(hped)) #locus-leve missing
-hped_T=t(hped)
-for(i in 1:length(sMiss)) {
-  sMiss[i]=length(which(is.na(hped_T[,i])))
-}
-rm(hped_T)
-
-for(i in 1:length(lMiss)) {
-  lMiss[i]=length(which(is.na(hped[,i])))
-}
+naTab=is.na(hped) #count missing
+sMiss=rowMeans(naTab) #sample-level missing
+lMiss=colMeans(naTab) #locus-leve missing
 
 layout(matrix(1:3, ncol=3))
 plot(main="Frequency", freq, pch=16, cex=0.5)
-plot(main="Individual missing rate", sMiss/ncol(hped), pch=16, cex=0.5)
-plot(main="Locus missing rate", lMiss/nrow(hped), pch=16, cex=0.5)
+plot(main="Individual missing rate", sMiss, pch=16, cex=0.5)
+plot(main="Locus missing rate", lMiss, pch=16, cex=0.5)
 
 #########QC steps
 #QC 1 for MAF
