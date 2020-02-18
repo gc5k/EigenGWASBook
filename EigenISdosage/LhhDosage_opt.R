@@ -11,6 +11,7 @@ EGList=list("pcIdx"=c(1,2))
 #CFLAGS=isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
 #CCFLAGS=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
 #CXXFLAGS=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdklibrary(Rcpp)
+library(Rcpp)
 sourceCpp("./lib/cormatrix.cpp")
 Tstart=proc.time()
 
@@ -33,19 +34,19 @@ hped=ped[,seq(1, ncol(ped), 2)] #inbred, one haploid is enough
 ##QC stats
 freq=colMeans(hped, na.rm = T) #freq
 naTab=is.na(hped) #count missing
-sMiss=rowMeans(naTab) #sample-level missing
+indMiss=rowMeans(naTab) #sample-level missing
 lMiss=colMeans(naTab) #locus-leve missing
 
 layout(matrix(1:3, ncol=3))
 plot(main="Frequency", freq, pch=16, cex=0.5)
-plot(main="Individual missing rate", sMiss, pch=16, cex=0.5)
+plot(main="Individual missing rate", indMiss, pch=16, cex=0.5)
 plot(main="Locus missing rate", lMiss, pch=16, cex=0.5)
 
 #########QC steps
 #QC 1 for MAF
 fQC=which(freq > QCcut$fqMin & freq < QCcut$fqMax) #remove freq <0.03 and > 0.97
 #QC 2 for ind miss
-iQC=which(sMiss/ncol(hped) < QCcut$IndMiss) #individual genotyping missing rate
+iQC=which(indMiss < QCcut$IndMiss) #individual genotyping missing rate
 
 hpedQC=hped[iQC,fQC]
 
@@ -87,53 +88,53 @@ for(eS in 1:length(EGList$pcIdx)) {
   
   pcIdx=EGList$pcIdx[eS] #if you want to try another eigenvector 'x' try eVec[,x]
   pcY=eVec[,pcIdx]   
-  
+
   MOD=matrix(2, nrow=ncol(hpedQC), 8)
   for(i in 1:nrow(MOD)) {
     mod=lm(pcY~hpedQC[,i]) 
     sm=summary(mod)
     if(nrow(sm$coefficients)>1) {
       MOD[i,1:4]=sm$coefficients[2,]
-      
+    
       pcPos=which(pcY > 0 & !is.na(hpedQC[,i]))
       pcNeg=which(pcY <= 0 & !is.na(hpedQC[,i]))
       fqP=mean(hpedQC[pcPos,i])
       fqN=mean(hpedQC[pcNeg,i])
       MOD[i,8]=(length(pcPos)/(length(pcPos)+length(pcNeg))*(fqP-fqAll[i])^2
-                +length(pcNeg)/(length(pcPos)+length(pcNeg))*(fqN-fqAll[i])^2)/(fqAll[i]*(1-fqAll[i]))
+              +length(pcNeg)/(length(pcPos)+length(pcNeg))*(fqN-fqAll[i])^2)/(fqAll[i]*(1-fqAll[i]))
     }
   }
-  
+
   goodSNP=which(MOD[,4]!=2)
   MOD1=MOD[goodSNP,]
-  
+
   colnames(MOD1)=c(colnames(sm$coefficients), "Chisq", "PGC", "ChisqGC", "Fst")
   gc=qchisq(median(MOD1[,4]), 1, lower.tail = F)/0.455
-  #using approximating that t^2=chi when df is large
-  #MOD1[,5]=qchisq(MOD1[,4], 1, lower.tail = F)
+#using approximating that t^2=chi when df is large
+#MOD1[,5]=qchisq(MOD1[,4], 1, lower.tail = F)
   MOD1[,5]=MOD1[,3]^2
-  #.Machine$double.xmin
+#.Machine$double.xmin
   MOD1[,6]=-1*pchisq(MOD1[,5]/gc, 1, lower.tail = F, log.p = T)/log(10) #-log10(p)
   MOD1[,7]=MOD1[,5]/gc
-  
+
   Res=cbind(mapInfoCur[goodSNP,], MOD1)
   Res=Res[order(Res$Chr, Res$BP),] #assuming V1=chr, V4=pos in map file
-  
+
   layout(matrix(1:3, 1, 3))
   qqplot(-log10(runif(nrow(Res))), -log10(Res$`Pr(>|t|)`), pch=16, cex=0.5,
-         main="p-value", bty='n', xlab="E(-log10(p))", ylab="-log10(p)",
-         bty='n')
+       main="p-value", bty='n', xlab="E(-log10(p))", ylab="-log10(p)",
+       bty='n')
   abline(a=0, b=1, col="red", lty=2)
   qqplot(-log10(runif(nrow(Res))), Res$PGC, pch=16, cex=0.5,
-         main="p-value after GC", xlab="E(-log10(p))", ylab="-log10(p)",
-         bty='n')
+       main="p-value after GC", xlab="E(-log10(p))", ylab="-log10(p)",
+       bty='n')
   abline(a=0, b=1, col="red", lty=2)
   plot(Res$Fst, Res$ChisqGC, xlab=expression(paste(F[st])), ylab=expression(paste(chi["1.GC"]^2)), 
-       bty='l', pch=16, cex=0.5)
-  
+     bty='l', pch=16, cex=0.5)
+
   print(paste("GC=", gc, ", eigenvalue is ", eVal[pcIdx,1]))
   write.table(Res, paste0("eigen_res", "_pc", pcIdx,".txt"), row.names = F, col.names = F, quote = F)
-  
+
   EGend=proc.time()
 }
 
