@@ -12,7 +12,7 @@ EGList=list("pcIdx"=c(1,2))
 #CCFLAGS=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
 #CXXFLAGS=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdklibrary(Rcpp)
 library(Rcpp)
-sourceCpp("./lib/cormatrix.cpp")
+sourceCpp("./lib/Shotgun.cpp")
 Tstart=proc.time()
 
 
@@ -61,7 +61,7 @@ Gstart=proc.time()
 ##make grm
 ped_S=apply(hpedQC, 2, scale)
 ped_S[which(is.na(ped_S))]=0
-G=CorMatrix(ped_S)
+G=CorMatrixRcpp(ped_S)
 Gend=proc.time()
 
 ##save GRM
