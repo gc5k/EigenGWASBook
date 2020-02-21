@@ -2,7 +2,9 @@
 
 ## APY
 
-Citation: Misztal, I, 2016, Inexpensive computation of the inverse of the genomic relationship matrix in populations with small effective population size, $Genetics$, 202:401-409
+Citation: Misztal, I, 2016, Inexpensive computation of the inverse of the genomic relationship matrix in populations with small effective population size, $Genetics$, 202:401-409.
+
+A much original idea of APY resembles Quaas and Pollak (J Anim Sci, 1980, 51:1277-87), an example of which can be found in Lynch&Walsh page 759-61. 
 
 $G^{-1}=
 \left[
@@ -30,11 +32,13 @@ $G^{-1}=
 -P_{nc}&I \end{matrix}
 \right]$
 
-in which $G$ is the numerical relationship matrix, and  $P_{cn}=G_{cc}^{-1}G_{cn}$ and $P_{nc}=G_{cn}G_{cc}^{-1}$. $G_{cc}$, $G_{cn}$, and $G_{nc}$ are, "core" to "core", "core" to "non-core", and "non-core" to "core" relationship matrix.
+in which $G$ is the numerical relationship matrix, and  $P_{cn}=G_{cc}^{-1}G_{cn}$ and $P_{nc}=G_{nc}G_{cc}^{-1}$. $G_{cc}$, $G_{cn}$, and $G_{nc}$ ($G_{cn}=G_{nc}$) are, "core" to "core", "core" to "non-core", and "non-core" to "core" relationship matrix.
 
 $M_{nn}=diag(G_{nn})-diag(P_{cn}^TG_{cn})$
 
 ### A numerical example
+
+This example is taken from appendix in  Misztal's paper.
 
 $G=\left[ \begin{matrix}
 0.81 & 0 & 0 & 0.80 & -0.80\\
@@ -92,6 +96,41 @@ $G^{-1}_{reg}=\left[ \begin{matrix}
  & & & 60.0 & 39.9\\
  symm. & & & & 60.0
 \end{matrix} \right]$
+
+```{r apy}
+GRM_C=matrix(c(0.81, 0, 0, 0.81), 2, 2, byrow = T)
+GRM_N=matrix(0, 3, 3)
+diag(GRM_N)=c(.01, 1.61, 1.61)
+GRM_N[2,3]=GRM_N[3,2]=-1.6
+GRM_CN=matrix(0, 2, 3)
+GRM_CN[,2]=0.8
+GRM_CN[,3]=-0.8
+
+GRM=rbind(cbind(GRM_C, GRM_CN), cbind(t(GRM_CN), GRM_N))
+print(GRM)
+print(solve(GRM)) #original
+
+IC=solve(GRM_C)
+Pcn=IC %*% GRM_CN
+Pnc=t(GRM_CN) %*% IC
+Pcn_Gcn=t(Pcn) %*% GRM_CN
+Mnn=diag(diag(GRM_N)-diag(Pcn_Gcn), nrow=nrow(GRM_N), ncol=nrow(GRM_N))
+IMnn=solve(Mnn)
+
+v1_1=rbind(IC, matrix(0, nrow=nrow(GRM_N), ncol=ncol(GRM_C)))
+v1_2=rbind(-1*Pcn%*%IMnn, IMnn)
+V1=cbind(v1_1, v1_2)
+
+v2_1=rbind(diag(1, nrow=nrow(GRM_C), ncol=nrow(GRM_C)), -1*Pnc)
+v2_2=rbind(matrix(0, nrow=nrow(GRM_C), ncol=nrow(GRM_N)), diag(1, nrow(GRM_N), ncol(GRM_N)))
+V2=cbind(v2_1, v2_2)
+
+IV=V1 %*% V2
+print(IV) #apy
+IVI=solve(IV)
+print(IVI)
+```
+
 
 ## LD score regression
 ```{r, eval=FALSE, tidy=TRUE}

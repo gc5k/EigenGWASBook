@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>EigenGWAS theory and application</title>
-  <meta name="description" content="EigenGWAS Project.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Simulating population structure | EigenGWAS theory and application</title>
+  <meta name="description" content="EigenGWAS Project." />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="EigenGWAS theory and application" />
+  <meta property="og:title" content="Chapter 4 Simulating population structure | EigenGWAS theory and application" />
   <meta property="og:type" content="book" />
   
   
@@ -17,23 +16,23 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="EigenGWAS theory and application" />
+  <meta name="twitter:title" content="Chapter 4 Simulating population structure | EigenGWAS theory and application" />
   
   <meta name="twitter:description" content="EigenGWAS Project." />
   
 
-<meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
+<meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]" />
 
 
-<meta name="date" content="2019-05-31">
+<meta name="date" content="2020-02-22" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="resequencing-studies.html">
-<link rel="next" href="data-analysis.html">
+<link rel="prev" href="resequencing-studies.html"/>
+<link rel="next" href="data-analysis.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -41,6 +40,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -56,7 +58,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -201,6 +202,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.1.1" data-path="notes-1.html"><a href="notes-1.html#a-numerical-example"><i class="fa fa-check"></i><b>8.1.1</b> A numerical example</a></li>
 </ul></li>
 <li class="chapter" data-level="8.2" data-path="notes-1.html"><a href="notes-1.html#ld-score-regression"><i class="fa fa-check"></i><b>8.2</b> LD score regression</a></li>
+<li class="chapter" data-level="8.3" data-path="notes-1.html"><a href="notes-1.html#matrix-inversion-wiki"><i class="fa fa-check"></i><b>8.3</b> Matrix inversion <span>wiki</span></a><ul>
+<li class="chapter" data-level="8.3.1" data-path="notes-1.html"><a href="notes-1.html#x-2"><i class="fa fa-check"></i><b>8.3.1</b> 2 X 2</a></li>
+<li class="chapter" data-level="8.3.2" data-path="notes-1.html"><a href="notes-1.html#x-3"><i class="fa fa-check"></i><b>8.3.2</b> 3 X 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="IBD-fam.html"><a href="IBD-fam.html"><i class="fa fa-check"></i><b>9</b> IBD notes</a><ul>
+<li class="chapter" data-level="9.1" data-path="IBD-fam.html"><a href="IBD-fam.html#he-association"><i class="fa fa-check"></i><b>9.1</b> HE association</a></li>
+<li class="chapter" data-level="9.2" data-path="IBD-fam.html"><a href="IBD-fam.html#ibd-table"><i class="fa fa-check"></i><b>9.2</b> IBD table</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="app-2.html"><a href="app-2.html"><i class="fa fa-check"></i><b>10</b> Appendix quick pca</a><ul>
+<li class="chapter" data-level="10.1" data-path="app-2.html"><a href="app-2.html#quck-pca-method-for-snp-matrix"><i class="fa fa-check"></i><b>10.1</b> Quck PCA method for snp matrix</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://gc5k.github.io" target="blank">Published with bookdown</a></li>
@@ -399,18 +411,18 @@ F=\left ( \begin{array}{cc}
 <div id="wishart-distribution" class="section level2">
 <h2><span class="header-section-number">4.5</span> Wishart distribution</h2>
 <p>R function <code>rWishart</code> can generate Wishart distribution easiliy.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co">## Artificial</span>
-S &lt;-<span class="st"> </span><span class="kw">toeplitz</span>((<span class="dv">10</span><span class="op">:</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">10</span>)
-<span class="kw">set.seed</span>(<span class="dv">11</span>)
-R &lt;-<span class="st"> </span><span class="kw">rWishart</span>(<span class="dv">1000</span>, <span class="dv">20</span>, S)
-<span class="kw">dim</span>(R)  <span class="co">#  10 10  1000</span></code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co">## Artificial</span></a>
+<a class="sourceLine" id="cb2-2" title="2">S &lt;-<span class="st"> </span><span class="kw">toeplitz</span>((<span class="dv">10</span><span class="op">:</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw">set.seed</span>(<span class="dv">11</span>)</a>
+<a class="sourceLine" id="cb2-4" title="4">R &lt;-<span class="st"> </span><span class="kw">rWishart</span>(<span class="dv">1000</span>, <span class="dv">20</span>, S)</a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="kw">dim</span>(R)  <span class="co">#  10 10  1000</span></a></code></pre></div>
 <pre><code>## [1]   10   10 1000</code></pre>
 </div>
 <div id="tracy-widom-distribution" class="section level2">
 <h2><span class="header-section-number">4.6</span> Tracy-Widom distribution</h2>
 <p>R package <code>RMTstat</code> can help study Tracy-Widom distribution.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(RMTstat)
-<span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">rtw</span>(<span class="dv">1000</span>)), <span class="dt">main=</span><span class="st">&quot;TW distribbtion&quot;</span>, <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>)</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">library</span>(RMTstat)</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">rtw</span>(<span class="dv">1000</span>)), <span class="dt">main=</span><span class="st">&quot;TW distribbtion&quot;</span>, <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>)</a></code></pre></div>
 <p><img src="EigenGWAS_files/figure-html/TW-1.png" width="672" /></p>
 
 </div>
@@ -426,11 +438,13 @@ R &lt;-<span class="st"> </span><span class="kw">rWishart</span>(<span class="dv
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -438,12 +452,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -455,6 +468,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },
@@ -473,8 +490,9 @@ gitbook.start({
     script.type = "text/javascript";
     var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();

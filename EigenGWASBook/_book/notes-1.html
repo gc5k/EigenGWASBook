@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>EigenGWAS theory and application</title>
-  <meta name="description" content="EigenGWAS Project.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Notes | EigenGWAS theory and application</title>
+  <meta name="description" content="EigenGWAS Project." />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="EigenGWAS theory and application" />
+  <meta property="og:title" content="Chapter 8 Notes | EigenGWAS theory and application" />
   <meta property="og:type" content="book" />
   
   
@@ -17,23 +16,23 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="EigenGWAS theory and application" />
+  <meta name="twitter:title" content="Chapter 8 Notes | EigenGWAS theory and application" />
   
   <meta name="twitter:description" content="EigenGWAS Project." />
   
 
-<meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
+<meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]" />
 
 
-<meta name="date" content="2019-07-20">
+<meta name="date" content="2020-02-22" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="references.html">
-<link rel="next" href="IBD-fam.html">
+<link rel="prev" href="references.html"/>
+<link rel="next" href="IBD-fam.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -41,6 +40,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -56,7 +58,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -206,8 +207,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.2" data-path="notes-1.html"><a href="notes-1.html#x-3"><i class="fa fa-check"></i><b>8.3.2</b> 3 X 3</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="IBD-fam.html"><a href="IBD-fam.html"><i class="fa fa-check"></i><b>9</b> Notes</a><ul>
-<li class="chapter" data-level="9.1" data-path="IBD-fam.html"><a href="IBD-fam.html#ibd-table"><i class="fa fa-check"></i><b>9.1</b> IBD table</a></li>
+<li class="chapter" data-level="9" data-path="IBD-fam.html"><a href="IBD-fam.html"><i class="fa fa-check"></i><b>9</b> IBD notes</a><ul>
+<li class="chapter" data-level="9.1" data-path="IBD-fam.html"><a href="IBD-fam.html#he-association"><i class="fa fa-check"></i><b>9.1</b> HE association</a></li>
+<li class="chapter" data-level="9.2" data-path="IBD-fam.html"><a href="IBD-fam.html#ibd-table"><i class="fa fa-check"></i><b>9.2</b> IBD table</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="app-2.html"><a href="app-2.html"><i class="fa fa-check"></i><b>10</b> Appendix quick pca</a><ul>
+<li class="chapter" data-level="10.1" data-path="app-2.html"><a href="app-2.html#quck-pca-method-for-snp-matrix"><i class="fa fa-check"></i><b>10.1</b> Quck PCA method for snp matrix</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://gc5k.github.io" target="blank">Published with bookdown</a></li>
@@ -233,12 +238,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 8</span> Notes</h1>
 <div id="apy" class="section level2">
 <h2><span class="header-section-number">8.1</span> APY</h2>
-<p>Citation: Misztal, I, 2016, Inexpensive computation of the inverse of the genomic relationship matrix in populations with small effective population size, <span class="math inline">\(Genetics\)</span>, 202:401-409</p>
+<p>Citation: Misztal, I, 2016, Inexpensive computation of the inverse of the genomic relationship matrix in populations with small effective population size, <span class="math inline">\(Genetics\)</span>, 202:401-409.</p>
+<p>A much original idea of APY resembles Quaas and Pollak (J Anim Sci, 1980, 51:1277-87), an example of which can be found in Lynch&amp;Walsh page 759-61.</p>
 <p><span class="math inline">\(G^{-1}= \left[ \begin{matrix} I&amp; -P_{cn}\\ 0&amp;I \end{matrix} \right] \left[ \begin{matrix} G_{cc}^{-1}&amp; 0\\ 0&amp;M_{nn}^{-1} \end{matrix} \right] \left[ \begin{matrix} I&amp; 0\\ -P_{nc}&amp;I \end{matrix} \right] = \left[ \begin{matrix}G_{cc}^{-1}&amp;-P_{cn}M_{nn}^{-1}\\ 0&amp;M^{-1}_{nn} \end{matrix} \right] \left[ \begin{matrix}I&amp;0\\ -P_{nc}&amp;I \end{matrix} \right]\)</span></p>
-<p>in which <span class="math inline">\(G\)</span> is the numerical relationship matrix, and <span class="math inline">\(P_{cn}=G_{cc}^{-1}G_{cn}\)</span> and <span class="math inline">\(P_{nc}=G_{cn}G_{cc}^{-1}\)</span>. <span class="math inline">\(G_{cc}\)</span>, <span class="math inline">\(G_{cn}\)</span>, and <span class="math inline">\(G_{nc}\)</span> are, “core” to “core”, “core” to “non-core”, and “non-core” to “core” relationship matrix.</p>
+<p>in which <span class="math inline">\(G\)</span> is the numerical relationship matrix, and <span class="math inline">\(P_{cn}=G_{cc}^{-1}G_{cn}\)</span> and <span class="math inline">\(P_{nc}=G_{nc}G_{cc}^{-1}\)</span>. <span class="math inline">\(G_{cc}\)</span>, <span class="math inline">\(G_{cn}\)</span>, and <span class="math inline">\(G_{nc}\)</span> (<span class="math inline">\(G_{cn}=G_{nc}\)</span>) are, “core” to “core”, “core” to “non-core”, and “non-core” to “core” relationship matrix.</p>
 <p><span class="math inline">\(M_{nn}=diag(G_{nn})-diag(P_{cn}^TG_{cn})\)</span></p>
 <div id="a-numerical-example" class="section level3">
 <h3><span class="header-section-number">8.1.1</span> A numerical example</h3>
+<p>This example is taken from appendix in Misztal’s paper.</p>
 <p><span class="math inline">\(G=\left[ \begin{matrix} 0.81 &amp; 0 &amp; 0 &amp; 0.80 &amp; -0.80\\  &amp;0.81 &amp; 0 &amp; 0.80 &amp;-0.80\\  &amp; &amp; 0.01&amp; 0 &amp; 0\\  &amp; &amp; &amp; 1.61 &amp; -1.60\\  symm. &amp; &amp; &amp; &amp; 1.61 \end{matrix} \right]\)</span></p>
 <p>and <span class="math inline">\(G_{cc}^{-1}=\left[ \begin{matrix} 1.235 &amp; 0\\ 0 &amp; 1.235 \end{matrix} \right]\)</span></p>
 <p><span class="math inline">\(G_{cn}=G_{nc}^T=\left [ \begin{matrix} 0 &amp; 0.80 &amp; -0.80\\ 0 &amp; 0.80 &amp; -0.80 \end{matrix} \right]\)</span></p>
@@ -249,46 +256,100 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math inline">\(G^{-1}=\left[ \begin{matrix} 66.8 &amp; 65.5 &amp; 0 &amp; -33.1 &amp; 33.1\\  &amp;66.804 &amp; 0 &amp; -33.1 &amp; 33.1\\  &amp; &amp; 100&amp; 0 &amp; 0\\  &amp; &amp; &amp; 33.6 &amp; 0\\  symm. &amp; &amp; &amp; &amp; 33.6 \end{matrix} \right]\)</span></p>
 <p>This is APY inversed <span class="math inline">\(G\)</span>, and for a comparison, a regular inverse of <span class="math inline">\(G\)</span> is quit different
 <span class="math inline">\(G^{-1}_{reg}=\left[ \begin{matrix} 40.6 &amp; 39.4 &amp; 0 &amp; -19.9 &amp; 19.9\\  &amp;40.6 &amp; 0 &amp; -19.9 &amp; 19.9\\  &amp; &amp; 100&amp; 0 &amp; 0\\  &amp; &amp; &amp; 60.0 &amp; 39.9\\  symm. &amp; &amp; &amp; &amp; 60.0 \end{matrix} \right]\)</span></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">GRM_C=<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">0.81</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.81</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> T)</a>
+<a class="sourceLine" id="cb9-2" title="2">GRM_N=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="kw">diag</span>(GRM_N)=<span class="kw">c</span>(.<span class="dv">01</span>, <span class="fl">1.61</span>, <span class="fl">1.61</span>)</a>
+<a class="sourceLine" id="cb9-4" title="4">GRM_N[<span class="dv">2</span>,<span class="dv">3</span>]=GRM_N[<span class="dv">3</span>,<span class="dv">2</span>]=<span class="op">-</span><span class="fl">1.6</span></a>
+<a class="sourceLine" id="cb9-5" title="5">GRM_CN=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb9-6" title="6">GRM_CN[,<span class="dv">2</span>]=<span class="fl">0.8</span></a>
+<a class="sourceLine" id="cb9-7" title="7">GRM_CN[,<span class="dv">3</span>]=<span class="op">-</span><span class="fl">0.8</span></a>
+<a class="sourceLine" id="cb9-8" title="8"></a>
+<a class="sourceLine" id="cb9-9" title="9">GRM=<span class="kw">rbind</span>(<span class="kw">cbind</span>(GRM_C, GRM_CN), <span class="kw">cbind</span>(<span class="kw">t</span>(GRM_CN), GRM_N))</a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="kw">print</span>(GRM)</a></code></pre></div>
+<pre><code>##       [,1]  [,2] [,3]  [,4]  [,5]
+## [1,]  0.81  0.00 0.00  0.80 -0.80
+## [2,]  0.00  0.81 0.00  0.80 -0.80
+## [3,]  0.00  0.00 0.01  0.00  0.00
+## [4,]  0.80  0.80 0.00  1.61 -1.60
+## [5,] -0.80 -0.80 0.00 -1.60  1.61</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">print</span>(<span class="kw">solve</span>(GRM)) <span class="co">#original</span></a></code></pre></div>
+<pre><code>##           [,1]      [,2] [,3]      [,4]     [,5]
+## [1,]  40.64222  39.40765    0 -19.95012 19.95012
+## [2,]  39.40765  40.64222    0 -19.95012 19.95012
+## [3,]   0.00000   0.00000  100   0.00000  0.00000
+## [4,] -19.95012 -19.95012    0  60.09975 39.90025
+## [5,]  19.95012  19.95012    0  39.90025 60.09975</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">IC=<span class="kw">solve</span>(GRM_C)</a>
+<a class="sourceLine" id="cb13-2" title="2">Pcn=IC <span class="op">%*%</span><span class="st"> </span>GRM_CN</a>
+<a class="sourceLine" id="cb13-3" title="3">Pnc=<span class="kw">t</span>(GRM_CN) <span class="op">%*%</span><span class="st"> </span>IC</a>
+<a class="sourceLine" id="cb13-4" title="4">Pcn_Gcn=<span class="kw">t</span>(Pcn) <span class="op">%*%</span><span class="st"> </span>GRM_CN</a>
+<a class="sourceLine" id="cb13-5" title="5">Mnn=<span class="kw">diag</span>(<span class="kw">diag</span>(GRM_N)<span class="op">-</span><span class="kw">diag</span>(Pcn_Gcn), <span class="dt">nrow=</span><span class="kw">nrow</span>(GRM_N), <span class="dt">ncol=</span><span class="kw">nrow</span>(GRM_N))</a>
+<a class="sourceLine" id="cb13-6" title="6">IMnn=<span class="kw">solve</span>(Mnn)</a>
+<a class="sourceLine" id="cb13-7" title="7"></a>
+<a class="sourceLine" id="cb13-8" title="8">v1_<span class="dv">1</span>=<span class="kw">rbind</span>(IC, <span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow=</span><span class="kw">nrow</span>(GRM_N), <span class="dt">ncol=</span><span class="kw">ncol</span>(GRM_C)))</a>
+<a class="sourceLine" id="cb13-9" title="9">v1_<span class="dv">2</span>=<span class="kw">rbind</span>(<span class="op">-</span><span class="dv">1</span><span class="op">*</span>Pcn<span class="op">%*%</span>IMnn, IMnn)</a>
+<a class="sourceLine" id="cb13-10" title="10">V1=<span class="kw">cbind</span>(v1_<span class="dv">1</span>, v1_<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb13-11" title="11"></a>
+<a class="sourceLine" id="cb13-12" title="12">v2_<span class="dv">1</span>=<span class="kw">rbind</span>(<span class="kw">diag</span>(<span class="dv">1</span>, <span class="dt">nrow=</span><span class="kw">nrow</span>(GRM_C), <span class="dt">ncol=</span><span class="kw">nrow</span>(GRM_C)), <span class="dv">-1</span><span class="op">*</span>Pnc)</a>
+<a class="sourceLine" id="cb13-13" title="13">v2_<span class="dv">2</span>=<span class="kw">rbind</span>(<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow=</span><span class="kw">nrow</span>(GRM_C), <span class="dt">ncol=</span><span class="kw">nrow</span>(GRM_N)), <span class="kw">diag</span>(<span class="dv">1</span>, <span class="kw">nrow</span>(GRM_N), <span class="kw">ncol</span>(GRM_N)))</a>
+<a class="sourceLine" id="cb13-14" title="14">V2=<span class="kw">cbind</span>(v2_<span class="dv">1</span>, v2_<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb13-15" title="15"></a>
+<a class="sourceLine" id="cb13-16" title="16">IV=V1 <span class="op">%*%</span><span class="st"> </span>V2</a>
+<a class="sourceLine" id="cb13-17" title="17"><span class="kw">print</span>(IV) <span class="co">#apy</span></a></code></pre></div>
+<pre><code>##           [,1]      [,2] [,3]      [,4]     [,5]
+## [1,]  66.80498  65.57041    0 -33.19502 33.19502
+## [2,]  65.57041  66.80498    0 -33.19502 33.19502
+## [3,]   0.00000   0.00000  100   0.00000  0.00000
+## [4,] -33.19502 -33.19502    0  33.60996  0.00000
+## [5,]  33.19502  33.19502    0   0.00000 33.60996</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">IVI=<span class="kw">solve</span>(IV)</a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="kw">print</span>(IVI)</a></code></pre></div>
+<pre><code>##               [,1]          [,2] [,3]      [,4]      [,5]
+## [1,]  8.100000e-01  9.572467e-16 0.00  0.800000 -0.800000
+## [2,]  1.089201e-15  8.100000e-01 0.00  0.800000 -0.800000
+## [3,]  0.000000e+00  0.000000e+00 0.01  0.000000  0.000000
+## [4,]  8.000000e-01  8.000000e-01 0.00  1.610000 -1.580247
+## [5,] -8.000000e-01 -8.000000e-01 0.00 -1.580247  1.610000</code></pre>
 </div>
 </div>
 <div id="ld-score-regression" class="section level2">
 <h2><span class="header-section-number">8.2</span> LD score regression</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;~/R/MyLib/shotgun.R&quot;</span>)
-REP =<span class="st"> </span><span class="dv">50</span>
-N =<span class="st"> </span><span class="dv">500</span>
-M =<span class="st"> </span><span class="dv">1000</span>
-h2 =<span class="st"> </span><span class="fl">0.5</span>
-
-h2E =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">2</span>, REP))
-
-<span class="cf">for</span> (rep <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>REP) {
-    fq =<span class="st"> </span><span class="kw">runif</span>(M, <span class="fl">0.05</span>, <span class="fl">0.95</span>)
-    Dl =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> M)
-    Dl =<span class="st"> </span><span class="kw">runif</span>(M, <span class="fl">0.8</span>, <span class="fl">0.9</span>)
-    Dl[<span class="kw">seq</span>(<span class="dv">10</span>, M, <span class="dv">10</span>)] =<span class="st"> </span><span class="dv">0</span>
-    
-    G =<span class="st"> </span><span class="kw">GenerateGenoDprime</span>(fq, Dl[<span class="dv">1</span><span class="op">:</span>(<span class="kw">length</span>(Dl) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)], N)
-    b =<span class="st"> </span><span class="kw">rnorm</span>(M, <span class="dv">0</span>, <span class="kw">sqrt</span>(h2<span class="op">/</span>M))
-    bv =<span class="st"> </span>G <span class="op">%*%</span><span class="st"> </span>b
-    Y =<span class="st"> </span>bv <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">0</span>, <span class="dv">1</span>)
-    chi =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> M)
-    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M) {
-        sm =<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>G[, i]))
-        chi[i] =<span class="st"> </span>sm<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span>
-    }
-    <span class="kw">plot</span>(chi, b<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>fq <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>fq), <span class="dt">pch =</span> <span class="dv">16</span>)
-    lds =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> M)
-    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(M<span class="op">/</span><span class="dv">10</span>)) {
-        cg =<span class="st"> </span><span class="kw">cor</span>(G[, ((i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(i <span class="op">*</span><span class="st"> </span><span class="dv">10</span>)])
-        <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {
-            lds[(i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span>j] =<span class="st"> </span><span class="kw">sum</span>(cg[, j]<span class="op">^</span><span class="dv">2</span>)
-        }
-    }
-    ldSc =<span class="st"> </span><span class="kw">lm</span>(chi <span class="op">~</span><span class="st"> </span>lds)
-    h2E[<span class="dv">1</span>, rep] =<span class="st"> </span>ldSc<span class="op">$</span>coefficients[<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>M<span class="op">/</span>N
-    h2E[<span class="dv">2</span>, rep] =<span class="st"> </span><span class="kw">var</span>(bv)<span class="op">/</span><span class="kw">var</span>(Y)
-}
-<span class="kw">plot</span>(h2E[<span class="dv">1</span>, ], h2E[<span class="dv">2</span>, ])</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">source</span>(<span class="st">&quot;~/R/MyLib/shotgun.R&quot;</span>)</a>
+<a class="sourceLine" id="cb17-2" title="2">REP =<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb17-3" title="3">N =<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb17-4" title="4">M =<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb17-5" title="5">h2 =<span class="st"> </span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb17-6" title="6"></a>
+<a class="sourceLine" id="cb17-7" title="7">h2E =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">2</span>, REP))</a>
+<a class="sourceLine" id="cb17-8" title="8"></a>
+<a class="sourceLine" id="cb17-9" title="9"><span class="cf">for</span> (rep <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>REP) {</a>
+<a class="sourceLine" id="cb17-10" title="10">    fq =<span class="st"> </span><span class="kw">runif</span>(M, <span class="fl">0.05</span>, <span class="fl">0.95</span>)</a>
+<a class="sourceLine" id="cb17-11" title="11">    Dl =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> M)</a>
+<a class="sourceLine" id="cb17-12" title="12">    Dl =<span class="st"> </span><span class="kw">runif</span>(M, <span class="fl">0.8</span>, <span class="fl">0.9</span>)</a>
+<a class="sourceLine" id="cb17-13" title="13">    Dl[<span class="kw">seq</span>(<span class="dv">10</span>, M, <span class="dv">10</span>)] =<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb17-14" title="14">    </a>
+<a class="sourceLine" id="cb17-15" title="15">    G =<span class="st"> </span><span class="kw">GenerateGenoDprime</span>(fq, Dl[<span class="dv">1</span><span class="op">:</span>(<span class="kw">length</span>(Dl) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)], N)</a>
+<a class="sourceLine" id="cb17-16" title="16">    b =<span class="st"> </span><span class="kw">rnorm</span>(M, <span class="dv">0</span>, <span class="kw">sqrt</span>(h2<span class="op">/</span>M))</a>
+<a class="sourceLine" id="cb17-17" title="17">    bv =<span class="st"> </span>G <span class="op">%*%</span><span class="st"> </span>b</a>
+<a class="sourceLine" id="cb17-18" title="18">    Y =<span class="st"> </span>bv <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">0</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb17-19" title="19">    chi =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> M)</a>
+<a class="sourceLine" id="cb17-20" title="20">    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M) {</a>
+<a class="sourceLine" id="cb17-21" title="21">        sm =<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>G[, i]))</a>
+<a class="sourceLine" id="cb17-22" title="22">        chi[i] =<span class="st"> </span>sm<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb17-23" title="23">    }</a>
+<a class="sourceLine" id="cb17-24" title="24">    <span class="kw">plot</span>(chi, b<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>fq <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>fq), <span class="dt">pch =</span> <span class="dv">16</span>)</a>
+<a class="sourceLine" id="cb17-25" title="25">    lds =<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> M)</a>
+<a class="sourceLine" id="cb17-26" title="26">    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(M<span class="op">/</span><span class="dv">10</span>)) {</a>
+<a class="sourceLine" id="cb17-27" title="27">        cg =<span class="st"> </span><span class="kw">cor</span>(G[, ((i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(i <span class="op">*</span><span class="st"> </span><span class="dv">10</span>)])</a>
+<a class="sourceLine" id="cb17-28" title="28">        <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {</a>
+<a class="sourceLine" id="cb17-29" title="29">            lds[(i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span>j] =<span class="st"> </span><span class="kw">sum</span>(cg[, j]<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb17-30" title="30">        }</a>
+<a class="sourceLine" id="cb17-31" title="31">    }</a>
+<a class="sourceLine" id="cb17-32" title="32">    ldSc =<span class="st"> </span><span class="kw">lm</span>(chi <span class="op">~</span><span class="st"> </span>lds)</a>
+<a class="sourceLine" id="cb17-33" title="33">    h2E[<span class="dv">1</span>, rep] =<span class="st"> </span>ldSc<span class="op">$</span>coefficients[<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>M<span class="op">/</span>N</a>
+<a class="sourceLine" id="cb17-34" title="34">    h2E[<span class="dv">2</span>, rep] =<span class="st"> </span><span class="kw">var</span>(bv)<span class="op">/</span><span class="kw">var</span>(Y)</a>
+<a class="sourceLine" id="cb17-35" title="35">}</a>
+<a class="sourceLine" id="cb17-36" title="36"><span class="kw">plot</span>(h2E[<span class="dv">1</span>, ], h2E[<span class="dv">2</span>, ])</a></code></pre></div>
 </div>
 <div id="matrix-inversion-wiki" class="section level2">
 <h2><span class="header-section-number">8.3</span> Matrix inversion <a href="https://en.wikipedia.org/wiki/Invertible_matrix#Inversion_of_2_%C3%97_2_matrices">wiki</a></h2>
@@ -350,11 +411,13 @@ C=(dh-eg), &amp; F=-(ah-bg), &amp; I = (ae-bd).
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -362,12 +425,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -379,6 +441,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },
@@ -397,8 +463,9 @@ gitbook.start({
     script.type = "text/javascript";
     var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();

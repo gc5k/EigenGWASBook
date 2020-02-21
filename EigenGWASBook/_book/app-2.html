@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>EigenGWAS theory and application</title>
-  <meta name="description" content="EigenGWAS Project.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 10 Appendix quick pca | EigenGWAS theory and application</title>
+  <meta name="description" content="EigenGWAS Project." />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="EigenGWAS theory and application" />
+  <meta property="og:title" content="Chapter 10 Appendix quick pca | EigenGWAS theory and application" />
   <meta property="og:type" content="book" />
   
   
@@ -17,22 +16,22 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="EigenGWAS theory and application" />
+  <meta name="twitter:title" content="Chapter 10 Appendix quick pca | EigenGWAS theory and application" />
   
   <meta name="twitter:description" content="EigenGWAS Project." />
   
 
-<meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
+<meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]" />
 
 
-<meta name="date" content="2019-10-29">
+<meta name="date" content="2020-02-22" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="IBD-fam.html">
+<link rel="prev" href="IBD-fam.html"/>
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -41,6 +40,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -56,7 +58,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -238,67 +239,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="quck-pca-method-for-snp-matrix" class="section level2">
 <h2><span class="header-section-number">10.1</span> Quck PCA method for snp matrix</h2>
 <p>See PLoS ONE, 2014, 9:e93766</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MASS)</code></pre>
-<pre><code>## Warning: package &#39;MASS&#39; was built under R version 3.4.4</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">N=<span class="dv">1000</span> <span class="co">#sample size</span>
-M=<span class="dv">2000</span> <span class="co">#SNP</span>
-X=<span class="kw">matrix</span>(<span class="dv">0</span>, N, M) <span class="co">#SNP matrix</span>
-
-<span class="co">#simulating snp</span>
-<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M) {
-  p1=<span class="kw">runif</span>(<span class="dv">1</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>)
-  p2=<span class="dv">1</span><span class="op">-</span>p1
-  X[<span class="dv">1</span><span class="op">:</span>(N<span class="op">/</span><span class="dv">2</span>),i]=<span class="kw">rbinom</span>(N<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span>, p1)
-  X[(N<span class="op">/</span><span class="dv">2</span><span class="op">+</span><span class="dv">1</span>)<span class="op">:</span>N,i]=<span class="kw">rbinom</span>(N<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span>, p2)
-}
-
-<span class="co">#conventional PCA</span>
-sX=<span class="kw">scale</span>(X)
-G=sX<span class="op">%*%</span><span class="kw">t</span>(sX)
-Geg=<span class="kw">eigen</span>(G)
-<span class="co">#plot(Geg$vectors[,1], Geg$vectors[,2])</span>
-
-
-<span class="co">#quick pca</span>
-dm=<span class="dv">30</span>
-sg=<span class="kw">matrix</span>(<span class="dv">0</span>,dm,dm)
-<span class="kw">diag</span>(sg)=<span class="dv">1</span>
-R=<span class="kw">mvrnorm</span>(M, <span class="kw">rep</span>(<span class="dv">0</span>, dm), <span class="dt">Sigma=</span>sg)
-xt=sX<span class="op">%*%</span>R
-ss=<span class="kw">apply</span>(xt<span class="op">^</span><span class="dv">2</span>, <span class="dv">2</span>, sum)
-Y=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="kw">nrow</span>(xt), <span class="kw">ncol</span>(xt))
-<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(ss)) {
-  Y[,i]=xt[,i]<span class="op">/</span>ss[i]
-}
-
-XtX=sX<span class="op">%*%</span><span class="kw">t</span>(sX)
-
-maxiter=<span class="dv">10</span>
-<span class="cf">for</span>(it <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>maxiter) {
-  xxt=XtX<span class="op">%*%</span>Y
-  ss1=<span class="kw">apply</span>(xxt<span class="op">^</span><span class="dv">2</span>, <span class="dv">2</span>, sum)
-  
-  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(ss1)) {
-    Y[,i]=xxt[,i]<span class="op">/</span>ss1[i]
-  }
-}
-
-QR=<span class="kw">qr.default</span>(Y)
-B=<span class="kw">t</span>(QR<span class="op">$</span>qr)<span class="op">%*%</span>sX
-S=B<span class="op">%*%</span><span class="kw">t</span>(B)
-
-eg=<span class="kw">eigen</span>(S)
-
-U=QR<span class="op">$</span>qr <span class="op">%*%</span><span class="st"> </span>eg<span class="op">$</span>vectors
-D=<span class="kw">sqrt</span>(eg<span class="op">$</span>values<span class="op">/</span>(N<span class="dv">-1</span>))  
-P=U<span class="op">*</span>D
-
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
-<span class="kw">plot</span>(<span class="dt">main=</span><span class="st">&quot;PCA&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;eVec 1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;eVec 2&quot;</span>, Geg<span class="op">$</span>vectors[,<span class="dv">1</span>], Geg<span class="op">$</span>vectors[,<span class="dv">2</span>])
-<span class="kw">plot</span>(<span class="dt">main=</span><span class="st">&quot;Quick PCA&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;eVec 1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;eVec 2&quot;</span>, U[,<span class="dv">1</span>], U[,<span class="dv">2</span>])</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">library</span>(MASS)</a>
+<a class="sourceLine" id="cb18-2" title="2">N=<span class="dv">1000</span> <span class="co">#sample size</span></a>
+<a class="sourceLine" id="cb18-3" title="3">M=<span class="dv">2000</span> <span class="co">#SNP</span></a>
+<a class="sourceLine" id="cb18-4" title="4">X=<span class="kw">matrix</span>(<span class="dv">0</span>, N, M) <span class="co">#SNP matrix</span></a>
+<a class="sourceLine" id="cb18-5" title="5"></a>
+<a class="sourceLine" id="cb18-6" title="6"><span class="co">#simulating snp</span></a>
+<a class="sourceLine" id="cb18-7" title="7"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M) {</a>
+<a class="sourceLine" id="cb18-8" title="8">  p1=<span class="kw">runif</span>(<span class="dv">1</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>)</a>
+<a class="sourceLine" id="cb18-9" title="9">  p2=<span class="dv">1</span><span class="op">-</span>p1</a>
+<a class="sourceLine" id="cb18-10" title="10">  X[<span class="dv">1</span><span class="op">:</span>(N<span class="op">/</span><span class="dv">2</span>),i]=<span class="kw">rbinom</span>(N<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span>, p1)</a>
+<a class="sourceLine" id="cb18-11" title="11">  X[(N<span class="op">/</span><span class="dv">2</span><span class="op">+</span><span class="dv">1</span>)<span class="op">:</span>N,i]=<span class="kw">rbinom</span>(N<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span>, p2)</a>
+<a class="sourceLine" id="cb18-12" title="12">}</a>
+<a class="sourceLine" id="cb18-13" title="13"></a>
+<a class="sourceLine" id="cb18-14" title="14"><span class="co">#conventional PCA</span></a>
+<a class="sourceLine" id="cb18-15" title="15">sX=<span class="kw">scale</span>(X)</a>
+<a class="sourceLine" id="cb18-16" title="16">G=sX<span class="op">%*%</span><span class="kw">t</span>(sX)</a>
+<a class="sourceLine" id="cb18-17" title="17">Geg=<span class="kw">eigen</span>(G)</a>
+<a class="sourceLine" id="cb18-18" title="18"><span class="co">#plot(Geg$vectors[,1], Geg$vectors[,2])</span></a>
+<a class="sourceLine" id="cb18-19" title="19"></a>
+<a class="sourceLine" id="cb18-20" title="20"></a>
+<a class="sourceLine" id="cb18-21" title="21"><span class="co">#quick pca</span></a>
+<a class="sourceLine" id="cb18-22" title="22">dm=<span class="dv">30</span></a>
+<a class="sourceLine" id="cb18-23" title="23">sg=<span class="kw">matrix</span>(<span class="dv">0</span>,dm,dm)</a>
+<a class="sourceLine" id="cb18-24" title="24"><span class="kw">diag</span>(sg)=<span class="dv">1</span></a>
+<a class="sourceLine" id="cb18-25" title="25">R=<span class="kw">mvrnorm</span>(M, <span class="kw">rep</span>(<span class="dv">0</span>, dm), <span class="dt">Sigma=</span>sg)</a>
+<a class="sourceLine" id="cb18-26" title="26">xt=sX<span class="op">%*%</span>R</a>
+<a class="sourceLine" id="cb18-27" title="27">ss=<span class="kw">apply</span>(xt<span class="op">^</span><span class="dv">2</span>, <span class="dv">2</span>, sum)</a>
+<a class="sourceLine" id="cb18-28" title="28">Y=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="kw">nrow</span>(xt), <span class="kw">ncol</span>(xt))</a>
+<a class="sourceLine" id="cb18-29" title="29"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(ss)) {</a>
+<a class="sourceLine" id="cb18-30" title="30">  Y[,i]=xt[,i]<span class="op">/</span>ss[i]</a>
+<a class="sourceLine" id="cb18-31" title="31">}</a>
+<a class="sourceLine" id="cb18-32" title="32"></a>
+<a class="sourceLine" id="cb18-33" title="33">XtX=sX<span class="op">%*%</span><span class="kw">t</span>(sX)</a>
+<a class="sourceLine" id="cb18-34" title="34"></a>
+<a class="sourceLine" id="cb18-35" title="35">maxiter=<span class="dv">10</span></a>
+<a class="sourceLine" id="cb18-36" title="36"><span class="cf">for</span>(it <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>maxiter) {</a>
+<a class="sourceLine" id="cb18-37" title="37">  xxt=XtX<span class="op">%*%</span>Y</a>
+<a class="sourceLine" id="cb18-38" title="38">  ss1=<span class="kw">apply</span>(xxt<span class="op">^</span><span class="dv">2</span>, <span class="dv">2</span>, sum)</a>
+<a class="sourceLine" id="cb18-39" title="39">  </a>
+<a class="sourceLine" id="cb18-40" title="40">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(ss1)) {</a>
+<a class="sourceLine" id="cb18-41" title="41">    Y[,i]=xxt[,i]<span class="op">/</span>ss1[i]</a>
+<a class="sourceLine" id="cb18-42" title="42">  }</a>
+<a class="sourceLine" id="cb18-43" title="43">}</a>
+<a class="sourceLine" id="cb18-44" title="44"></a>
+<a class="sourceLine" id="cb18-45" title="45">QR=<span class="kw">qr.default</span>(Y)</a>
+<a class="sourceLine" id="cb18-46" title="46">B=<span class="kw">t</span>(QR<span class="op">$</span>qr)<span class="op">%*%</span>sX</a>
+<a class="sourceLine" id="cb18-47" title="47">S=B<span class="op">%*%</span><span class="kw">t</span>(B)</a>
+<a class="sourceLine" id="cb18-48" title="48"></a>
+<a class="sourceLine" id="cb18-49" title="49">eg=<span class="kw">eigen</span>(S)</a>
+<a class="sourceLine" id="cb18-50" title="50"></a>
+<a class="sourceLine" id="cb18-51" title="51">U=QR<span class="op">$</span>qr <span class="op">%*%</span><span class="st"> </span>eg<span class="op">$</span>vectors</a>
+<a class="sourceLine" id="cb18-52" title="52">D=<span class="kw">sqrt</span>(eg<span class="op">$</span>values<span class="op">/</span>(N<span class="dv">-1</span>))  </a>
+<a class="sourceLine" id="cb18-53" title="53">P=U<span class="op">*</span>D</a>
+<a class="sourceLine" id="cb18-54" title="54"></a>
+<a class="sourceLine" id="cb18-55" title="55"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb18-56" title="56"><span class="kw">plot</span>(<span class="dt">main=</span><span class="st">&quot;PCA&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;eVec 1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;eVec 2&quot;</span>, Geg<span class="op">$</span>vectors[,<span class="dv">1</span>], Geg<span class="op">$</span>vectors[,<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb18-57" title="57"><span class="kw">plot</span>(<span class="dt">main=</span><span class="st">&quot;Quick PCA&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;eVec 1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;eVec 2&quot;</span>, U[,<span class="dv">1</span>], U[,<span class="dv">2</span>])</a></code></pre></div>
 <p><img src="EigenGWAS_files/figure-html/quick-pca-1.png" width="672" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(Geg<span class="op">$</span>vectors[,<span class="dv">1</span>], U[,<span class="dv">1</span>])</code></pre>
-<pre><code>## [1] 0.9916157</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">cor</span>(Geg<span class="op">$</span>vectors[,<span class="dv">1</span>], U[,<span class="dv">1</span>])</a></code></pre></div>
+<pre><code>## [1] 0.9929008</code></pre>
 
 </div>
 </div>
@@ -313,11 +313,13 @@ P=U<span class="op">*</span>D
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -325,12 +327,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -342,6 +343,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },
@@ -360,8 +365,9 @@ gitbook.start({
     script.type = "text/javascript";
     var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();

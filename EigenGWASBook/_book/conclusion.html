@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>EigenGWAS theory and application</title>
-  <meta name="description" content="EigenGWAS Project.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Conclusion | EigenGWAS theory and application</title>
+  <meta name="description" content="EigenGWAS Project." />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="EigenGWAS theory and application" />
+  <meta property="og:title" content="Chapter 6 Conclusion | EigenGWAS theory and application" />
   <meta property="og:type" content="book" />
   
   
@@ -17,23 +16,23 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="EigenGWAS theory and application" />
+  <meta name="twitter:title" content="Chapter 6 Conclusion | EigenGWAS theory and application" />
   
   <meta name="twitter:description" content="EigenGWAS Project." />
   
 
-<meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]">
+<meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]" />
 
 
-<meta name="date" content="2019-05-31">
+<meta name="date" content="2020-02-22" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="data-analysis.html">
-<link rel="next" href="app-1.html">
+<link rel="prev" href="data-analysis.html"/>
+<link rel="next" href="app-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -41,6 +40,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -56,7 +58,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -201,6 +202,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.1.1" data-path="notes-1.html"><a href="notes-1.html#a-numerical-example"><i class="fa fa-check"></i><b>8.1.1</b> A numerical example</a></li>
 </ul></li>
 <li class="chapter" data-level="8.2" data-path="notes-1.html"><a href="notes-1.html#ld-score-regression"><i class="fa fa-check"></i><b>8.2</b> LD score regression</a></li>
+<li class="chapter" data-level="8.3" data-path="notes-1.html"><a href="notes-1.html#matrix-inversion-wiki"><i class="fa fa-check"></i><b>8.3</b> Matrix inversion <span>wiki</span></a><ul>
+<li class="chapter" data-level="8.3.1" data-path="notes-1.html"><a href="notes-1.html#x-2"><i class="fa fa-check"></i><b>8.3.1</b> 2 X 2</a></li>
+<li class="chapter" data-level="8.3.2" data-path="notes-1.html"><a href="notes-1.html#x-3"><i class="fa fa-check"></i><b>8.3.2</b> 3 X 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="IBD-fam.html"><a href="IBD-fam.html"><i class="fa fa-check"></i><b>9</b> IBD notes</a><ul>
+<li class="chapter" data-level="9.1" data-path="IBD-fam.html"><a href="IBD-fam.html#he-association"><i class="fa fa-check"></i><b>9.1</b> HE association</a></li>
+<li class="chapter" data-level="9.2" data-path="IBD-fam.html"><a href="IBD-fam.html#ibd-table"><i class="fa fa-check"></i><b>9.2</b> IBD table</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="app-2.html"><a href="app-2.html"><i class="fa fa-check"></i><b>10</b> Appendix quick pca</a><ul>
+<li class="chapter" data-level="10.1" data-path="app-2.html"><a href="app-2.html#quck-pca-method-for-snp-matrix"><i class="fa fa-check"></i><b>10.1</b> Quck PCA method for snp matrix</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://gc5k.github.io" target="blank">Published with bookdown</a></li>
@@ -230,29 +242,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The validation for NCP for inbred populations
 <span class="math display">\[n\omega_1\omega_2\frac{(p_1-p_2)^2}{p(1-p)}\]</span>
 Simulation validation for NCP</p>
-<pre class="sourceCode r"><code class="sourceCode r">RP=<span class="dv">1000</span>
-n1=<span class="dv">500</span>
-n2=<span class="dv">500</span>
-N=n1<span class="op">+</span>n2
-f1=<span class="fl">0.4</span>
-f2=<span class="fl">0.6</span>
-paraA=<span class="kw">matrix</span>(<span class="dv">0</span>, RP, <span class="dv">1</span>)
-<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>RP) {
-  g1=<span class="kw">rbinom</span>(n1, <span class="dv">1</span>, f1)<span class="op">*</span><span class="dv">2</span>
-  g2=<span class="kw">rbinom</span>(n2, <span class="dv">1</span>, f2)<span class="op">*</span><span class="dv">2</span>
-  y=<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,n1), <span class="kw">rep</span>(<span class="dv">0</span>, n2))
-  ys=<span class="kw">scale</span>(y)
-  G=<span class="kw">c</span>(g1, g2)
-  Ga=<span class="kw">c</span>(g1, g2)
-
-  modA=<span class="kw">lm</span>(ys<span class="op">~</span>Ga)
-  paraA[i,<span class="dv">1</span>]=<span class="kw">summary</span>(modA)<span class="op">$</span>coefficients[<span class="dv">2</span>,<span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span>
-}
-
-ncpA=N<span class="op">*</span>n1<span class="op">/</span>N<span class="op">*</span>n2<span class="op">/</span>N<span class="op">*</span>(<span class="kw">mean</span>(g1)<span class="op">/</span><span class="dv">2</span><span class="op">-</span><span class="kw">mean</span>(g2)<span class="op">/</span><span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span>))
-<span class="kw">qqplot</span>(<span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="kw">rchisq</span>(RP,<span class="dv">1</span>, <span class="dt">ncp =</span> ncpA), paraA[,<span class="dv">1</span>], <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>, <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>,
-       <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Theoretical &quot;</span>, chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">ylab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Observed &quot;</span>,chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)))
-<span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>, <span class="dt">b=</span><span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">RP=<span class="dv">1000</span></a>
+<a class="sourceLine" id="cb5-2" title="2">n1=<span class="dv">500</span></a>
+<a class="sourceLine" id="cb5-3" title="3">n2=<span class="dv">500</span></a>
+<a class="sourceLine" id="cb5-4" title="4">N=n1<span class="op">+</span>n2</a>
+<a class="sourceLine" id="cb5-5" title="5">f1=<span class="fl">0.4</span></a>
+<a class="sourceLine" id="cb5-6" title="6">f2=<span class="fl">0.6</span></a>
+<a class="sourceLine" id="cb5-7" title="7">paraA=<span class="kw">matrix</span>(<span class="dv">0</span>, RP, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>RP) {</a>
+<a class="sourceLine" id="cb5-9" title="9">  g1=<span class="kw">rbinom</span>(n1, <span class="dv">1</span>, f1)<span class="op">*</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb5-10" title="10">  g2=<span class="kw">rbinom</span>(n2, <span class="dv">1</span>, f2)<span class="op">*</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb5-11" title="11">  y=<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,n1), <span class="kw">rep</span>(<span class="dv">0</span>, n2))</a>
+<a class="sourceLine" id="cb5-12" title="12">  ys=<span class="kw">scale</span>(y)</a>
+<a class="sourceLine" id="cb5-13" title="13">  G=<span class="kw">c</span>(g1, g2)</a>
+<a class="sourceLine" id="cb5-14" title="14">  Ga=<span class="kw">c</span>(g1, g2)</a>
+<a class="sourceLine" id="cb5-15" title="15"></a>
+<a class="sourceLine" id="cb5-16" title="16">  modA=<span class="kw">lm</span>(ys<span class="op">~</span>Ga)</a>
+<a class="sourceLine" id="cb5-17" title="17">  paraA[i,<span class="dv">1</span>]=<span class="kw">summary</span>(modA)<span class="op">$</span>coefficients[<span class="dv">2</span>,<span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb5-18" title="18">}</a>
+<a class="sourceLine" id="cb5-19" title="19"></a>
+<a class="sourceLine" id="cb5-20" title="20">ncpA=N<span class="op">*</span>n1<span class="op">/</span>N<span class="op">*</span>n2<span class="op">/</span>N<span class="op">*</span>(<span class="kw">mean</span>(g1)<span class="op">/</span><span class="dv">2</span><span class="op">-</span><span class="kw">mean</span>(g2)<span class="op">/</span><span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb5-21" title="21"><span class="kw">qqplot</span>(<span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="kw">rchisq</span>(RP,<span class="dv">1</span>, <span class="dt">ncp =</span> ncpA), paraA[,<span class="dv">1</span>], <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.5</span>, <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>,</a>
+<a class="sourceLine" id="cb5-22" title="22">       <span class="dt">xlab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Theoretical &quot;</span>, chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">ylab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Observed &quot;</span>,chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)))</a>
+<a class="sourceLine" id="cb5-23" title="23"><span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>, <span class="dt">b=</span><span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</a></code></pre></div>
 <p><img src="EigenGWAS_files/figure-html/inb-ncp-add-1.png" width="672" /></p>
 <p>For random mating population, the NCP for the additive model is approximately
 <span class="math display">\[4n\omega_1\omega_2\frac{(p_1-p_2)^2}{2p(1-p)}\]</span>
@@ -260,83 +272,80 @@ in which <span class="math inline">\(p=\omega_1p_1+\omega_2p_2\)</span>, and <sp
 for the dominance model is
 <span class="math display">\[n\omega_1\omega_2\frac{[2p_1(1-p_1)-2p_2(1-p_2)]^2}{2p_1(1-p_1)\omega_1+2p_2(1-p_2)\omega_2}\]</span>
 <a href="https://gc5k.shinyapps.io/eigengwaspowercal/">A shiny power calculator may be found here</a>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">RP =<span class="st"> </span><span class="dv">500</span>
-n1 =<span class="st"> </span><span class="dv">500</span>
-n2 =<span class="st"> </span><span class="dv">500</span>
-N =<span class="st"> </span>n1 <span class="op">+</span><span class="st"> </span>n2
-f1 =<span class="st"> </span><span class="fl">0.4</span>
-f2 =<span class="st"> </span><span class="fl">0.6</span>
-para =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, RP, <span class="dv">6</span>)
-paraA =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, RP, <span class="dv">6</span>)
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>RP) {
-    g1 =<span class="st"> </span><span class="kw">rbinom</span>(n1, <span class="dv">2</span>, f1)
-    g2 =<span class="st"> </span><span class="kw">rbinom</span>(n2, <span class="dv">2</span>, f2)
-    y =<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, n1), <span class="kw">rep</span>(<span class="dv">0</span>, n2))
-    ys =<span class="st"> </span><span class="kw">scale</span>(y)
-    G =<span class="st"> </span><span class="kw">c</span>(g1, g2)
-    Gd =<span class="st"> </span><span class="kw">ifelse</span>(G <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)
-    Ga =<span class="st"> </span><span class="kw">c</span>(g1, g2)
-    <span class="co"># Gd=scale(Gd)</span>
-    mod =<span class="st"> </span><span class="kw">lm</span>(ys <span class="op">~</span><span class="st"> </span>Gd)
-    Ecov =<span class="st"> </span><span class="kw">sqrt</span>(n1<span class="op">/</span>N <span class="op">*</span><span class="st"> </span>n2<span class="op">/</span>N) <span class="op">*</span><span class="st"> </span>(<span class="kw">length</span>(<span class="kw">which</span>(g1 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))<span class="op">/</span>n1 <span class="op">-</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">which</span>(g2 <span class="op">==</span><span class="st"> </span>
-<span class="st">        </span><span class="dv">1</span>))<span class="op">/</span>n2)
-    EV =<span class="st"> </span><span class="kw">mean</span>(Gd) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Gd))
-    Eb =<span class="st"> </span>Ecov<span class="op">/</span>EV
-    b =<span class="st"> </span>mod<span class="op">$</span>coefficients[<span class="dv">2</span>]
-    para[i, <span class="dv">1</span>] =<span class="st"> </span>Eb
-    para[i, <span class="dv">2</span>] =<span class="st"> </span>b
-    para[i, <span class="dv">3</span>] =<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>(N <span class="op">*</span><span class="st"> </span><span class="kw">var</span>(Gd)))
-    para[i, <span class="dv">4</span>] =<span class="st"> </span><span class="kw">summary</span>(mod)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]
-    para[i, <span class="dv">5</span>] =<span class="st"> </span><span class="kw">summary</span>(mod)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span>
-    para[i, <span class="dv">6</span>] =<span class="st"> </span><span class="kw">summary</span>(mod)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">4</span>]
-    
-    modA =<span class="st"> </span><span class="kw">lm</span>(ys <span class="op">~</span><span class="st"> </span>Ga)
-    paraA[i, <span class="dv">5</span>] =<span class="st"> </span><span class="kw">summary</span>(modA)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span>
-}
-<span class="co"># layout(matrix(1:2, 1, 2)) vF2=f1*(1-f1)*n1/N+f2*(1-f2)*n2/N ncpD=n1*n2/N *</span>
-<span class="co"># (2*f1*(1-f1)-2*f2*(1-f2))^2/vF2 qqplot(main=&#39;Dom&#39;, rchisq(RP,1, ncp =</span>
-<span class="co"># ncpD), para[,5], pch=16, cex=0.5, bty=&#39;n&#39;,</span>
-<span class="co"># xlab=expression(paste(&#39;Theoretical &#39;, chi[1]^2)),</span>
-<span class="co"># ylab=expression(paste(&#39;Obs &#39;,chi[1]^2))) abline(a=0, b=1)</span>
-
-ncpA =<span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>N <span class="op">*</span><span class="st"> </span>n1<span class="op">/</span>N <span class="op">*</span><span class="st"> </span>n2<span class="op">/</span>N <span class="op">*</span><span class="st"> </span>(<span class="kw">mean</span>(g1)<span class="op">/</span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(g2)<span class="op">/</span><span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span>))
-<span class="kw">qqplot</span>(<span class="dt">main =</span> <span class="st">&quot;&quot;</span>, <span class="kw">rchisq</span>(RP, <span class="dv">1</span>, <span class="dt">ncp =</span> ncpA), paraA[, <span class="dv">5</span>], <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>, 
-    <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Theoretical &quot;</span>, chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Observed &quot;</span>, 
-        chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)))
-<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">RP =<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb6-2" title="2">n1 =<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb6-3" title="3">n2 =<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb6-4" title="4">N =<span class="st"> </span>n1 <span class="op">+</span><span class="st"> </span>n2</a>
+<a class="sourceLine" id="cb6-5" title="5">f1 =<span class="st"> </span><span class="fl">0.4</span></a>
+<a class="sourceLine" id="cb6-6" title="6">f2 =<span class="st"> </span><span class="fl">0.6</span></a>
+<a class="sourceLine" id="cb6-7" title="7">para =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, RP, <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb6-8" title="8">paraA =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, RP, <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>RP) {</a>
+<a class="sourceLine" id="cb6-10" title="10">    g1 =<span class="st"> </span><span class="kw">rbinom</span>(n1, <span class="dv">2</span>, f1)</a>
+<a class="sourceLine" id="cb6-11" title="11">    g2 =<span class="st"> </span><span class="kw">rbinom</span>(n2, <span class="dv">2</span>, f2)</a>
+<a class="sourceLine" id="cb6-12" title="12">    y =<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, n1), <span class="kw">rep</span>(<span class="dv">0</span>, n2))</a>
+<a class="sourceLine" id="cb6-13" title="13">    ys =<span class="st"> </span><span class="kw">scale</span>(y)</a>
+<a class="sourceLine" id="cb6-14" title="14">    G =<span class="st"> </span><span class="kw">c</span>(g1, g2)</a>
+<a class="sourceLine" id="cb6-15" title="15">    Gd =<span class="st"> </span><span class="kw">ifelse</span>(G <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb6-16" title="16">    Ga =<span class="st"> </span><span class="kw">c</span>(g1, g2)</a>
+<a class="sourceLine" id="cb6-17" title="17">    <span class="co"># Gd=scale(Gd)</span></a>
+<a class="sourceLine" id="cb6-18" title="18">    mod =<span class="st"> </span><span class="kw">lm</span>(ys <span class="op">~</span><span class="st"> </span>Gd)</a>
+<a class="sourceLine" id="cb6-19" title="19">    Ecov =<span class="st"> </span><span class="kw">sqrt</span>(n1<span class="op">/</span>N <span class="op">*</span><span class="st"> </span>n2<span class="op">/</span>N) <span class="op">*</span><span class="st"> </span>(<span class="kw">length</span>(<span class="kw">which</span>(g1 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))<span class="op">/</span>n1 <span class="op">-</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">which</span>(g2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))<span class="op">/</span>n2)</a>
+<a class="sourceLine" id="cb6-20" title="20">    EV =<span class="st"> </span><span class="kw">mean</span>(Gd) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Gd))</a>
+<a class="sourceLine" id="cb6-21" title="21">    Eb =<span class="st"> </span>Ecov<span class="op">/</span>EV</a>
+<a class="sourceLine" id="cb6-22" title="22">    b =<span class="st"> </span>mod<span class="op">$</span>coefficients[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb6-23" title="23">    para[i, <span class="dv">1</span>] =<span class="st"> </span>Eb</a>
+<a class="sourceLine" id="cb6-24" title="24">    para[i, <span class="dv">2</span>] =<span class="st"> </span>b</a>
+<a class="sourceLine" id="cb6-25" title="25">    para[i, <span class="dv">3</span>] =<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>(N <span class="op">*</span><span class="st"> </span><span class="kw">var</span>(Gd)))</a>
+<a class="sourceLine" id="cb6-26" title="26">    para[i, <span class="dv">4</span>] =<span class="st"> </span><span class="kw">summary</span>(mod)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb6-27" title="27">    para[i, <span class="dv">5</span>] =<span class="st"> </span><span class="kw">summary</span>(mod)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb6-28" title="28">    para[i, <span class="dv">6</span>] =<span class="st"> </span><span class="kw">summary</span>(mod)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb6-29" title="29">    </a>
+<a class="sourceLine" id="cb6-30" title="30">    modA =<span class="st"> </span><span class="kw">lm</span>(ys <span class="op">~</span><span class="st"> </span>Ga)</a>
+<a class="sourceLine" id="cb6-31" title="31">    paraA[i, <span class="dv">5</span>] =<span class="st"> </span><span class="kw">summary</span>(modA)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>]<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb6-32" title="32">}</a>
+<a class="sourceLine" id="cb6-33" title="33"><span class="co"># layout(matrix(1:2, 1, 2)) vF2=f1*(1-f1)*n1/N+f2*(1-f2)*n2/N ncpD=n1*n2/N *</span></a>
+<a class="sourceLine" id="cb6-34" title="34"><span class="co"># (2*f1*(1-f1)-2*f2*(1-f2))^2/vF2 qqplot(main=&#39;Dom&#39;, rchisq(RP,1, ncp = ncpD),</span></a>
+<a class="sourceLine" id="cb6-35" title="35"><span class="co"># para[,5], pch=16, cex=0.5, bty=&#39;n&#39;, xlab=expression(paste(&#39;Theoretical &#39;,</span></a>
+<a class="sourceLine" id="cb6-36" title="36"><span class="co"># chi[1]^2)), ylab=expression(paste(&#39;Obs &#39;,chi[1]^2))) abline(a=0, b=1)</span></a>
+<a class="sourceLine" id="cb6-37" title="37"></a>
+<a class="sourceLine" id="cb6-38" title="38">ncpA =<span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>N <span class="op">*</span><span class="st"> </span>n1<span class="op">/</span>N <span class="op">*</span><span class="st"> </span>n2<span class="op">/</span>N <span class="op">*</span><span class="st"> </span>(<span class="kw">mean</span>(g1)<span class="op">/</span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(g2)<span class="op">/</span><span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Ga)<span class="op">/</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb6-39" title="39"><span class="kw">qqplot</span>(<span class="dt">main =</span> <span class="st">&quot;&quot;</span>, <span class="kw">rchisq</span>(RP, <span class="dv">1</span>, <span class="dt">ncp =</span> ncpA), paraA[, <span class="dv">5</span>], <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </a>
+<a class="sourceLine" id="cb6-40" title="40">    <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Theoretical &quot;</span>, chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)), <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Observed &quot;</span>, </a>
+<a class="sourceLine" id="cb6-41" title="41">        chi[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span>)))</a>
+<a class="sourceLine" id="cb6-42" title="42"><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</a></code></pre></div>
 <p><img src="EigenGWAS_files/figure-html/ram-ncp-1.png" width="672" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">m=<span class="dv">1000000</span>
-alpha=<span class="fl">0.05</span>
-pcut=alpha<span class="op">/</span>m
-chiT=<span class="kw">qchisq</span>(pcut, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)
-
-n=<span class="kw">c</span>(<span class="dv">100</span>,  <span class="dv">200</span>,  <span class="dv">500</span>,   <span class="dv">1000</span>,  <span class="dv">1500</span>,  <span class="dv">2000</span>,
-    <span class="dv">5000</span>, <span class="dv">7500</span>, <span class="dv">10000</span>, <span class="dv">15000</span>, <span class="dv">20000</span>, <span class="dv">50000</span>)
-PW=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="kw">length</span>(n))
-
-w1=<span class="fl">0.3</span>
-w2=<span class="dv">1</span><span class="op">-</span>w1
-
-p1=<span class="fl">0.35</span>
-h1=<span class="dv">2</span><span class="op">*</span>p1<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p1)
-p2=<span class="fl">0.5</span>
-h2=<span class="dv">2</span><span class="op">*</span>p2<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p2)
-
-p=w1<span class="op">*</span>p1<span class="op">+</span>w2<span class="op">*</span>p2
-H=w1<span class="op">*</span>h1<span class="op">+</span>w2<span class="op">*</span>h2
-
-<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(n)) {
-  ncpA=<span class="dv">4</span><span class="op">*</span>n[i]<span class="op">*</span>w1<span class="op">*</span>w2<span class="op">*</span>(p1<span class="op">-</span>p2)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>p<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p))
-  ncpD=n[i]<span class="op">*</span>w1<span class="op">*</span>w2<span class="op">*</span>(h1<span class="op">-</span>h2)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>H
-
-  PW[<span class="dv">1</span>,i]=<span class="kw">pchisq</span>(chiT, <span class="dv">1</span>, <span class="dt">ncp=</span>ncpA, <span class="dt">lower.tail =</span> F)
-  PW[<span class="dv">2</span>,i]=<span class="kw">pchisq</span>(chiT, <span class="dv">1</span>, <span class="dt">ncp=</span>ncpD, <span class="dt">lower.tail =</span> F)
-}
-<span class="kw">colnames</span>(PW)=n
-<span class="kw">barplot</span>(PW, <span class="dt">beside =</span> T, <span class="dt">border =</span> F)
-<span class="kw">abline</span>(<span class="dt">h=</span><span class="fl">0.85</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)
-<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="dt">legend=</span><span class="kw">c</span>(<span class="st">&quot;Add&quot;</span>, <span class="st">&quot;Dom&quot;</span>), <span class="dt">pch=</span><span class="dv">15</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;grey&quot;</span>), <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">m=<span class="dv">1000000</span></a>
+<a class="sourceLine" id="cb7-2" title="2">alpha=<span class="fl">0.05</span></a>
+<a class="sourceLine" id="cb7-3" title="3">pcut=alpha<span class="op">/</span>m</a>
+<a class="sourceLine" id="cb7-4" title="4">chiT=<span class="kw">qchisq</span>(pcut, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)</a>
+<a class="sourceLine" id="cb7-5" title="5"></a>
+<a class="sourceLine" id="cb7-6" title="6">n=<span class="kw">c</span>(<span class="dv">100</span>,  <span class="dv">200</span>,  <span class="dv">500</span>,   <span class="dv">1000</span>,  <span class="dv">1500</span>,  <span class="dv">2000</span>,</a>
+<a class="sourceLine" id="cb7-7" title="7">    <span class="dv">5000</span>, <span class="dv">7500</span>, <span class="dv">10000</span>, <span class="dv">15000</span>, <span class="dv">20000</span>, <span class="dv">50000</span>)</a>
+<a class="sourceLine" id="cb7-8" title="8">PW=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="kw">length</span>(n))</a>
+<a class="sourceLine" id="cb7-9" title="9"></a>
+<a class="sourceLine" id="cb7-10" title="10">w1=<span class="fl">0.3</span></a>
+<a class="sourceLine" id="cb7-11" title="11">w2=<span class="dv">1</span><span class="op">-</span>w1</a>
+<a class="sourceLine" id="cb7-12" title="12"></a>
+<a class="sourceLine" id="cb7-13" title="13">p1=<span class="fl">0.35</span></a>
+<a class="sourceLine" id="cb7-14" title="14">h1=<span class="dv">2</span><span class="op">*</span>p1<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p1)</a>
+<a class="sourceLine" id="cb7-15" title="15">p2=<span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb7-16" title="16">h2=<span class="dv">2</span><span class="op">*</span>p2<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p2)</a>
+<a class="sourceLine" id="cb7-17" title="17"></a>
+<a class="sourceLine" id="cb7-18" title="18">p=w1<span class="op">*</span>p1<span class="op">+</span>w2<span class="op">*</span>p2</a>
+<a class="sourceLine" id="cb7-19" title="19">H=w1<span class="op">*</span>h1<span class="op">+</span>w2<span class="op">*</span>h2</a>
+<a class="sourceLine" id="cb7-20" title="20"></a>
+<a class="sourceLine" id="cb7-21" title="21"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(n)) {</a>
+<a class="sourceLine" id="cb7-22" title="22">  ncpA=<span class="dv">4</span><span class="op">*</span>n[i]<span class="op">*</span>w1<span class="op">*</span>w2<span class="op">*</span>(p1<span class="op">-</span>p2)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>p<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p))</a>
+<a class="sourceLine" id="cb7-23" title="23">  ncpD=n[i]<span class="op">*</span>w1<span class="op">*</span>w2<span class="op">*</span>(h1<span class="op">-</span>h2)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>H</a>
+<a class="sourceLine" id="cb7-24" title="24"></a>
+<a class="sourceLine" id="cb7-25" title="25">  PW[<span class="dv">1</span>,i]=<span class="kw">pchisq</span>(chiT, <span class="dv">1</span>, <span class="dt">ncp=</span>ncpA, <span class="dt">lower.tail =</span> F)</a>
+<a class="sourceLine" id="cb7-26" title="26">  PW[<span class="dv">2</span>,i]=<span class="kw">pchisq</span>(chiT, <span class="dv">1</span>, <span class="dt">ncp=</span>ncpD, <span class="dt">lower.tail =</span> F)</a>
+<a class="sourceLine" id="cb7-27" title="27">}</a>
+<a class="sourceLine" id="cb7-28" title="28"><span class="kw">colnames</span>(PW)=n</a>
+<a class="sourceLine" id="cb7-29" title="29"><span class="kw">barplot</span>(PW, <span class="dt">beside =</span> T, <span class="dt">border =</span> F)</a>
+<a class="sourceLine" id="cb7-30" title="30"><span class="kw">abline</span>(<span class="dt">h=</span><span class="fl">0.85</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</a>
+<a class="sourceLine" id="cb7-31" title="31"><span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="dt">legend=</span><span class="kw">c</span>(<span class="st">&quot;Add&quot;</span>, <span class="st">&quot;Dom&quot;</span>), <span class="dt">pch=</span><span class="dv">15</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;grey&quot;</span>), <span class="dt">bty=</span><span class="st">&#39;n&#39;</span>)</a></code></pre></div>
 <p><img src="EigenGWAS_files/figure-html/stat-power-1.png" width="672" /></p>
 </div>
 <div id="selection-pattern" class="section level2">
@@ -355,11 +364,13 @@ H=w1<span class="op">*</span>h1<span class="op">+</span>w2<span class="op">*</sp
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -367,12 +378,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -384,6 +394,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },
@@ -402,8 +416,9 @@ gitbook.start({
     script.type = "text/javascript";
     var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
