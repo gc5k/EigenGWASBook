@@ -101,6 +101,45 @@ for(m in 1:length(M)) {
 }
 ```
 
+## Admixture Dirichlet distribution
+
+```{r rdiri}
+library(Compositional)
+library(MCMCpack)
+M=10000
+fst1=0.05
+fst2=0.01
+P=runif(M, 0.1, 0.9)
+Fq=matrix(0, 3, M)
+Fq[1,]=rbeta(M, P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+Fq[2,]=rbeta(M, P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+Fq[3,]=rbeta(M, Fq[2,]*(1-fst2)/fst2, (1-Fq[2,])*(1-fst2)/fst2)
+
+sz=50
+g=array(0, dim=c(3, sz, M))
+for(i in 1:3) {
+  for(j in 1:sz) {
+    g[i,j,]=rbinom(M, 2, Fq[i,])
+  }
+}
+
+N=300
+adx=rdirichlet(N, c(1,1,1))
+bivt.contour(adx)
+
+G=matrix(0, N, M)
+for(i in 1:N) {
+  G[i,]=rbinom(M, 2, t(Fq)%*%adx[i,])
+}
+gg=rbind(g[1,,], g[2,,], g[3,,], G)
+sG=apply(gg, 2, scale)
+grm=sG %*% t(sG)/M
+eg=eigen(grm)
+
+plot(eg$vectors[,1], eg$vectors[,2], col=c(rep("red",sz), rep("blue", sz), rep("green", sz), rep("cyan", N)), pch=16, main="Admixed", xlab="E1", ylab="E2")
+```
+
+
 ## Admixture population
 We set two founder populations, upon which an admixed population is generated. The $F_{st}$ is set apart the two founder populations -- have allele frequencies $p_1$ and $p_2$, respectively. The admixture population has is allele frequency $wp_1+(1-w)p_2$. $w$ is sampled from beta distribution with $a=20$ and $b=50$.
 ```{r, admix}
