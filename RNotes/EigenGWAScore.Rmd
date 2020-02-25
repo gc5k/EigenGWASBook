@@ -102,6 +102,13 @@ for(m in 1:length(M)) {
 ```
 
 ## Admixture Dirichlet distribution
+Dirichlet distribution [wiki](https://en.wikipedia.org/wiki/Dirichlet_distribution)
+
+$$D(\alpha_1, \alpha_2, ...\alpha_K)$$
+$E(\alpha_i)=\frac{\alpha_i}{\sum_1^K\alpha_i}$, and $$var(\alpha_i)=\frac{\tilde{\alpha}_i(1-\tilde{\alpha}_i)}{\alpha_0+1}$$
+$$cov(\alpha_i, \alpha_j)=\frac{-\tilde{\alpha}_i\tilde{\alpha}_j}{\alpha_0+1}$$
+
+in which $\tilde{\alpha}_i=\frac{\alpha_i}{\sum_1^K\alpha_i}$ and $\alpha_0=\sum_1^K\alpha_i$.
 
 ```{r rdiri}
 library(Compositional)

@@ -63,3 +63,48 @@ plot(main="Quick PCA", xlab="eVec 1", ylab="eVec 2", U[,1], U[,2])
 cor(Geg$vectors[,1], U[,1])
 ```
 
+The procedure in Galinsky (AJHG)
+```{r fastPCA}
+library(Rcpp)
+sourceCpp("~/git/Notes/R/RLib/Shotgun.cpp")
+M=10000
+N=500
+L=20
+I=5
+
+frq=runif(M, 0.1, 0.3)
+Dp=sample(c(runif(M/2, 0, 0), runif(M/2, 0, 0)), M)
+Dp=Dp[-1]
+
+fst=0.02
+frq1=rbeta(M, frq*(1-fst)/fst, (1-frq)*(1-fst)/fst)
+frq2=rbeta(M, frq*(1-fst)/fst, (1-frq)*(1-fst)/fst)
+
+G1=GenerateGenoDprimeRcpp(frq1, Dp, N)
+G2=GenerateGenoDprimeRcpp(frq2, Dp, N)
+
+G=rbind(G1, G2)
+
+s=apply(G, 2, scale)
+ss=s%*%t(s)/M
+sE=eigen(ss)
+
+G0=matrix(rnorm(nrow(s)*L), nrow(s), L)
+HH=matrix(0, M, (I+1)*L)
+for(i in 0:(I-1)) {
+  H=t(s) %*% G0
+  G0=s%*%H/M
+  HH[,(i*L+1):((i+1)*L)]=H
+}
+
+svd_h=svd(HH)
+Ty=t(svd_h$u)%*%t(s)
+svd_t=svd(Ty)
+
+layout(matrix(1:2, 1, 2))
+plot(sE$vectors[,1], sE$vectors[,2])
+
+plot(svd_t$v[,1], svd_t$v[,2], col="red")
+
+```
+
