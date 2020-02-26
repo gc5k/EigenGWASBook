@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Table of contents {.tabset .tabset-fade .tabset-pills}
 
-## Sample distribution
+## 1.Sample distribution
 As each locus follows binomial distribution, the **genetic drift** can be modelled $\frac{\sqrt{pq}}{2n_e}$, in which $n_e$ is the effective population size.
 ```{r, bino}
 f=0.5
@@ -36,16 +36,25 @@ for(p in 1:length(pop)) {
 }
 ```
 
-## 2 Subgroups
+## 2. A pair of subgroups
+
+Step 1 $F_{st}=f$.
+
+Step 2 Simulating the frequency $P$ of $m$ loci.
+
+Step 3 Simulating diversed frequencies for two subpopulations $Frq1=beta(\alpha=\frac{P(1-f)}{f}, \beta=\frac{(1-P)(1-f)}{f})$, $Frq2=beta(\alpha=\frac{P(1-f)}{f}, \beta=\frac{(1-P)(1-f)}{f})$, 
+
+Under $beta$ distribution, it will have mean of the two population $\frac{\alpha}{\alpha+\beta}$, and variance $\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta)}$
+
 ```{r, 2pop}
 M=c(10000, 1000)
-fst1=0.05
+f=0.05
 for(m in 1:length(M)) {
   P=runif(M[m], 0.2, 0.8)
   Sz=c(100, 100)
   Fq=matrix(0, 2, M[m])
-  Fq[1,]=rbeta(M[m], P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
-  Fq[2,]=rbeta(M[m], P*(1-fst1)/fst1, (1-P)*(1-fst1)/fst1)
+  Fq[1,]=rbeta(M[m], P*(1-f)/f, (1-P)*(1-f)/f)
+  Fq[2,]=rbeta(M[m], P*(1-f)/f, (1-P)*(1-f)/f)
 
   G=matrix(0, sum(Sz), M[m])
   for(i in 1:Sz[1]) {
@@ -66,7 +75,7 @@ for(m in 1:length(M)) {
 ```
 
 
-## 3 Subgroups
+## 3. Three subgroups
 ```{r, 3pop}
 M=c(10000, 1000)
 fst1=0.05
@@ -101,7 +110,7 @@ for(m in 1:length(M)) {
 }
 ```
 
-## Admixture Dirichlet distribution
+## 4. Admixture Dirichlet distribution
 Dirichlet distribution [wiki](https://en.wikipedia.org/wiki/Dirichlet_distribution)
 
 $$D(\alpha_1, \alpha_2, ...\alpha_K)$$
@@ -147,7 +156,7 @@ plot(eg$vectors[,1], eg$vectors[,2], col=c(rep("red",sz), rep("blue", sz), rep("
 ```
 
 
-## Admixture population
+## 5. Admixture population
 We set two founder populations, upon which an admixed population is generated. The $F_{st}$ is set apart the two founder populations -- have allele frequencies $p_1$ and $p_2$, respectively. The admixture population has is allele frequency $wp_1+(1-w)p_2$. $w$ is sampled from beta distribution with $a=20$ and $b=50$.
 ```{r, admix}
 
@@ -189,7 +198,7 @@ plot(eg$vectors[,1], eg$vectors[,2], xlab="PC 1", ylab="PC 2",
 
 ```
 
-## Admixture population [Triangle]
+## 6. Admixture population [Triangle]
 
 ```{r, admix3}
 
@@ -256,8 +265,7 @@ plot(eg$vectors[,1], eg$vectors[,2], xlab="PC 1", ylab="PC 2",
 
 ```
 
-
-## Six pop
+## 7. Six pops
 ```{r, 6pop}
 M=c(10000)
 fst1=0.05
@@ -320,8 +328,119 @@ for(m in 1:length(M)) {
 }
 ```
 
+## 8. flash PCA1
+There are several papers about ramdimized algorithm for PCA
+1. PLoS ONE, 2014, 9:e93766
+2. Rokhlin, V., Szlam, A., and Tygert, M. (2009). A randomized algorithm for principal component analysis. SIAM J. Matrix Anal. Appl. 31, 1100???1124.
+3. Halko, N., Martinsson, P., Shkolnisky, Y., and Tygert, M. (2011). An algorithm for the principal component analysis of large data sets. SIAM J. Sci. Comput. 33, 2580???2594.
+```{r flash pca}
+library(MASS)
+N=1000 #sample size
+M=2000 #SNP
+X=matrix(0, N, M) #SNP matrix
 
-## Wishart distribution simulation
+#simulating snp
+for(i in 1:M) {
+  p1=runif(1, 0.1, 0.9)
+  p2=1-p1
+  X[1:(N/2),i]=rbinom(N/2, 2, p1)
+  X[(N/2+1):N,i]=rbinom(N/2, 2, p2)
+}
+
+#conventional PCA
+sX=scale(X)
+G=sX%*%t(sX)
+Geg=eigen(G)
+#plot(Geg$vectors[,1], Geg$vectors[,2])
+
+
+#quick pca
+dm=30
+sg=matrix(0,dm,dm)
+diag(sg)=1
+R=mvrnorm(M, rep(0, dm), Sigma=sg)
+xt=sX%*%R
+ss=apply(xt^2, 2, sum)
+Y=matrix(0, nrow(xt), ncol(xt))
+for(i in 1:length(ss)) {
+  Y[,i]=xt[,i]/ss[i]
+}
+
+XtX=sX%*%t(sX)
+
+maxiter=10
+for(it in 1:maxiter) {
+  xxt=XtX%*%Y
+  ss1=apply(xxt^2, 2, sum)
+  
+  for(i in 1:length(ss1)) {
+    Y[,i]=xxt[,i]/ss1[i]
+  }
+}
+
+QR=qr.default(Y)
+B=t(QR$qr)%*%sX
+S=B%*%t(B)
+
+eg=eigen(S)
+
+U=QR$qr %*% eg$vectors
+D=sqrt(eg$values/(N-1))  
+P=U*D
+
+par(mfrow = c(1,2))
+plot(main="PCA", xlab="eVec 1", ylab="eVec 2", Geg$vectors[,1], Geg$vectors[,2])
+plot(main="Quick PCA", xlab="eVec 1", ylab="eVec 2", U[,1], U[,2])
+cor(Geg$vectors[,1], U[,1])
+```
+
+## 9. FastPCA
+Galinsky 2016 AJHG
+```{r flashpca}
+library(Rcpp)
+sourceCpp("~/git/Notes/R/RLib/Shotgun.cpp")
+M=10000
+N=500
+L=20
+I=5
+
+frq=runif(M, 0.1, 0.3)
+Dp=sample(c(runif(M/2, 0, 0), runif(M/2, 0, 0)), M)
+Dp=Dp[-1]
+
+fst=0.02
+frq1=rbeta(M, frq*(1-fst)/fst, (1-frq)*(1-fst)/fst)
+frq2=rbeta(M, frq*(1-fst)/fst, (1-frq)*(1-fst)/fst)
+
+G1=GenerateGenoDprimeRcpp(frq1, Dp, N)
+G2=GenerateGenoDprimeRcpp(frq2, Dp, N)
+
+G=rbind(G1, G2)
+
+s=apply(G, 2, scale)
+ss=s%*%t(s)/M
+sE=eigen(ss)
+
+G0=matrix(rnorm(nrow(s)*L), nrow(s), L)
+HH=matrix(0, M, (I+1)*L)
+for(i in 0:(I-1)) {
+  H=t(s) %*% G0
+  G0=s%*%H/M
+  HH[,(i*L+1):((i+1)*L)]=H
+}
+
+svd_h=svd(HH)
+Ty=t(svd_h$u)%*%t(s)
+svd_t=svd(Ty)
+
+layout(matrix(1:2, 1, 2))
+plot(sE$vectors[,1], sE$vectors[,2])
+
+plot(svd_t$v[,1], svd_t$v[,2], col="red")
+```
+
+
+## 10. Wishart distribution simulation
 Generate Wishart distribution
 ```{r, wishart}
 ## Artificial
