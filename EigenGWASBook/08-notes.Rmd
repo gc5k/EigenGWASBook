@@ -2,7 +2,23 @@
 
 ## APY
 
-Citation: Misztal, I, 2016, Inexpensive computation of the inverse of the genomic relationship matrix in populations with small effective population size, $Genetics$, 202:401-409.
+APY is application of [blockwise matrix inversion](https://www.schmidheiny.name/teaching/matrixalgebra2up.pdf), or [wiki link](https://en.wikipedia.org/wiki/Block_matrix)
+
+$$
+\begin{bmatrix}
+P_{11} & P_{12}\\
+P_{21} & P_{22}
+\end{bmatrix}
+^{-1} 
+=
+\begin{bmatrix}
+P_{11}^-1+P_{11}^{-1}P_{12}F^{-1}P_{21}P_{11}^{-1}&P_{11}^{-1}P_{12}F^{-1}\\
+F^{-1}P_{21}P_{11}^{-1}&F^{-1}
+\end{bmatrix}$$
+
+in which $F=P_{22}-P_{21}P_{11}^{-1}P_{12}$ is assumed nonsingular.
+
+
 
 A much original idea of APY resembles Quaas and Pollak (J Anim Sci, 1980, 51:1277-87), an example of which can be found in Lynch&Walsh page 759-61. 
 
@@ -31,6 +47,9 @@ $G^{-1}=
 \begin{matrix}I&0\\
 -P_{nc}&I \end{matrix}
 \right]$
+
+Citation: Misztal, I, 2016, Inexpensive computation of the inverse of the genomic relationship matrix in populations with small effective population size, $Genetics$, 202:401-409.
+
 
 in which $G$ is the numerical relationship matrix, and  $P_{cn}=G_{cc}^{-1}G_{cn}$ and $P_{nc}=G_{nc}G_{cc}^{-1}$. $G_{cc}$, $G_{cn}$, and $G_{nc}$ ($G_{cn}=G_{nc}$) are, "core" to "core", "core" to "non-core", and "non-core" to "core" relationship matrix.
 

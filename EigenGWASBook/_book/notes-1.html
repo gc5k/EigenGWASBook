@@ -24,7 +24,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]" />
 
 
-<meta name="date" content="2020-02-25" />
+<meta name="date" content="2020-02-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -238,9 +238,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 8</span> Notes</h1>
 <div id="apy" class="section level2">
 <h2><span class="header-section-number">8.1</span> APY</h2>
-<p>Citation: Misztal, I, 2016, Inexpensive computation of the inverse of the genomic relationship matrix in populations with small effective population size, <span class="math inline">\(Genetics\)</span>, 202:401-409.</p>
+<p>APY is application of <a href="https://www.schmidheiny.name/teaching/matrixalgebra2up.pdf">blockwise matrix inversion</a>, or <a href="https://en.wikipedia.org/wiki/Block_matrix">wiki link</a></p>
+<p><span class="math display">\[
+\begin{bmatrix}
+P_{11} &amp; P_{12}\\
+P_{21} &amp; P_{22}
+\end{bmatrix}
+^{-1} 
+=
+\begin{bmatrix}
+P_{11}^-1+P_{11}^{-1}P_{12}F^{-1}P_{21}P_{11}^{-1}&amp;P_{11}^{-1}P_{12}F^{-1}\\
+F^{-1}P_{21}P_{11}^{-1}&amp;F^{-1}
+\end{bmatrix}\]</span></p>
+<p>in which <span class="math inline">\(F=P_{22}-P_{21}P_{11}^{-1}P_{12}\)</span> is assumed nonsingular.</p>
 <p>A much original idea of APY resembles Quaas and Pollak (J Anim Sci, 1980, 51:1277-87), an example of which can be found in Lynch&amp;Walsh page 759-61.</p>
 <p><span class="math inline">\(G^{-1}= \left[ \begin{matrix} I&amp; -P_{cn}\\ 0&amp;I \end{matrix} \right] \left[ \begin{matrix} G_{cc}^{-1}&amp; 0\\ 0&amp;M_{nn}^{-1} \end{matrix} \right] \left[ \begin{matrix} I&amp; 0\\ -P_{nc}&amp;I \end{matrix} \right] = \left[ \begin{matrix}G_{cc}^{-1}&amp;-P_{cn}M_{nn}^{-1}\\ 0&amp;M^{-1}_{nn} \end{matrix} \right] \left[ \begin{matrix}I&amp;0\\ -P_{nc}&amp;I \end{matrix} \right]\)</span></p>
+<p>Citation: Misztal, I, 2016, Inexpensive computation of the inverse of the genomic relationship matrix in populations with small effective population size, <span class="math inline">\(Genetics\)</span>, 202:401-409.</p>
 <p>in which <span class="math inline">\(G\)</span> is the numerical relationship matrix, and <span class="math inline">\(P_{cn}=G_{cc}^{-1}G_{cn}\)</span> and <span class="math inline">\(P_{nc}=G_{nc}G_{cc}^{-1}\)</span>. <span class="math inline">\(G_{cc}\)</span>, <span class="math inline">\(G_{cn}\)</span>, and <span class="math inline">\(G_{nc}\)</span> (<span class="math inline">\(G_{cn}=G_{nc}\)</span>) are, “core” to “core”, “core” to “non-core”, and “non-core” to “core” relationship matrix.</p>
 <p><span class="math inline">\(M_{nn}=diag(G_{nn})-diag(P_{cn}^TG_{cn})\)</span></p>
 <div id="a-numerical-example" class="section level3">
