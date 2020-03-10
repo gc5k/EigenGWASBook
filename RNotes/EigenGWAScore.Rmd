@@ -330,7 +330,7 @@ for(m in 1:length(M)) {
 }
 ```
 
-## PCA methods
+## 4 PCA methods
 
 ### Flash PCA
 There are several papers about ramdimized algorithm for PCA
@@ -444,7 +444,9 @@ plot(svd_t$v[,1], svd_t$v[,2], col="red")
 ```
 
 
-## Homo cohort
+## 5 Homo and hetro
+
+### Homo cohort
 
 ```{r, homo-cohort, eval=FALSE}
 rep=1
@@ -503,7 +505,7 @@ legend("topleft", legend = c("Fst", "GC", "Eigenvalue"), pch=15, col=c("black", 
 
 ```
 
-## Heterogeneous cohort
+### Heterogeneous cohort
 ```{r, het-cohort, eval=FALSE}
 rep=1
 EV=matrix(0, rep, 10)
@@ -567,7 +569,7 @@ legend("topleft", legend = c("Fst", "GC", "Eigenvalue"), pch=15, col=c("black", 
 
 ```
 
-## Power analysis
+## 6 Power analysis
 
 [Shiny link for power analysis](https://gc5k.shinyapps.io/eigengwaspowercal/)
 
@@ -730,7 +732,7 @@ abline(a=0, b=1, lty=2, col="grey")
 ```
 
 
-## EigenGWAS pipeline
+## 7 EigenGWAS pipeline
 ### Manhattan plot function
 ```{r, manhattan}
 manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=NULL, suggestiveline=-log10(1e-5), genomewideline=NULL, title="", annotate=NULL, ...) {
@@ -888,7 +890,7 @@ abline(a=0, b=1, col="red", lty=2)
 ```
 
 
-## Appendix Tracy-Widom distribution & Wishart distribution
+## Appendix: Tracy-Widom & Wishart
 ```{r, tw}
 library(RMTstat)
 plot(density(rtw(10000)))
