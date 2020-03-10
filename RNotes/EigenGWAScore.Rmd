@@ -36,8 +36,9 @@ for(p in 1:length(pop)) {
 }
 ```
 
-## 2. A pair of subgroups
+## 2. Discrete subgroups
 
+### A pair of subgroups
 Step 1 $F_{st}=f$.
 
 Step 2 Simulating the frequency $P$ of $m$ loci.
@@ -75,7 +76,7 @@ for(m in 1:length(M)) {
 ```
 
 
-## 3. Three subgroups
+### Three subgroups
 ```{r, 3pop}
 M=c(10000, 1000)
 fst1=0.05
@@ -110,7 +111,9 @@ for(m in 1:length(M)) {
 }
 ```
 
-## 4. Admixture Dirichlet distribution
+## 3. Admixted population
+
+### Admixture Dirichlet distribution
 Dirichlet distribution [wiki](https://en.wikipedia.org/wiki/Dirichlet_distribution)
 
 $$D(\alpha_1, \alpha_2, ...\alpha_K)$$
@@ -156,7 +159,7 @@ plot(eg$vectors[,1], eg$vectors[,2], col=c(rep("red",sz), rep("blue", sz), rep("
 ```
 
 
-## 5. Admixture population
+### Admixture population
 We set two founder populations, upon which an admixed population is generated. The $F_{st}$ is set apart the two founder populations -- have allele frequencies $p_1$ and $p_2$, respectively. The admixture population has is allele frequency $wp_1+(1-w)p_2$. $w$ is sampled from beta distribution with $a=20$ and $b=50$.
 ```{r, admix}
 
@@ -198,8 +201,7 @@ plot(eg$vectors[,1], eg$vectors[,2], xlab="PC 1", ylab="PC 2",
 
 ```
 
-## 6. Admixture population [Triangle]
-
+### Admixture population [Triangle]
 ```{r, admix3}
 
 M=10000
@@ -265,7 +267,7 @@ plot(eg$vectors[,1], eg$vectors[,2], xlab="PC 1", ylab="PC 2",
 
 ```
 
-## 7. Six pops
+### Six pops
 ```{r, 6pop}
 M=c(10000)
 fst1=0.05
@@ -328,7 +330,9 @@ for(m in 1:length(M)) {
 }
 ```
 
-## 8. flash PCA1
+## PCA methods
+
+### Flash PCA
 There are several papers about ramdimized algorithm for PCA
 1. PLoS ONE, 2014, 9:e93766
 2. Rokhlin, V., Szlam, A., and Tygert, M. (2009). A randomized algorithm for principal component analysis. SIAM J. Matrix Anal. Appl. 31, 1100???1124.
@@ -394,7 +398,7 @@ plot(main="Quick PCA", xlab="eVec 1", ylab="eVec 2", U[,1], U[,2])
 cor(Geg$vectors[,1], U[,1])
 ```
 
-## 9. FastPCA
+### Fast PCA
 Galinsky 2016 AJHG
 ```{r flashpca}
 library(Rcpp)
@@ -439,46 +443,6 @@ plot(sE$vectors[,1], sE$vectors[,2])
 plot(svd_t$v[,1], svd_t$v[,2], col="red")
 ```
 
-
-## 10. Wishart distribution simulation
-Generate Wishart distribution
-```{r, wishart}
-## Artificial
-S <- toeplitz((10:1)/10)
-set.seed(11)
-R <- rWishart(1000, 20, S)
-dim(R)  #  10 10  1000
-cor(R[,,1])
-mR <- apply(R, 1:2, mean)  # ~= E[ Wish(S, 20) ] = 20 * S
-stopifnot(all.equal(mR, 20*S, tolerance = .009))
-
-
-## See Details, the variance is
-Va <- 20*(S^2 + tcrossprod(diag(S)))
-vR <- apply(R, 1:2, var)
-stopifnot(all.equal(vR, Va, tolerance = 1/16))
-```
-
-## Distribution of the Wishart diagonal elements
-$G=\frac{1}{m}\tilde{X}^T\tilde{X}$, and the diagonal of $G$ follow $\frac{\chi^2_n}{n}$
-```{r, diagW}
-N=1000
-M=c(500,1000,1500,2000)
-layout(matrix(1:4, 2, 2))
-for(m in 1:length(M)) {
-  p=runif(M[m], 0.2, 0.8)
-  X=matrix(0, N, M[m])
-  for(i in 1:M[m]) {
-    X[,i] = rbinom(N, 2, p[i])
-  }
-  Xs=apply(X, 2, scale)
-  G=Xs %*% t(Xs) / M[m]
-  rc=rchisq(nrow(G), nrow(G))/nrow(G)
-  qqplot(main=paste0("M=", M[m]), rc, diag(G), xlab=expression(paste(chi[N]^2, "/N")), ylab="Diag (G)", bty='n', pch=16)
-  abline(a=0, b=1, col="red")
-}
-
-```
 
 ## Homo cohort
 
@@ -603,42 +567,333 @@ legend("topleft", legend = c("Fst", "GC", "Eigenvalue"), pch=15, col=c("black", 
 
 ```
 
+## Power analysis
 
-## Tracy-Widom distribution
+[Shiny link for power analysis](https://gc5k.shinyapps.io/eigengwaspowercal/)
+
+
+```{r, power-a}
+m=1000000
+alpha=0.05
+pcut=alpha/m
+chiT=qchisq(pcut, 1, lower.tail = F)
+
+n=c(100,  200,  500,   1000,  1500,  2000,
+    5000, 7500, 10000, 15000, 20000, 50000)
+PW=matrix(0, 2, length(n))
+
+w1=0.3
+w2=1-w1
+
+p1=0.35
+h1=2*p1*(1-p1)
+p2=0.5
+h2=2*p2*(1-p2)
+
+p=w1*p1+w2*p2
+H=w1*h1+w2*h2
+
+for(i in 1:length(n)) {
+  ncpA=4*n[i]*w1*w2*(p1-p2)^2/(2*p*(1-p))
+  ncpD=n[i]*w1*w2*(h1-h2)^2/H
+
+  PW[1,i]=pchisq(chiT, 1, ncp=ncpA, lower.tail = F)
+  PW[2,i]=pchisq(chiT, 1, ncp=ncpD, lower.tail = F)
+}
+colnames(PW)=n
+barplot(PW, beside = T, border = F)
+abline(h=0.85, lty=2, col="grey")
+legend("topleft", legend=c("Add", "Dom"), pch=15, col=c("black", "grey"), bty='n')
+```
+
+
+Related parameters:
+
+$p_1$ and $p_2$ are the allele frequencies for the reference allele at two sub groups.
+
+$n_1$ and $n_2$ are sample sizes for two subgroups, respectively. $n=n_1+n_2$ the total sample size.
+
+$\omega_1=\frac{n_1}{n_1+n_2}$, and $\omega_2=\frac{n_2}{n_1+n_2}$.
+
+$p=\omega_1p_1+\omega_2p_2$
+
+### Statistical power for additive model
+
+NCP is \[2n\omega_1\omega_2\frac{(p_1-p_2)^2}{p(1-p)}\]
+
+```{r, power-add}
+RP=1000
+n1=500
+n2=500
+N=n1+n2
+f1=0.4
+f2=0.6
+paraA=matrix(0, RP, 1)
+for(i in 1:RP) {
+  g1=rbinom(n1, 2, f1)
+  g2=rbinom(n2, 2, f2)
+  y=c(rep(1,n1), rep(0, n2))
+  ys=scale(y)
+  Ga=c(g1, g2)
+
+  modA=lm(ys~Ga)
+  paraA[i,1]=summary(modA)$coefficients[2,3]^2
+}
+
+ncpA=2*N*n1/N*n2/N*(mean(g1)/2-mean(g2)/2)^2/(mean(Ga)/2*(1-mean(Ga)/2))
+qqplot(main="", rchisq(RP, 1, ncp = ncpA), paraA[,1], pch=16, cex=0.5, bty='n',
+       xlab=expression(paste("Theoretical ", chi[1]^2)), ylab=expression(paste("Observed ",chi[1]^2)))
+abline(a=0, b=1, lty=2, col="grey")
+
+```
+
+### Statistical power for inbred lines
+
+NCP is: \[n\omega_1\omega_2\frac{(p_1-p_2)^2}{p(1-p)}\]
+
+```{r, power-inb}
+RP=1000
+n1=500
+n2=500
+N=n1+n2
+f1=0.4
+f2=0.6
+paraA=matrix(0, RP, 1)
+for(i in 1:RP) {
+  g1=rbinom(n1, 1, f1)*2
+  g2=rbinom(n2, 1, f2)*2
+  y=c(rep(1,n1), rep(0, n2))
+  ys=scale(y)
+  G=c(g1, g2)
+  Ga=c(g1, g2)
+
+  modA=lm(ys~Ga)
+  paraA[i,1]=summary(modA)$coefficients[2,3]^2
+}
+
+ncpA=N*n1/N*n2/N*(mean(g1)/2-mean(g2)/2)^2/(mean(Ga)/2*(1-mean(Ga)/2))
+qqplot(main="", rchisq(RP,1, ncp = ncpA), paraA[,1], pch=16, cex=0.5, bty='n',
+       xlab=expression(paste("Theoretical ", chi[1]^2)), ylab=expression(paste("Observed ",chi[1]^2)))
+abline(a=0, b=1, lty=2, col="grey")
+
+```
+
+### Power analysis Dominance model
+
+NCP is $n\omega_1\omega_2\frac{[2p_1(1-p_1)-2p_2(1-p_2)]^2}{2p_1(1-p_1)\omega_1-2p_2(1-p_2)\omega_2}$
+
+```{r, ncp_dom}
+RP=500
+n1=300
+n2=700
+N=n1+n2
+f1=0.4
+f2=0.6
+para=matrix(0, RP, 6)
+paraA=matrix(0, RP, 6)
+for(i in 1:RP) {
+  g1=rbinom(n1, 2, f1)
+  g2=rbinom(n2, 2, f2)
+  y=c(rep(1,n1), rep(0, n2))
+  ys=scale(y)
+  G=c(g1, g2)
+  Gd=ifelse(G==1, 1, 0)
+  Ga=c(g1, g2)
+#  Gd=scale(Gd)
+  mod=lm(ys~Gd)
+  Ecov=sqrt(n1/N*n2/N)*(length(which(g1==1))/n1-length(which(g2==1))/n2)
+  EV=mean(Gd)*(1-mean(Gd))
+  Eb=Ecov/EV
+  b=mod$coefficients[2]
+  para[i,1]=Eb
+  para[i,2]=b
+  para[i,3]=sqrt(1/(N*var(Gd)))
+  para[i,4]=summary(mod)$coefficients[2,2]
+  para[i,5]=summary(mod)$coefficients[2,3]^2
+  para[i,6]=summary(mod)$coefficients[2,4]
+  
+  modA=lm(ys~Ga)
+  paraA[i,5]=summary(modA)$coefficients[2,3]^2
+}
+#layout(matrix(1:2, 1, 2))
+#vF2=f1*(1-f1)*n1/N+f2*(1-f2)*n2/N
+#ncpD=n1*n2/N * (2*f1*(1-f1)-2*f2*(1-f2))^2/vF2
+#qqplot(main="Dom", rchisq(RP,1, ncp = ncpD), para[,5], pch=16, cex=0.5, bty='n',
+#       xlab=expression(paste("Theoretical ", chi[1]^2)), ylab=expression(paste("Obs ",chi[1]^2)))
+#abline(a=0, b=1)
+
+ncpA=4*N*n1/N*n2/N*(mean(g1)/2-mean(g2)/2)^2/(2*mean(Ga)/2*(1-mean(Ga)/2))
+qqplot(main="", rchisq(RP,1, ncp = ncpA), paraA[,5], pch=16, cex=0.5, bty='n',
+       xlab=expression(paste("Theoretical ", chi[1]^2)), ylab=expression(paste("Observed ",chi[1]^2)))
+abline(a=0, b=1, lty=2, col="grey")
+
+```
+
+
+## EigenGWAS pipeline
+### Manhattan plot function
+```{r, manhattan}
+manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limitchromosomes=NULL, suggestiveline=-log10(1e-5), genomewideline=NULL, title="", annotate=NULL, ...) {
+  
+  d=dataframe
+  if (!("CHR" %in% names(d) & "BP" %in% names(d) & "P" %in% names(d))) stop("Make sure your data frame contains columns CHR, BP, and P")
+  if (!is.null(limitchromosomes)) {
+    d=d[d$CHR %in% limitchromosomes, ]
+  }
+  
+  d=subset(na.omit(d[order(d$CHR, d$BP), ]), (P>0 & P<=1)) # remove na's, sort, and keep only 0<P<=1
+  d$logp = -log10(d$P)
+  d$pos=NA
+  ticks=NULL
+  lastbase=0 #  colors <- rep(colors,max(d$CHR))[1:max(d$CHR)]
+  colors <- rep(colors,max(d$CHR))[1:length(unique(d$CHR))]
+  
+  if (ymax=="max") ymax<-ceiling(max(d$logp))
+  if (ymax<8) ymax<-8
+  numchroms=length(unique(d$CHR))
+  if (numchroms==1) {
+    d$pos=d$BP
+    ticks=floor(length(d$pos))/2+1
+  } else {
+    Uchr=unique(d$CHR)
+    for (i in 1:length(Uchr)) {
+      if (i==1) {
+        d[d$CHR==Uchr[i], ]$pos=d[d$CHR==Uchr[i], ]$BP
+      } else {
+        lastbase=lastbase+tail(subset(d, CHR==Uchr[i-1])$BP, 1)
+        d[d$CHR==Uchr[i], ]$pos=d[d$CHR==Uchr[i], ]$BP+lastbase
+      }
+      ticks=c(ticks, d[d$CHR==Uchr[i], ]$pos[floor(length(d[d$CHR==Uchr[i], ]$pos)/2)+1])
+    }
+  }
+  if (numchroms==1) {
+    with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab=paste("Chromosome",unique(d$CHR),"position"), ...))
+  } else {
+    with(d, plot(main=title, pos, logp, ylim=c(0,ymax), ylab=expression(-log[10](italic(p))), xlab="Chromosome", xaxt="n", type="n", ...))
+    axis(1, at=ticks, lab=unique(d$CHR), ...)
+    icol=1
+    Uchr=unique(d$CHR)
+    for (i in 1:length(Uchr)) {
+      with(d[d$CHR==Uchr[i], ], points(pos, logp, col=colors[icol], ...))
+      icol=icol+1
+    }
+  }
+  if (!is.null(annotate)) {
+    d.annotate=d[which(d$SNP %in% annotate), ]
+    with(d.annotate, points(pos, logp, col="green3", ...))
+  }
+  #  if (suggestiveline) abline(h=suggestiveline, col="blue")
+  if (!is.null(genomewideline)) {
+    abline(h=genomewideline, col="gray")
+  } else {
+    abline(h=-log10(0.05/nrow(d)), col="gray")    
+  }
+}
+```
+
+### Random mating population
+Replace the plink with your own path. Using HapMap CEU (northwest European) vs TSI (south Europeans) as example. The data can be found [here](https://github.com/gc5k/EigenGWASRDoc/tree/master/data/euro).
+```{r, euro-demo, collapse=TRUE}
+plink2='/Users/gc5k/bin/plink_mac/plink' #replace it with your own path
+dat="../data/euro/euro_10K"
+layout(matrix(1:6, 2, 3))
+
+#make-grm
+grmCmd=paste(plink2, "--bfile ", dat, "--make-grm-gz --out ", dat)
+system(grmCmd)
+
+gz=gzfile(paste0(dat, ".grm.gz"))
+grm=read.table(gz, as.is = T)
+Ne=-1/mean(grm[grm[,1]!=grm[,2], 4])
+Me=1/var(grm[grm[,1]!=grm[,2], 4])
+print(paste("Ne=", format(Ne, digits = 2), "Me=", format(Me, digits = 2)))
+hist(grm[grm[,1]!=grm[,2],4], main="Pairwise relatedness", xlab="Relatedness score", breaks = 50)
+
+#pca
+pcaCmd=paste(plink2, "--bfile ", dat, "--pca 10 --out ", dat)
+system(pcaCmd)
+barplot(main="Top 10 eigenvalue", read.table(paste0(dat, ".eigenval"), as.is = T)[,1], border = F)
+abline(h=1, col="red", lty=2, lwd=3)
+
+pc=read.table(paste0(dat, ".eigenvec"), as.is = T)
+plot(pc[,3], pc[,4], xlab="Eigenvector 1", ylab="Eigenvector 2", bty="n", main="Eigenspace", bty="n", col=ifelse(pc[,3]>0, "red", "blue"), pch=16, cex=0.5)
+
+#EigenGWAS
+liCmd=paste0(plink2, " --linear --bfile ", dat, " --pheno ", dat, ".eigenvec --out ", dat)
+system(liCmd)
+
+#plot
+EigenRes=read.table(paste0(dat, ".assoc.linear"), as.is = T, header = T)
+EigenRes$Praw=EigenRes$P
+gc=qchisq(median(EigenRes$P), 1, lower.tail = F)/qchisq(0.5, 1, lower.tail = F)
+print(paste("GC = ", format(gc, digits = 4)))
+EigenRes$P=pchisq(qchisq(EigenRes$Praw, 1, lower.tail = F)/gc, 1, lower.tail = F)
+manhattan(EigenRes, title="EigenGWAS 1", pch=16, cex=0.3, bty='n')
+
+#QQplot
+chiseq=rchisq(nrow(EigenRes), 1)
+qqplot(chiseq, qchisq(EigenRes$Praw, 1, lower.tail = F), xlab=expression(paste("Theoretical ", chi[1]^2)), ylab=expression(paste("Observed ", chi[1]^2)), bty="n", col="grey", pch=16, cex=0.5)
+points(sort(chiseq), sort(qchisq(EigenRes$P, 1, lower.tail = F)), col="black", pch=16, cex=0.5)
+legend("topleft", legend = c("Raw", "GC correction"), pch=16, cex=0.5, col=c("grey", "black"), bty='n')
+abline(a=0, b=1, col="red", lty=2)
+
+```
+
+### Inbred population
+Replace the plink with your own path. The Arabidopsis data can be found [here](https://github.com/gc5k/EigenGWASRDoc/tree/master/data/arab).
+```{r, arab-demo, collapse=TRUE}
+plink2='/Users/gc5k/bin/plink_mac/plink' #replace it with your own path
+dat="../data/arab/arab"
+
+layout(matrix(1:6, 2, 3))
+#make-grm
+grmCmd=paste(plink2, "--bfile ", dat, "--make-grm-gz --out ", dat)
+system(grmCmd)
+
+gz=gzfile(paste0(dat, ".grm.gz"))
+grm=read.table(gz, as.is = T)
+Ne=-1/mean(grm[grm[,1]!=grm[,2], 4]/2)
+Me=1/var(grm[grm[,1]!=grm[,2], 4]/2)
+print(paste("Ne=", format(Ne, digits = 2), "Me=", format(Me, digits = 2)))
+hist(grm[grm[,1]!=grm[,2],4]/2, main="Pairwise relatedness", xlab="Relatedness score", breaks = 50)
+
+#pca
+pcaCmd=paste(plink2, "--bfile ", dat, "--pca 10 --out ", dat)
+system(pcaCmd)
+barplot(main="Top 10 eigenvalue", read.table(paste0(dat, ".eigenval"), as.is = T)[,1]/2, border = F)
+abline(h=1, col="red", lty=2, lwd=3)
+
+pc=read.table(paste0(dat, ".eigenvec"), as.is = T)
+plot(pc[,3], pc[,4], xlab="Eigenvector 1", ylab="Eigenvector 2", bty="n", main="Eigenspace", bty="n", col=ifelse(pc[,3]>0, "red", "blue"), pch=16, cex=0.5)
+
+#EigenGWAS
+liCmd=paste0(plink2, " --linear --bfile ", dat, " --pheno ", dat, ".eigenvec --out ", dat)
+system(liCmd)
+
+#plot
+EigenRes=read.table(paste0(dat, ".assoc.linear"), as.is = T, header = T)
+EigenRes$Praw=EigenRes$P
+gc=qchisq(median(EigenRes$P), 1, lower.tail = F)/qchisq(0.5, 1, lower.tail = F)
+print(paste("GC = ", format(gc, digits = 4)))
+EigenRes$P=pchisq(qchisq(EigenRes$Praw, 1, lower.tail = F)/gc, 1, lower.tail = F)
+manhattan(EigenRes, title="EigenGWAS 1", pch=16, cex=0.3, bty='n')
+
+#QQplot
+chiseq=rchisq(nrow(EigenRes), 1)
+qqplot(chiseq, qchisq(EigenRes$Praw, 1, lower.tail = F), xlab=expression(paste("Theoretical ", chi[1]^2)), ylab=expression(paste("Observed ", chi[1]^2)), bty="n", col="grey", pch=16, cex=0.5)
+points(sort(chiseq), sort(qchisq(EigenRes$P, 1, lower.tail = F)), col="black", pch=16, cex=0.5)
+legend("topleft", legend = c("Raw", "GC correction"), pch=16, cex=0.5, col=c("grey", "black"), bty='n')
+abline(a=0, b=1, col="red", lty=2)
+
+```
+
+
+## Appendix Tracy-Widom distribution & Wishart distribution
 ```{r, tw}
 library(RMTstat)
 plot(density(rtw(10000)))
+
+S <- toeplitz((10:1)/10)
+set.seed(11)
+R <- rWishart(1000, 20, S)
 ```
-
-## TW
-
-```{r, TW}
-RP=5
-EG=matrix(0, RP, 1)
-for(rp in 1:RP) {
-  N=500
-  M=5000
-  p=runif(M, 0.2, 0.8)
-  X=matrix(0, N, M)
-  for(i in 1:M) {
-    X[,i] = rbinom(N, 2, p[i])
-  }
-  mu=apply(X, 2, mean)
-  sig=apply(X, 2, var)
-  Xs=apply(X, 2, scale)
-  G=Xs %*% t(Xs) / M
-  rc=rchisq(nrow(G), nrow(G)-1)/nrow(G)
-  qqplot(rc, diag(G), xlab=expression(paste(chi[N]^2, "/N")), ylab="Diag (G)", bty='n', pch=16)
-  abline(a=0, b=1, col="red")
-  mod=lm(sort(diag(G))~sort(rc))
-  Eg=eigen(G)
-  EG[rp,1]=Eg$values[1]
-}
-Emu=(sqrt(M-1)+sqrt(N))^2/M
-Esd=sqrt(Emu/M)*(1/sqrt(M-1/2)+1/sqrt(N-1/2))^(1/3)
-
-hist((EG/(sum(diag(G))/N)-Emu)/Esd)
-x=matrix(rnorm(N*M), N, M)
-
-```
-
