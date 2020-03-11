@@ -3,6 +3,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.html
 euro_10K.*
 !euro_10K.bed
 !euro_10K.bim

@@ -11,9 +11,22 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+print(Sys.time())
 ```
 
 # Table of contents {.tabset .tabset-fade .tabset-pills}
+
+## 0. Original publication & tools
+It is an linear model implementation for genomic scan for loci under selection
+
+Related publications
+
+1 EigenGWAS: finding loci under selection through genome-wide association studies of eigenvectors in structured populations. [Heredity, 2016, 117:51-61](https://www.nature.com/articles/hdy201625)
+
+2 Identifying loci with breeding potential across temperate and tropical adaptation via EigenGWAS and EnvGWAS. [Mol Ecology, 2019, 28:3544-60](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.15169)
+
+Java tools for EigenGWAS analysis. [GEAR](https://github.com/gc5k/GEAR/wiki/EigenGWAS)
+
 
 ## 1.Sample distribution
 As each locus follows binomial distribution, the **genetic drift** can be modelled $\frac{\sqrt{pq}}{2n_e}$, in which $n_e$ is the effective population size.
@@ -793,7 +806,7 @@ manhattan <- function(dataframe, colors=c("gray10", "gray50"), ymax="max", limit
 }
 ```
 
-### Random mating population
+#### Random mating population (CEU vs TSI)
 Replace the plink with your own path. Using HapMap CEU (northwest European) vs TSI (south Europeans) as example. The data can be found [here](https://github.com/gc5k/EigenGWASRDoc/tree/master/data/euro).
 ```{r, euro-demo, collapse=TRUE}
 plink2='/Users/gc5k/bin/plink_mac/plink' #replace it with your own path
@@ -841,7 +854,7 @@ abline(a=0, b=1, col="red", lty=2)
 
 ```
 
-### Inbred population
+#### Inbred population (Arabdopsis)
 Replace the plink with your own path. The Arabidopsis data can be found [here](https://github.com/gc5k/EigenGWASRDoc/tree/master/data/arab).
 ```{r, arab-demo, collapse=TRUE}
 plink2='/Users/gc5k/bin/plink_mac/plink' #replace it with your own path
@@ -890,6 +903,10 @@ abline(a=0, b=1, col="red", lty=2)
 ```
 
 
+#### UK Birds
+[Recent natural selection causes adaptive evolution of an avian polygenic trait](https://rpubs.com/gc5k/Day2_NLUK) and paper [pdf](https://science.sciencemag.org/content/358/6361/365)
+
+
 ## Appendix: Tracy-Widom & Wishart
 ```{r, tw}
 library(RMTstat)
@@ -899,3 +916,10 @@ S <- toeplitz((10:1)/10)
 set.seed(11)
 R <- rWishart(1000, 20, S)
 ```
+
+## R.sys
+
+```{r, R.sys}
+sessionInfo()
+```
+
