@@ -11,12 +11,14 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-print(Sys.time())
 ```
 
 # Table of contents {.tabset .tabset-fade .tabset-pills}
+```{r}
+print(Sys.time())
+```
 
-## 0. Original publication & tools
+## 1. Original publication & tools
 It is an linear model implementation for genomic scan for loci under selection
 
 Related publications
@@ -28,37 +30,25 @@ Related publications
 Java tools for EigenGWAS analysis. [GEAR](https://github.com/gc5k/GEAR/wiki/EigenGWAS)
 
 
-## 1.Sample distribution
-As each locus follows binomial distribution, the **genetic drift** can be modelled $\frac{\sqrt{pq}}{2n_e}$, in which $n_e$ is the effective population size.
-```{r, bino}
-f=0.5
-pop=c(50, 200, 500, 1000)
-gn=100
-cohort=100
-G=matrix(0, cohort, gn)
-layout(matrix(1:4, 2, 2))
-for(p in 1:length(pop)) {
-  plot(main=paste("Population size", pop[p]), x=NULL, y=NULL, xlim=c(1, gn), ylim=c(0, 1), xlab="Generation", ylab="Frequency", bty='n')
-  for(i in 1:cohort) {
-    G[i,1] = 0.5
-    for(j in 2:gn) {
-      G[i,j]=mean(rbinom(pop[p], 2, G[i,j-1]))/2
-    }
-    lines(G[i,], col=sample(1:10, 1))
-  }
-}
-```
-
 ## 2. Discrete subgroups
 
 ### A pair of subgroups
-Step 1 $F_{st}=f$.
+Step 1 Set the genetic backgroud differentiation between a pair of subgroups as $F_{st}=f$, in which $f$ quantifies the intensity of genetic drift.
 
-Step 2 Simulating the frequency $P$ of $m$ loci.
+Step 2 Simulating ancestral population that has the frequencies vector $P$ for $M$ loci.
 
-Step 3 Simulating diversed frequencies for two subpopulations $Frq1=beta(\alpha=\frac{P(1-f)}{f}, \beta=\frac{(1-P)(1-f)}{f})$, $Frq2=beta(\alpha=\frac{P(1-f)}{f}, \beta=\frac{(1-P)(1-f)}{f})$, 
+Step 3 Simulating the diversed frequencies for two subpopulations $Frq_1=beta(\alpha=\frac{P(1-f)}{f}, \beta=\frac{(1-P)(1-f)}{f})$, $Frq_2=beta(\alpha=\frac{P(1-f)}{f}, \beta=\frac{(1-P)(1-f)}{f})$, 
 
-Under $beta$ distribution, it will have mean of the two population $\frac{\alpha}{\alpha+\beta}$, and variance $\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta)}$
+Under $beta$ distribution, it will have mean of the two population $\frac{\alpha}{\alpha+\beta}$, and variance $\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$. It is easy to see that for the simulated $Frq_1$ and $Frq_2$, the averaged allele frequency is 
+
+$$\frac{\alpha}{\alpha+\beta}=\frac{\frac{P(1-f)}{f}}{\frac{P(1-f)}{f}+\frac{(1-P)(1-f)}{f}}=P$$
+
+identical to the ancestral population, and the variance is 
+
+$$\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}=\frac{\frac{P(1-f)}{f}\frac{(1-P)(1-f)}{f}}{[\frac{(1-f)}{f}]^2[\frac{1}{f}]}=P(1-P)f$$
+
+
+See more statistical properties of Beta distribution [wiki](https://en.wikipedia.org/wiki/Beta_distribution).
 
 ```{r, 2pop}
 M=c(10000, 1000)
@@ -86,6 +76,44 @@ for(m in 1:length(M)) {
   barplot(EigenG$values[1:20])
   plot(main=paste(M[m], "markers"), EigenG$vectors[,1], EigenG$vectors[,2], bty='n', xlab="PC 1", ylab="PC 2", pch=16, col=c(rep("red", Sz[1]), rep("blue", Sz[2])))
 }
+```
+
+
+#### Including a locus under selection
+In addition to backgroud markers, we can add additional loci that are under selection. In the simulation below, given 10005 loci the last five of that are under selection.
+```{r, 2pop_qtl}
+m=c(10000) #backgroud marker
+mq=c(5) #loci under selection
+f1=0.01
+fq=0.1
+f=c(rep(f1, m), rep(fq, mq))
+M=length(f)
+
+P=runif(M, 0.2, 0.8) #ancestral
+Sz=c(200, 200) #subgroup sample size
+Fq=matrix(0, 2, M)
+Fq[1,]=rbeta(M, P*(1-f)/f, (1-P)*(1-f)/f) #freq for subgroup 1
+Fq[2,]=rbeta(M, P*(1-f)/f, (1-P)*(1-f)/f) #freq for subgroup 2
+
+G=matrix(0, sum(Sz), M)
+for(i in 1:Sz[1]) {
+  G[i,] = rbinom(M, 2, Fq[1,])
+}
+
+for(i in (Sz[1]+1):(Sz[1]+Sz[2])) {
+  G[i,] = rbinom(M, 2, Fq[2,])
+}
+
+Gs=apply(G, 2, scale)
+GG=Gs %*% t(Gs)/M
+EigenG=eigen(GG)
+layout(matrix(1:3, 1, 3))
+plot(colMeans(G[1:Sz[1],1:m])/2, colMeans(G[(Sz[1]+1):(Sz[1]+Sz[2]), 1:m]/2))
+points(colMeans(G[1:Sz[1],(m+1):M])/2, colMeans(G[(Sz[1]+1):(Sz[1]+Sz[2]), (m+1):M]/2), pch=16, cex=2, col="red")
+abline(a=0, b=1, col="green")
+barplot(EigenG$values[1:20])
+plot(main=paste(M, "markers"), EigenG$vectors[,1], EigenG$vectors[,2], bty='n', xlab="PC 1", ylab="PC 2", pch=16, col=c(rep("red", Sz[1]), rep("blue", Sz[2])))
+
 ```
 
 
@@ -915,6 +943,27 @@ plot(density(rtw(10000)))
 S <- toeplitz((10:1)/10)
 set.seed(11)
 R <- rWishart(1000, 20, S)
+```
+
+## Binomial distribution
+As each locus follows binomial distribution, the **genetic drift** can be modelled $\frac{\sqrt{pq}}{2n_e}$, in which $n_e$ is the effective population size.
+```{r, bino}
+f=0.5
+pop=c(50, 200, 500, 1000)
+gn=100
+cohort=100
+G=matrix(0, cohort, gn)
+layout(matrix(1:4, 2, 2))
+for(p in 1:length(pop)) {
+  plot(main=paste("Population size", pop[p]), x=NULL, y=NULL, xlim=c(1, gn), ylim=c(0, 1), xlab="Generation", ylab="Frequency", bty='n')
+  for(i in 1:cohort) {
+    G[i,1] = 0.5
+    for(j in 2:gn) {
+      G[i,j]=mean(rbinom(pop[p], 2, G[i,j-1]))/2
+    }
+    lines(G[i,], col=sample(1:10, 1))
+  }
+}
 ```
 
 ## R.sys
