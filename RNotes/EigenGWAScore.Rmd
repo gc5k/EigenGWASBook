@@ -47,6 +47,7 @@ identical to the ancestral population, and the variance is
 
 $$\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}=\frac{\frac{P(1-f)}{f}\frac{(1-P)(1-f)}{f}}{[\frac{(1-f)}{f}]^2[\frac{1}{f}]}=P(1-P)f$$
 
+It is known that under genetic drift the allele frequency randomly runs towards fixation, either 0 or 1, given its intial allele frequency (See binomail Tab for its demonstration). The speed of changing can be written as $\sigma=\sqrt{p(1-p)/n}$, proportional to the sample size (effective sample size).
 
 See more statistical properties of Beta distribution [wiki](https://en.wikipedia.org/wiki/Beta_distribution).
 
