@@ -614,7 +614,10 @@ legend("topleft", legend = c("Fst", "GC", "Eigenvalue"), pch=15, col=c("black", 
 ## 6 Power analysis
 
 
-### NCP for additive model
+### Noncentrality parameter for $\chi^2_1$
+$\chi^2_1$ with NCP, [wiki](https://en.wikipedia.org/wiki/Chi-squared_distribution#Noncentral_chi-square_distribution).
+
+#### NCP for additive model
 
 For linear mode $\tilde{E}_k=\mu+\beta_lx_l+e$, in which $\tilde{E}_k$ is the $k^{th}$ standardized eigenvector of interest, $x_l$ codes for the additive effect, and $\beta_l$ is the regression coefficient, and $e$ is the residual of the model. The regression coefficient can be estimated as 
 $$
@@ -623,13 +626,14 @@ $$
 
 | | | |$x_l$ | | Marginal probability| |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| |$\tilde{E}_k$| $aa$ |$Aa$ | $AA$ | | |
-|Subgroup 1|$\color{cyan}{\frac{\sqrt{\frac{n_2}{n_1}}}{1+\omega_1\sigma^2_1+\omega_2\sigma^2_2}}$|2|1|0||$\color{cyan}{\omega_1=\frac{n_1}{n_1+n_2}}$|
-|||$\color{cyan}{p^2_1}$|$\color{cyan}{2p_1q_1}$|$\color{cyan}{q^2_1}$|$1-\gamma_1$||
+| || $aa$ |$Aa$ | $AA$ | | |
+|Subgroup 1|$\tilde{E}_k$|2|1|0|||
+||$\color{cyan}{\frac{\sqrt{\frac{n_2}{n_1}}}{1+\omega_1\sigma^2_1+\omega_2\sigma^2_2}}$|$\color{cyan}{p^2_1}$|$\color{cyan}{2p_1q_1}$|$\color{cyan}{q^2_1}$|$1-\gamma_1$|$\color{cyan}{\omega_1=\frac{n_1}{n_1+n_2}}$|
 |||$\color{pink}{p^2_2}$|$\color{pink}{2p_2q_2}$|$\color{pink}{q^2_2}$|$\gamma_2$||
-|Subgroup 2|$\color{pink}{\frac{-\sqrt{\frac{n_2}{n_1}}}{1+\omega_1\sigma^2_1+\omega_2\sigma^2_2}}$|2|1|0||$\color{pink}{\omega_1=\frac{n_1}{n_1+n_2}}$|
-|||$\color{pink}{p^2_2}$|$\color{pink}{2p_2q_2}$|$\color{pink}{q^2_2}$|$1-\gamma_2$||
+|Subgroup 2||2|1|0|||
+||$\color{pink}{\frac{-\sqrt{\frac{n_1}{n_2}}}{1+\omega_1\sigma^2_1+\omega_2\sigma^2_2}}$|$\color{pink}{p^2_2}$|$\color{pink}{2p_2q_2}$|$\color{pink}{q^2_2}$|$1-\gamma_2$|$\color{pink}{\omega_1=\frac{n_1}{n_1+n_2}}$|
 |||$\color{cyan}{p^2_1}$|$\color{cyan}{2p_1q_1}$|$\color{cyan}{q^2_1}$|$\gamma_1$||
+-----------------------
 
 $$cov(\tilde{E}_k,x_l)=E(\tilde{E}_kx_l)-E(\tilde{E}_k)E(x_l)=E(\tilde{E}_kx_l)$$
 
@@ -640,7 +644,7 @@ E(\tilde{E}_kx_l)&=&\color{cyan}{\frac{\sqrt{\frac{n_2}{n_1}}}{1+\omega_1\sigma^
 &&-
 \color{pink}{\frac{\sqrt{\frac{n_1}{n_2}}}{1+\omega_1\sigma^2_1+\omega_2\sigma^2_2}}[\omega_2(2p^2_2+2p_2q_2)(1-\gamma_2)+\omega_2(2p^2_1+2p_2q_1)\gamma_1]\\
 &=&\color{cyan} { \frac{2\sqrt{\frac{n_2}{n_1}}}{1+\omega_1\sigma^2_1+\omega_2\sigma^2_2} }[\omega_1 \color{cyan}{p_1}(1-\gamma_1)+\omega_2 \color{cyan}{p_2}\gamma_2]
--\color{pink} { \frac{2\sqrt{\frac{n_2}{n_1}}}{1+\omega_1\sigma^2_1+\omega_2\sigma^2_2} }[\omega_2 \color{pink}{p_2}(1-\gamma_2)+\omega_1 \color{pink}{p_1}\gamma_1]
+-\color{pink} { \frac{2\sqrt{\frac{n_1}{n_2}}}{1+\omega_1\sigma^2_1+\omega_2\sigma^2_2} }[\omega_2 \color{pink}{p_2}(1-\gamma_2)+\omega_1 \color{pink}{p_1}\gamma_1]
 \end{align}
 $$
 
@@ -648,11 +652,12 @@ Under the condition that $\gamma_1= 0$ and $ \gamma_2= 0$, and the sampling vari
 
 | | | |$x_l$ | | Marginal probability|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| |$\tilde{E}_k$| $aa$ |$Aa$ | $AA$ ||
-|Subgroup 1|$\color{cyan}{\sqrt{\frac{n_2}{n_1}}}$|2|1|0||$\color{cyan}{\omega_1=\frac{n_1}{n_1+n_2}}$|
-|||$\color{cyan}{p^2_1}$|$\color{cyan}{2p_1q_1}$|$\color{cyan}{q^2_1}$||
-|Subgroup 2|$\color{pink}{-\sqrt{\frac{n_2}{n_1}}}$|2|1|0||$\color{pink}{\omega_1=\frac{n_1}{n_1+n_2}}$|
-|||$\color{pink}{p^2_2}$|$\color{pink}{2p_2q_2}$|$\color{pink}{q^2_2}$||
+| || $aa$ |$Aa$ | $AA$ ||
+|Subgroup 1|$\tilde{E}_k$|2|1|0|||
+||$\color{cyan}{\sqrt{\frac{n_2}{n_1}}}$|$\color{cyan}{p^2_1}$|$\color{cyan}{2p_1q_1}$|$\color{cyan}{q^2_1}$|$\color{cyan}{\omega_1=\frac{n_1}{n_1+n_2}}$|
+|Subgroup 2||2|1|0|||
+||$\color{pink}{-\sqrt{\frac{n_2}{n_1}}}$|$\color{pink}{p^2_2}$|$\color{pink}{2p_2q_2}$|$\color{pink}{q^2_2}$|$\color{pink}{\omega_1=\frac{n_1}{n_1+n_2}}$|
+-----------------------
 
 $$
 E(\tilde{E}_kx_l)=\omega_1\color{cyan}{\sqrt{\frac{n_2}{n_1}}}[(2p^2_1+2p_1q_1)]-
@@ -666,15 +671,16 @@ The sampling variance of $\beta_l$ is $\sigma_{\beta_l}=\sqrt{\frac{\sigma^2_{E_
 
 and $z^2\sim\chi^2_1$, with NCP of $(N-1)\omega_1\omega_2\frac{4(p_1-p_2)^2}{2p_lq_l}$.
 
-### NCP for Inbred line
+#### NCP for Inbred line
 
 | | | |$x_l$ | | Marginal probability|
 |:---:|:---:|:---:|:---:|:---:|:---:|
-| |$\tilde{E}_k$| $aa$ | $AA$ ||
-|Subgroup 1|$\color{cyan}{\sqrt{\frac{n_2}{n_1}}}$|2|0||$\color{cyan}{\omega_1=\frac{n_1}{n_1+n_2}}$|
-|||$\color{cyan}{p^2_1}$|$\color{cyan}{q^2_1}$||
-|Subgroup 2|$\color{pink}{-\sqrt{\frac{n_2}{n_1}}}$|2|0||$\color{pink}{\omega_1=\frac{n_1}{n_1+n_2}}$|
-|||$\color{pink}{p^2_2}$|$\color{pink}{q^2_2}$||
+| || $aa$ | $AA$ ||
+|Subgroup 1|$\tilde{E}_k$|2|0|||
+||$\color{cyan}{\sqrt{\frac{n_2}{n_1}}}$|$\color{cyan}{p^2_1}$|$\color{cyan}{q^2_1}$|$\color{cyan}{\omega_1=\frac{n_1}{n_1+n_2}}$|
+|Subgroup 2||2|0|||
+||$\color{pink}{-\sqrt{\frac{n_1}{n_2}}}$|$\color{pink}{p^2_2}$|$\color{pink}{q^2_2}$|$\color{pink}{\omega_1=\frac{n_1}{n_1+n_2}}$|
+-----------------------
 
 $$
 E(\tilde{E}_kx)=-\omega_1\sqrt{\frac{n_2}{n_1}}2p_1+\omega_2\sqrt{\frac{n_2}{n_1}}2p_2
@@ -690,17 +696,18 @@ $$
 
 $z\approx\sqrt{(n-1)\omega_1\omega_2}\frac{2(p_1-p_2)}{4p_lq_l}$, and its NCP is $(n-1)\omega_1\omega_2\frac{(p_1-p_2)^2}{p_lq_l}$, which is half of that for a random mating population.
 
-### NCP for dominance model
+#### NCP for dominance model
 
 For linear mode $\tilde{E}_k=\mu+\beta_dx_d+e$, here we drop off the subscript $l$ for the target locus.
 
 | | | |$x_d$ | | Marginal probability|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| |$\tilde{E}_k$| $aa$ |$Aa$ | $AA$ ||
-|Subgroup 1|$\color{cyan}{\sqrt{\frac{n_2}{n_1}}}$|0|1|0||$\color{cyan}{\omega_1=\frac{n_1}{n_1+n_2}}$|
-|||$\color{cyan}{p^2_1}$|$\color{cyan}{2p_1q_1}$|$\color{cyan}{q^2_1}$||
-|Subgroup 2|$\color{pink}{-\sqrt{\frac{n_2}{n_1}}}$|0|1|0||$\color{pink}{\omega_1=\frac{n_1}{n_1+n_2}}$|
-|||$\color{pink}{p^2_2}$|$\color{pink}{2p_2q_2}$|$\color{pink}{q^2_2}$||
+| || $aa$ |$Aa$ | $AA$ ||
+|Subgroup 1|$\tilde{E}_k$|0|1|0|||
+||$\color{cyan}{\sqrt{\frac{n_2}{n_1}}}$|$\color{cyan}{p^2_1}$|$\color{cyan}{2p_1q_1}$|$\color{cyan}{q^2_1}$|$\color{cyan}{\omega_1=\frac{n_1}{n_1+n_2}}$|
+|Subgroup 2||0|1|0|||
+||$\color{pink}{-\sqrt{\frac{n_1}{n_2}}}$|$\color{pink}{p^2_2}$|$\color{pink}{2p_2q_2}$|$\color{pink}{q^2_2}$|$\color{pink}{\omega_1=\frac{n_1}{n_1+n_2}}$|
+-----------------------
 
 $$
 E(\tilde{E}_kx_d)=\omega_1\sqrt{\frac{n_2}{n_1}}2p_1q_1-\omega_2\sqrt{\frac{n_1}{n_2}}2p_2q_2=\sqrt{\frac{n_1}{N}\frac{n_2}{N}}(2p_1q_1-2p_2q_2)
@@ -711,14 +718,12 @@ The sampling variance for $\beta_d$ is $\sigma_{\beta_d}=\sqrt{\frac{\sigma^2_{E
 
 So, the z-score is 
 $$z\approx \frac{\frac{\sqrt{\omega_1\omega_2(2p_1q_1-2p_2q_2)}}{f_2(1-f_2)}}{\sqrt{\frac{\sigma^2_{E_k}-\beta^2_d\sigma^2_{x_d}}{(n-1)\sigma^2_{x_d}}}}=\sqrt{(n-1)\omega_1\omega_2}\frac{2p_1q_1-2p_2q_2}{\sqrt{f_2(1-f_2)}}$$
-and $z^2\sim\chi^2_1$, with NCP of $(n-1)\omega_1\omega_2\frac{(2p_1q_1-2p_2q_2)^2}{f_2(1-f_2)}$. In comparsion, for the additive effect, the NCP is $4n\omega_1\omega_2\frac{(p_{l|1}-p_{l|2})^2}{2p_lq_2}$
+and $z^2\sim\chi^2_1$, with NCP of $(n-1)\omega_1\omega_2\frac{(2p_1q_1-2p_2q_2)^2}{f_2(1-f_2)}$. In comparsion, for the additive effect, the NCP is $4n\omega_1\omega_2\frac{(p_{l|1}-p_{l|2})^2}{2p_lq_2}$.
 
 
+### A realized power calculation for EigenGWAS
 
-
-
-[Shiny link for power analysis](https://gc5k.shinyapps.io/eigengwaspowercal/)
-
+EigenGWAS power analysis [Shiny](https://gc5k.shinyapps.io/eigengwaspowercal/).
 
 ```{r, power-a}
 m=1000000
@@ -765,7 +770,9 @@ $\omega_1=\frac{n_1}{n_1+n_2}$, and $\omega_2=\frac{n_2}{n_1+n_2}$.
 
 $p=\omega_1p_1+\omega_2p_2$
 
-### Statistical power for additive model
+### R validation
+
+#### NCP for additive model
 
 NCP is \[2n\omega_1\omega_2\frac{(p_1-p_2)^2}{p(1-p)}\]
 
@@ -795,7 +802,7 @@ abline(a=0, b=1, lty=2, col="grey")
 
 ```
 
-### Statistical power for inbred lines
+#### NCP for inbred lines
 
 NCP is: \[n\omega_1\omega_2\frac{(p_1-p_2)^2}{p(1-p)}\]
 
@@ -826,7 +833,7 @@ abline(a=0, b=1, lty=2, col="grey")
 
 ```
 
-### Power analysis Dominance model
+#### Statistical power for dominance model
 
 NCP is $n\omega_1\omega_2\frac{[2p_1(1-p_1)-2p_2(1-p_2)]^2}{2p_1(1-p_1)\omega_1-2p_2(1-p_2)\omega_2}$
 
