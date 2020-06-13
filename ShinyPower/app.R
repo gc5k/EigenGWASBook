@@ -37,6 +37,9 @@ ui <- fluidPage(
         selectInput("beta", "Beta",
                     choices = c("0.5", "0.6", "0.7", "0.8", "0.9"),
                     selected="0.8"),
+        selectInput("gc", "Genetic drift (Fst)",
+                    choices = c("0.001", "0.005", "0.01", "0.025", "0.05", "0.1"),
+                    selected="0.001"),
         submitButton(text="Update power", icon("refresh"))
       ),
 
@@ -55,11 +58,12 @@ server <- function(input, output) {
      m=input$m
      alpha=as.numeric(input$alpha)
      pcut=alpha/m
-     chiT=qchisq(pcut, 1, lower.tail = F)
+     gc=as.numeric(input$gc)
+     n=c(100, 200, 500, 1000, 1500, 2000,
+         5000, 7500, 10000)
+     chiT0=qchisq(pcut, 1, lower.tail = F)
 
-     n=c(100,  200,  500,   1000,  1500,  2000,
-         5000, 7500, 10000, 15000, 20000, 50000)
-     PW=matrix(0, 2, length(n))
+     PW=matrix(0, 1, length(n))
 
      w1=input$w1
      w2=1-w1
@@ -71,7 +75,7 @@ server <- function(input, output) {
      
      p=w1*p1+w2*p2
      H=w1*h1+w2*h2
-     
+
      for(i in 1:length(n)) {
        if(popType == "Outbred") {
          ncpA=4*n[i]*w1*w2*(p1-p2)^2/(2*p*(1-p))
@@ -81,14 +85,20 @@ server <- function(input, output) {
          ncpD=0
        }
 
-       PW[1,i]=pchisq(chiT, 1, ncp=ncpA, lower.tail = F)
-       PW[2,i]=pchisq(chiT, 1, ncp=ncpD, lower.tail = F)
+       GC=0.5*gc*n[i]
+       print(paste(ncpA, gc*n[i], GC, chiT0))
+       cnt=length(which(rchisq(m, 1, ncp=ncpA)/GC > chiT0))
+       print(cnt)
+       if(cnt> 0) PW[1,i]=cnt/m
+
+#       PW[1,i]=pchisq(chiT, 1, ncp=ncpA/gc*n[i], lower.tail = F)
+#       PW[2,i]=pchisq(chiT, 1, ncp=ncpD, lower.tail = F)
      }
      colnames(PW)=n
      par(las=2)
-     barplot(PW, beside = T, border = F, ylab="Statistical power", xlab="Sample size")
+     barplot(PW, beside = T, border = F, ylab="Statistical power", ylim=c(0, 1), xlab="Sample size")
      abline(h=as.numeric(input$beta), lty=2, col="grey")
-     legend("topleft", legend=c("Add", "Dom"), pch=15, col=c("black", "grey"), bty='n')
+     legend("topleft", legend=c("Add"), pch=15, col=c("black"), bty='n')
    })
 }
 
