@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Appendix 1 | EigenGWAS theory and application</title>
   <meta name="description" content="EigenGWAS Project." />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Appendix 1 | EigenGWAS theory and application" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Guo-Bo Chen [chen.guobo@foxmail.com]" />
 
 
-<meta name="date" content="2020-02-28" />
+<meta name="date" content="2020-10-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -194,7 +194,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.1" data-path="app-1.html"><a href="app-1.html#app:ld"><i class="fa fa-check"></i><b>7.1</b> Notes on linkage disequilibrium</a></li>
 <li class="chapter" data-level="7.2" data-path="app-1.html"><a href="app-1.html#the-maximal-value-rho_ab"><i class="fa fa-check"></i><b>7.2</b> The maximal value <span class="math inline">\(\rho_{AB}\)</span></a></li>
 <li class="chapter" data-level="7.3" data-path="app-1.html"><a href="app-1.html#ld-and-recombination-fraction"><i class="fa fa-check"></i><b>7.3</b> LD and recombination fraction</a></li>
-<li class="chapter" data-level="7.4" data-path="app-1.html"><a href="app-1.html#f_st-1"><i class="fa fa-check"></i><b>7.4</b> <span class="math inline">\(F_{st}\)</span></a></li>
+<li class="chapter" data-level="7.4" data-path="index.html"><a href="index.html#f_st"><i class="fa fa-check"></i><b>7.4</b> <span class="math inline">\(F_{st}\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="8" data-path="notes-1.html"><a href="notes-1.html"><i class="fa fa-check"></i><b>8</b> Notes</a><ul>
@@ -280,8 +280,8 @@ However, given the current biotechnology, <span class="math inline">\(D\)</span>
 <h2><span class="header-section-number">7.2</span> The maximal value <span class="math inline">\(\rho_{AB}\)</span></h2>
 <p>Assuming <span class="math inline">\(P_A \leq P_B \leq 0.5\)</span>, the maximal of <span class="math inline">\(\rho_{l_1l_2}\)</span> reaches when allele <span class="math inline">\(A\)</span> is <span class="math inline">\(a\)</span> subset of <span class="math inline">\(B\)</span> linage so that <span class="math inline">\(P_{AB}=P_{A}\)</span>, because (see PLoS Genet 2(9): e142)
 <span class="math display">\[\rho_{1,2}=\frac{P_{AB}-P_{A}P_{B}}{\sqrt{P_A P_a P_B P_b}}=\frac{P_A(1-P_B)}{\sqrt{P_A P_a P_B P_b}}=\sqrt{\frac{P_AP_b}{P_B P_a}} \leq 1\]</span>
-The maxima of <span class="math inline">\(D=min(P_AP_b, P_BP_a)\)</span>.</p>
-<p>The conditional probability for a pair of biallelic loci</p>
+The maxima of <span class="math inline">\(D=min(P_AP_b, P_BP_a)\)</span>.
+The conditional probability for a pair of biallelic loci</p>
 <table>
 <thead>
 <tr class="header">
@@ -312,6 +312,8 @@ The maxima of <span class="math inline">\(D=min(P_AP_b, P_BP_a)\)</span>.</p>
 </tr>
 </tbody>
 </table>
+<p>Often, there is another commonly statistic, called <span class="math inline">\(D^{\prime}=\frac{\tilde{D}}{min(P_AP_b, P_BP_a)}\)</span>, in which <span class="math inline">\(\tilde{D}\)</span> is the realized <span class="math inline">\(D\)</span> between loci <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. For example, given <span class="math inline">\(P_A=0.1\)</span> and <span class="math inline">\(P_B=0.5\)</span>, <span class="math inline">\(min(P_AP_b, P_BP_a)=0.05\)</span>. Then, if the realized <span class="math inline">\(\tilde{D}=0.02\)</span> between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(D^{\prime}=0.4\)</span>.</p>
+<p>More discussion about LD metrics please reference to Devlin &amp; Risch (<span class="math inline">\(Genomics\)</span>, 1995, 29:311-22).</p>
 </div>
 <div id="ld-and-recombination-fraction" class="section level2">
 <h2><span class="header-section-number">7.3</span> LD and recombination fraction</h2>
@@ -332,17 +334,18 @@ And, their corresponding LD is
 <a class="sourceLine" id="cb8-3" title="3"></a>
 <a class="sourceLine" id="cb8-4" title="4">C =<span class="st"> </span><span class="fl">0.8</span></a>
 <a class="sourceLine" id="cb8-5" title="5">M =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="kw">length</span>(A), <span class="kw">length</span>(B))</a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="kw">plot</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="ot">NULL</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>), <span class="dt">xlab =</span> <span class="st">&quot;MAF Locus 1&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;MAF Locus 2&quot;</span>, </a>
-<a class="sourceLine" id="cb8-7" title="7">    <span class="dt">main =</span> <span class="st">&quot;the relationship between D&quot;</span>)</a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="kw">plot</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="ot">NULL</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>), <span class="dt">xlab =</span> <span class="st">&quot;MAF Locus 1&quot;</span>, </a>
+<a class="sourceLine" id="cb8-7" title="7">    <span class="dt">ylab =</span> <span class="st">&quot;MAF Locus 2&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;the relationship between D&quot;</span>)</a>
 <a class="sourceLine" id="cb8-8" title="8"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(A)) {</a>
 <a class="sourceLine" id="cb8-9" title="9">    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(B)) {</a>
 <a class="sourceLine" id="cb8-10" title="10">        M[i, j] =<span class="st"> </span>C <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(A[i] <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>A[i]) <span class="op">*</span><span class="st"> </span>B[j] <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>B[j]))</a>
-<a class="sourceLine" id="cb8-11" title="11">        <span class="kw">points</span>(A[i], B[j], <span class="dt">col =</span> <span class="kw">rgb</span>(M[i, j]<span class="op">/</span><span class="fl">0.2</span>, <span class="dt">green =</span> <span class="dv">0</span>, <span class="dt">blue =</span> <span class="dv">0</span>), <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="fl">0.3</span>)</a>
-<a class="sourceLine" id="cb8-12" title="12">    }</a>
-<a class="sourceLine" id="cb8-13" title="13">}</a></code></pre></div>
+<a class="sourceLine" id="cb8-11" title="11">        <span class="kw">points</span>(A[i], B[j], <span class="dt">col =</span> <span class="kw">rgb</span>(M[i, j]<span class="op">/</span><span class="fl">0.2</span>, <span class="dt">green =</span> <span class="dv">0</span>, <span class="dt">blue =</span> <span class="dv">0</span>), <span class="dt">pch =</span> <span class="dv">16</span>, </a>
+<a class="sourceLine" id="cb8-12" title="12">            <span class="dt">cex =</span> <span class="fl">0.3</span>)</a>
+<a class="sourceLine" id="cb8-13" title="13">    }</a>
+<a class="sourceLine" id="cb8-14" title="14">}</a></code></pre></div>
 <p><img src="EigenGWAS_files/figure-html/ld-1.png" width="672" /></p>
 </div>
-<div id="f_st-1" class="section level2">
+<div id="f_st" class="section level2">
 <h2><span class="header-section-number">7.4</span> <span class="math inline">\(F_{st}\)</span></h2>
 <p>There are three commonly used <span class="math inline">\(F_{st}\)</span> (see method section in Bhatia, Genome Res, 2013, 23:1514-21),</p>
 <p><strong>1 Weir &amp; Cockerham’s</strong> <span class="math inline">\(F_{st}^{WC}\)</span></p>

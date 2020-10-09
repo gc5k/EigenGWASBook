@@ -24,8 +24,7 @@ Depending on the allele at locus 1, the probabilities of observing allele $B$ an
 
 Assuming $P_A \leq P_B \leq 0.5$, the maximal of $\rho_{l_1l_2}$ reaches when allele $A$ is $a$ subset of $B$ linage so that $P_{AB}=P_{A}$, because (see PLoS Genet 2(9): e142)
 $$\rho_{1,2}=\frac{P_{AB}-P_{A}P_{B}}{\sqrt{P_A P_a P_B P_b}}=\frac{P_A(1-P_B)}{\sqrt{P_A P_a P_B P_b}}=\sqrt{\frac{P_AP_b}{P_B P_a}} \leq 1$$
-The maxima of $D=min(P_AP_b, P_BP_a)$.
-
+The maxima of $D=min(P_AP_b, P_BP_a)$. 
 The conditional probability for a pair of biallelic loci
 
 | | $a_l$ | $A_l$ | |
@@ -34,7 +33,9 @@ The conditional probability for a pair of biallelic loci
 |$A_k$| 1-$R_{kl}=q_l - \frac{D_{kl}}{p_k}$ | $R_{kl}=p_l +\frac{D_{kl}}{p_k}$| $p_k$|
 | |$q_l$ |$p_l$| |
 
+Often, there is another commonly statistic, called $D^{\prime}=\frac{\tilde{D}}{min(P_AP_b, P_BP_a)}$, in which $\tilde{D}$ is the realized $D$ between loci $A$ and $B$. For example, given $P_A=0.1$ and $P_B=0.5$, $min(P_AP_b, P_BP_a)=0.05$. Then, if the realized $\tilde{D}=0.02$ between $A$ and $B$, $D^{\prime}=0.4$.
 
+More discussion about LD metrics please reference to Devlin & Risch ($Genomics$, 1995, 29:311-22).
 
 ## LD and recombination fraction
 It is sometimes useful to simulate $F_2$ population given known LD between any pair of markers. Below is the procedure for doing that.
